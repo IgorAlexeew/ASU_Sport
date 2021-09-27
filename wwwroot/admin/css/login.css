@@ -1,0 +1,101 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Rubik+Mono+One&family=Ruda:wght@400;500;600;700;800;900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Roboto, sans-serif;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    height: 100vh;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+img#asu_logo {
+    width: 139px;
+}
+
+div.logo {
+    font-family: Rubik Mono One, sans-serif;
+    font-size: 50px;
+    line-height: 45px;
+    color: #202020;
+}
+
+div.title {
+    font-family: Rubik Mono One, sans-serif;
+    font-size: 16px;
+    text-align: center;
+    color: #4E5254;
+}
+
+form p.form_title {
+    font-family: Roboto, sans-serif;
+    font-weight: bold;
+    font-size: 28px;
+    color: #435155;
+    margin-bottom: 11px;
+}
+
+form input {
+    width: 213px;
+    height: 38px;
+    background: #F4F9FA;
+    border: 2px solid #DFEFF0;
+    box-sizing: border-box;
+    border-radius: 17px;
+    margin-bottom: 20px;
+    font-family: Roboto, sans-serif;
+    font-weight: 500;
+    text-align: center;
+    outline: none;
+    box-shadow: inset 0 0 0 0 #dee8ec;
+    transition: box-shadow .3s ease-in-out;
+}
+
+form input:focus {
+    box-shadow: inset 0 0 0 3px #dee8ec;
+    transition: box-shadow .3s ease-in-out;
+}
+
+form button {
+    width: 165px;
+    height: 38px;
+    background: #293336;
+    border-radius: 17px;
+    color: #fff;
+    font-family: Roboto, sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    border: unset;
+    cursor: pointer;
+    box-shadow: inset 0 0 0 0 #333e41;
+    transition: box-shadow .3s ease-in-out;
+    outline: none;
+}
+
+form button:hover {
+    box-shadow: inset 0 0 0 4px #555c5e;
+    transition: box-shadow .3s ease-in-out;
+}
+
+form button:focus {
+    box-shadow: inset 0 0 0 2px #387cbd;
+    transition: box-shadow .3s ease-in-out;
+}
+
+form button:active {
+    box-shadow: inset 0 0 0 6px #2b7bd7;
+    transition: box-shadow .3s ease-in-out;
+}

@@ -1,0 +1,105 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Rubik+Mono+One&family=Ruda:wght@400;500;600;700;800;900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Ruda', sans-serif;
+}
+
+header {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-evenly;
+    flex: 0 0 60%;
+}
+
+.container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+/* .headline {
+    margin-top: 8%;
+    margin-left: 6.56%;
+} */
+
+.title {
+    /* margin-top: 13%;
+    margin-left: 6.56%; */
+    width: 29.5rem;
+    font-family: Rubik Mono One, sans-serif;
+    font-size: 7rem;
+    line-height: 0.95;
+}
+
+.slogan {
+    /* margin-top: 10px;
+    margin-left: 6.56%; */
+    font-family: Roboto, sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 1.8rem;
+    text-align: center;
+    color: #5B5B5B;
+}
+
+.announcement {
+    /* margin: 15% auto 0px auto; */
+    font-size: 100%;
+    font-weight: 900;
+    line-height: 20px;
+    flex: 0 0 40%;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.announcement p {
+    width: 215px;
+}
+
+.to_admin_dashboard {
+    background: #000000;
+    border-radius: 20px;
+    text-decoration: none;
+    color: #fff;
+    width: 215px;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    height: 50px;
+    justify-content: center;
+    margin-top: 3px;
+    transition: box-shadow .3s ease-in-out;
+    -moz-transition: box-shadow .3s ease-in-out;
+    -webkit-transition: box-shadow .3s ease-in-out;
+    -o-transition: box-shadow .3s ease-in-out;
+
+    box-shadow: inset 0 0 0 0 #3b3b3b;
+}
+
+.to_admin_dashboard:hover {
+    box-shadow: inset 0 0 0 6px #252525;
+    /* color: #e6e6e6; */
+    transition: box-shadow .3s ease-in-out;
+    -moz-transition: box-shadow .3s ease-in-out;
+    -webkit-transition: box-shadow .3s ease-in-out;
+    -o-transition: box-shadow .3s ease-in-out;
+}
+
+
+#tape {
+    align-self: flex-end;
+    /* margin-bottom: 25px; */
+}

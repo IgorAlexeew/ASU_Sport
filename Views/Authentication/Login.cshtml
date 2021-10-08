@@ -1,0 +1,51 @@
+﻿@model ASUSport.ViewModels.LoginModel
+
+@{
+    Layout = null;
+}
+
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Вход в Admin Dashboard</title>
+    <link rel="stylesheet" href="/admin/css/login.css">
+</head>
+<body>
+    <header>
+        <div class="logo">АГУ<br>Спорт</div>
+        <div class="title">Admin Dashboard</div>
+    </header>
+    <form asp-action="Login" asp-controller="Authentication" asp-anti-forgery="true">
+        <div class="validation" asp-validation-summary="ModelOnly"></div>
+        <p class="form_title">Вход</p>
+        <!--<label asp-for="Login">Логин</label>
+    <input type="text" asp-for="Login" />
+    <span asp-validation-for="Login" />
+    <label asp-for="Password">Пароль</label>
+    <input asp-for="Password" />
+    <span asp-validation-for="Password" />
+    <button type="submit" class="login-btn">Войти</button>-->
+        <!--<label for="" asp-for="Login" id="login"></label>-->
+        <div>
+            <input type="text" asp-for="Login" placeholder="Логин">
+            <span asp-validation-for="Login" />
+        </div>
+        
+        <!--<label for="" asp-for="Password" id="password"></label>-->
+        <div>
+            <input type="password" asp-for="Password" placeholder="Пароль">
+            <span asp-validation-for="Password" />
+        </div>
+        
+        <button type="submit" class="login-btn">Войти</button>
+    </form>
+    <img id="asu_logo" src="/img/asu.png" alt="Астраханский Государственный Университет">
+
+    <script src="/js/jquery-3.6.0.min.js"></script>
+    <script src="/admin/js/authentication.js"></script>
+</body>
+</html>

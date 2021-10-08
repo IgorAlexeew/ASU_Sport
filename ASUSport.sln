@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31702.278
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ASUSport", "ASUSport.csproj", "{3A5DEDCC-96B0-4E72-AAE0-626A85987DCC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ASUSport", "ASUSport.csproj", "{3A5DEDCC-96B0-4E72-AAE0-626A85987DCC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "testAPI", "..\..\Studying\Web\testAPI-master\testAPI\testAPI.csproj", "{F6C07A57-BB4D-4FC4-A7D4-AAF686B90690}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{3A5DEDCC-96B0-4E72-AAE0-626A85987DCC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3A5DEDCC-96B0-4E72-AAE0-626A85987DCC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3A5DEDCC-96B0-4E72-AAE0-626A85987DCC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6C07A57-BB4D-4FC4-A7D4-AAF686B90690}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6C07A57-BB4D-4FC4-A7D4-AAF686B90690}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6C07A57-BB4D-4FC4-A7D4-AAF686B90690}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6C07A57-BB4D-4FC4-A7D4-AAF686B90690}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

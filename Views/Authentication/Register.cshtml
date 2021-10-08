@@ -1,0 +1,43 @@
+<!---<?php session_start(); if ($_SESSION['user']['type'] == 1) { header('Location: /admin'); } ?>-->
+@model ASUSport.ViewModels.RegisterModel
+@{
+    Layout = null;
+}
+
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Регистрация</title>
+    <link rel="stylesheet" href="/admin/css/registration.css">
+</head>
+<body>
+    <header>
+        <img id="asu_logo" src="/img/asu.png" alt="Астраханский Государственный Университет">
+        <div class="header_text">
+            <div class="logo">АГУ<br>СПОРТ</div>
+            <div class="title">admin_dashboard</div>
+        </div>
+    </header>
+    <form asp-action="Register" asp-controller="Authentication" asp-anti-forgery="true">
+        <div class="validation" asp-validation-summary="ModelOnly"></div>
+        <p class="form_title">Регистрация</p>
+        <label for="login" asp-for="Login">Логин:</label>
+        <input type="text" asp-for="Login" id="login">
+        <p class="message hidden" id="login_match">Введите логин</p>
+        <label asp-for="Password" for="password">Пароль:</label>
+        <input type="password" asp-for="Password" id="password">
+        <label for="confirm_password" asp-for="ConfirmPassword">Подтвердите пароль:</label>
+        <input type="password" asp-for="ConfirmPassword" id="confirm_password">
+        <p class="message hidden" id="password_match">Пароли не совпадают</p>
+        <!--<label for="access_code">Код доступа:</label>
+    <input type="text" name="access_code" id="access_code"> <!--<?php if(isset($_GET['access_code'])) echo 'disabled="disabled"'; ?> value="<?= $_GET['access_code'] ?>">-->
+        <button type="submit" class="confirm-btn">Подтвердить</button>
+    </form>
+    <script src="/js/jquery-3.6.0.min.js"></script>
+    <script src="/admin/js/authentication.js"></script>
+</body>
+</html>

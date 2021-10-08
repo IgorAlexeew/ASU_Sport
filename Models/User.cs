@@ -1,14 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using ASUSport.Helpers;
 
 namespace ASUSport.Models
 {
     public class User
     {
         public int Id { get; set; }
-        public string Name { get; set; } // имя пользователя
-        public int PasswordHash { get; set; } // возраст пользователя
+        public string Login { get; set; } // имя пользователя
+        public string HashPassword { get; private set; } // пароль пользователя
+
+        public void SetPassword(string password)
+        {
+            HashPassword = PasswordHasherHelper.HashString(password);
+        }
     }
 }

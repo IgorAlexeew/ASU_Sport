@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\dev\\repositories\\GitHub\\ASU_Sport\\ASUSport.csproj": {}
+    "D:\\GitHub\\ASU_Sport\\ASUSport.csproj": {}
   },
   "projects": {
-    "C:\\dev\\repositories\\GitHub\\ASU_Sport\\ASUSport.csproj": {
+    "D:\\GitHub\\ASU_Sport\\ASUSport.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\dev\\repositories\\GitHub\\ASU_Sport\\ASUSport.csproj",
+        "projectUniqueName": "D:\\GitHub\\ASU_Sport\\ASUSport.csproj",
         "projectName": "ASUSport",
-        "projectPath": "C:\\dev\\repositories\\GitHub\\ASU_Sport\\ASUSport.csproj",
-        "packagesPath": "C:\\Users\\igorp\\.nuget\\packages\\",
-        "outputPath": "C:\\dev\\repositories\\GitHub\\ASU_Sport\\obj\\",
+        "projectPath": "D:\\GitHub\\ASU_Sport\\ASUSport.csproj",
+        "packagesPath": "C:\\Users\\larin\\.nuget\\packages\\",
+        "outputPath": "D:\\GitHub\\ASU_Sport\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\igorp\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\larin\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [

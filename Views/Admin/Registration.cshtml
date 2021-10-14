@@ -2,6 +2,8 @@
 
 @{
     Layout = null;
+    ViewBag.InputAccessCodeStatus = (ViewBag.AccessCode != "") ? "disabled" : "enabled";
+
 }
 
 <!doctype html>
@@ -33,7 +35,8 @@
         <input type="password" name="confirm_password" id="confirm_password">
         <p class="message hidden" id="password_match">Пароли не совпадают</p>
         <label for="access_code">Код доступа:</label>
-        <input type="text" name="access_code" id="access_code"> <!--<?php if(isset($_GET['access_code'])) echo 'disabled="disabled"'; ?> value="<?= $_GET['access_code'] ?>">-->
+        <input type="text" name="access_code" id="access_code" value=@ViewBag.AccessCode disabled=@ViewBag.InputAccessCodeStatus>
+        <!--<?php if(isset($_GET['access_code'])) echo 'disabled="disabled"'; ?> value="<?= $_GET['access_code'] ?>">-->
         <button type="submit" class="confirm-btn">Подтвердить</button>
     </form>
     <script src="/js/jquery-3.6.0.min.js"></script>

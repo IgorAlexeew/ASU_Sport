@@ -1,8 +1,7 @@
-using System.Runtime.InteropServices;
 using Microsoft.AspNetCore.Mvc;
-using System.Text.Encodings.Web;
 using ASUSport.Models;
-
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace ASUSport.Controllers
 {
@@ -10,7 +9,7 @@ namespace ASUSport.Controllers
     {
         // 
         // GET: /admin/
-        private ApplicationContext db;
+        private readonly ApplicationContext db;
         public AdminController(ApplicationContext context)
         {
             db = context;
@@ -18,9 +17,14 @@ namespace ASUSport.Controllers
         public IActionResult Index()
         {
             if (User.Identity.IsAuthenticated)
+            {
+                ViewBag.UserName = User.Identity.Name;
+                ViewBag.NumOfRows = db.Users.Select(u => u.Login).Count();
+                ViewBag.Rave = db.Users.FromSqlRaw("SELECT tablename FROM pg_catalog.pg_tables WHERE schemaname != 'pg_catalog' AND schemaname != 'information_schema';").Count();   
                 return View();
+            }
             else
-                return RedirectToAction("Login", "Authentication");
+                return RedirectToAction("Login", "Admin");
         }
 
         public IActionResult TestDB()
@@ -33,8 +37,19 @@ namespace ASUSport.Controllers
             db.Users.Add(user2);
             db.SaveChanges();*/
 
-            ViewData["Users"] = db.Users;
             ViewBag.Users = db.Users;
+            return View();
+        }
+
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult Registration(string accessCode)
+        {
+            ViewBag.AccessCode = accessCode;
             return View();
         }
     }

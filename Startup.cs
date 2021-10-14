@@ -33,6 +33,8 @@ namespace ASUSport
                     options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Authentication/Login");
                 });
             services.AddControllersWithViews();
+
+            services.AddAntiforgery(o => o.HeaderName = "XSRF-TOKEN");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -55,6 +57,7 @@ namespace ASUSport
 
             app.UseAuthentication();
             app.UseAuthorization();
+
 
             app.UseEndpoints(endpoints =>
             {

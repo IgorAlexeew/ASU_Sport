@@ -92,7 +92,7 @@ namespace AuthApp.Controllers
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return RedirectToAction("Login", "Authentication");
+            return RedirectToAction("Login", "Admin");
         }
     }
 }

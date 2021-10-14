@@ -1,7 +1,9 @@
 let password_field = $('input[name="password"]'),
     confirm_password_field = $('input[name="confirm_password"]'),
-    login_field = $('input[name="login"]'),
-    access_code_field = $('input[name="access_code"]');
+    login_field = $('input[name="login"]');
+access_code_field = $('input[name="access_code"]');
+
+console.log(access_code_field.val());
 
 /* Авторизация */
 $('.login-btn').on("click", function (event) {
@@ -14,13 +16,17 @@ $('.login-btn').on("click", function (event) {
     let password = password_field.val();
 
     $.ajax({
-        url: '/admin/src/sign_in.php',
+        url: '/api/auth/signin',
         type: 'POST',
-        dataType: 'json',
-        data: {
+        contentType: "application/json; charset=utf-8",
+        data: JSON.stringify({
             login: login,
             password: password
-        },
+        }),
+        /*headers: {
+            RequestVerificationToken:
+                $('input:hidden[name="__RequestVerificationToken"]').val()
+        },*/
         success (data) {
             console.log(data);
             if (data.status)
@@ -46,17 +52,14 @@ $('.login-btn').on("click", function (event) {
 });
 
 
-/* Регистрация */
-// let password_field = $('input[name="password"]'),
-//     confirm_password_field = $('input[name="confirm_password"]'),
-//     login_field = $('input[name="login"]'),
-//     access_code_field = $('input[name="access_code"]');
-
 $('.confirm-btn').on("click", function (event) {
     event.preventDefault();
 
     let has_error = false;
 
+    login_field.removeClass('error');
+    password_field.removeClass('error');
+    confirm_password_field.removeClass('error');
     access_code_field.removeClass('error');
 
     if (login_field.val() === '')
@@ -83,14 +86,14 @@ $('.confirm-btn').on("click", function (event) {
     if (!has_error)
     {
         $.ajax({
-            url: '/admin/src/sign_up.php',
+            url: '/api/auth/signup',
             type: 'POST',
-            dataType: 'json',
-            data: {
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify({
                 login: login_field.val(),
                 password: password_field.val(),
-                access_code: access_code_field.val()
-            },
+                accesscode: access_code_field.val() 
+            }),
             success (data) {
                 console.log(data);
                 if (data.status)

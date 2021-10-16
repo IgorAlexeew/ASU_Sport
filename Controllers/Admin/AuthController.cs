@@ -10,10 +10,11 @@ using ASUSport.Models; // пространство имен UserContext и кл�
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using ASUSport.Helpers;
-
+using Microsoft.AspNetCore.Authorization;
 
 namespace ASUSport.Controllers.Admin
 {
+    //[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]
     [ApiController]
     public class AuthController : ControllerBase
@@ -63,7 +64,8 @@ namespace ASUSport.Controllers.Admin
         {
             if (!db.Users.Any(u => u.Login == model.Login))
             {
-                User newUser = new() { Login = model.Login, AccessCode = model.AccessCode };
+                Role role = (model.AccessCode.Trim() != "") ? await db.Roles.FirstAsync(key => key.Name == "admin") : await db.Roles.FirstAsync(key => key.Name == "user");
+                User newUser = new() { Login = model.Login, AccessCode = model.AccessCode, Role = role };
                 newUser.SetPassword(model.Password);
                 db.Users.Add(newUser);
 

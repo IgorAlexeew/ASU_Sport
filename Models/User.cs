@@ -8,6 +8,7 @@ namespace ASUSport.Models
         public string Login { get; set; } // имя пользователя
         public string HashPassword { get; private set; } // пароль пользователя
         public string AccessCode { get; set; }
+        public virtual Role Role { get; set; }
 
         public void SetPassword(string password)
         {

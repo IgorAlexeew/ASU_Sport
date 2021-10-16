@@ -19,26 +19,12 @@ namespace ASUSport.Controllers
             if (User.Identity.IsAuthenticated)
             {
                 ViewBag.UserName = User.Identity.Name;
-                ViewBag.NumOfRows = db.Users.Select(u => u.Login).Count();
-                ViewBag.Rave = db.Users.FromSqlRaw("SELECT tablename FROM pg_catalog.pg_tables WHERE schemaname != 'pg_catalog' AND schemaname != 'information_schema';").Count();   
+                if (db.Users.First(u => u.Login == User.Identity.Name).Role.Name != "admin")
+                    return RedirectToAction("Index", "Home");
                 return View();
             }
             else
                 return RedirectToAction("Login", "Admin");
-        }
-
-        public IActionResult TestDB()
-        {
-            /*User user1 = new User { Name = "Tom" };
-            User user2 = new User { Name = "Alice" };
-
-            // Добавление
-            db.Users.Add(user1);
-            db.Users.Add(user2);
-            db.SaveChanges();*/
-
-            ViewBag.Users = db.Users;
-            return View();
         }
 
         public IActionResult Login()

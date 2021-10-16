@@ -12,14 +12,17 @@ namespace ASUSport.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly ApplicationContext db;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, ApplicationContext context)
         {
             _logger = logger;
+            db = context;
         }
 
         public IActionResult Index()
         {
+            //System.Console.WriteLine(db.Users.First(u => u.Login == User.Identity.Name).Role);
             return View();
         }
 

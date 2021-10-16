@@ -67,11 +67,11 @@ $('.confirm-btn').on("click", function (event) {
         login_field.addClass('error');
         has_error = true;
     }
-    if (access_code_field.val() === '')
+    /*if (access_code_field.val() === '')
     {
         access_code_field.addClass('error');
         has_error = true;
-    }
+    }*/
     if (password_field.val() === '')
     {
         password_field.addClass('error');

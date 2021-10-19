@@ -31,6 +31,12 @@ namespace ASUSport.Controllers
                     res => new { TableName = (string) res[0], Columns = String.Join(", ", (string[]) res[1]) }
                     )
                 ));*/
+
+            /* Рефлексия сущностей */
+            IEnumerable<object> users = (IEnumerable<object>)db.GetType().GetProperty("Users").GetValue(db);
+            Console.WriteLine(String.Join(", ", users.Select(x => x.GetType().GetProperties()).First().Select(n => $"{n.Name}").ToList()));
+            Console.WriteLine(String.Join(", ", users.Select(x => x.GetType().GetProperty("Login").GetValue(x)).ToList()));
+
             return View();
         }
 

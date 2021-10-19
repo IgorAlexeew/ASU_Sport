@@ -1,4 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System;
+using System.Data;
+using System.Collections.Generic;
+using System.Data.Common;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 
@@ -30,6 +34,45 @@ namespace ASUSport.Models
                 SaveChanges();
             }
 
+        }
+
+        public List<T> SqlRaw<T>(string query, Func<DbDataReader, T> map)
+        {
+            using (var command = Database.GetDbConnection().CreateCommand())
+            {
+                command.CommandText = query;
+
+                Database.OpenConnection();
+
+                using (var result = command.ExecuteReader())
+                {
+                    var entities = new List<T>();
+
+                    while (result.Read())
+                    {
+                        entities.Add(map(result));
+                    }
+                    return entities;
+                }
+            }
+        }
+
+        public DataTable SqlRaw(string query)
+        {
+            using (var command = Database.GetDbConnection().CreateCommand())
+            {
+                command.CommandText = query;
+
+                Database.OpenConnection();
+
+                using (var result = command.ExecuteReader())
+                {
+                    var dt = new DataTable();
+
+                    dt.Load(result);
+                    return dt;
+                }
+            }
         }
     }
 }

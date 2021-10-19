@@ -9,9 +9,8 @@ body {
 
 .container {
     display: flex;
-    margin: 10vh 8vw 10vh 0vw;
+    margin: 10vh 8vw 10vh 0;
     height: 80vh;
-    
 }
 
 

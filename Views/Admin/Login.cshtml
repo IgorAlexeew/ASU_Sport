@@ -1,6 +1,3 @@
-<!--<?php session_start(); if ($_SESSION['user']['type'] == 1) { header('Location: /admin'); } ?>-->
-
-
 @{
     Layout = null;
 }
@@ -13,7 +10,8 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Вход в Admin Dashboard</title>
-    <link rel="stylesheet" href="/admin/css/login.css">
+    <link rel="stylesheet" href="~/admin/css/login.css">
+    <link rel="shortcut icon" href="~/admin/favicon.ico" type="image/x-icon">
 </head>
 <body>
     <header>
@@ -30,7 +28,7 @@
         </label>
         <button type="submit" class="login-btn">Войти</button>
     </form>
-    <img id="asu_logo" src="/img/asu.png" alt="Астраханский Государственный Университет">
+    <img id="asu_logo" src="~/img/asu.png" alt="Астраханский Государственный Университет">
     <script src="~/js/jquery-3.6.0.min.js"></script>
     <script src="~/admin/js/authentication.js"></script>
 </body>

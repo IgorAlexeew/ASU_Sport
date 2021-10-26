@@ -34,7 +34,7 @@ namespace ASUSport.Controllers.Admin
                     u => u.Login == model.Login && u.HashPassword == PasswordHasherHelper.HashString(model.Password));
                 if (user != null)
                 {
-                    await Authenticate(model.Login); // аутентификация
+                    await Authenticate(user); // аутентификация
 
                     return new JsonResult(new Response()
                     {
@@ -64,14 +64,19 @@ namespace ASUSport.Controllers.Admin
         {
             if (!db.Users.Any(u => u.Login == model.Login))
             {
-                Role role = (model.AccessCode.Trim() != "") ? await db.Roles.FirstAsync(key => key.Name == "admin") : await db.Roles.FirstAsync(key => key.Name == "user");
-                User newUser = new() { Login = model.Login, AccessCode = model.AccessCode, Role = role };
-                newUser.SetPassword(model.Password);
+                Role role = (model.AccessCode != null) ?
+                    (
+                        (GetAdminByHash(model.AccessCode?.Trim()) != null) ?
+                        await db.Roles.FirstAsync(key => key.Name.Trim().ToLower() == "admin") : await db.Roles.FirstAsync(key => key.Name.Trim().ToLower() == "client")
+                    ) :
+                    await db.Roles.FirstAsync(key => key.Name.Trim().ToLower() == "client");
+
+                User newUser = new() { Login = model.Login, HashPassword = model.Password, AccessCode = model.AccessCode, Role = role };
                 db.Users.Add(newUser);
 
                 await db.SaveChangesAsync();
 
-                await Authenticate(model.Login);
+                await Authenticate(newUser);
 
                 return new JsonResult(new Response()
                 {
@@ -89,12 +94,20 @@ namespace ASUSport.Controllers.Admin
             });
         }
 
-        private async Task Authenticate(string userName)
+        private User GetAdminByHash(string loginHash)
+        {
+            var admin = db.Users.FirstOrDefault(u => u.Role.Name.Trim().ToLower() == "admin" && PasswordHasherHelper.HashString(u.Login) == loginHash);
+            System.Console.WriteLine(admin == null);
+            return admin;
+        }
+
+        private async Task Authenticate(User user)
         {
             // создаем один claim
             var claims = new List<Claim>
             {
-                new Claim(ClaimsIdentity.DefaultNameClaimType, userName)
+                new Claim(ClaimsIdentity.DefaultNameClaimType, user.Login),
+                new Claim(ClaimsIdentity.DefaultRoleClaimType, user.Role.Name)
             };
             // создаем объект ClaimsIdentity
             ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
@@ -109,7 +122,7 @@ namespace ASUSport.Controllers.Admin
             return RedirectToAction("Login", "Admin");
         }
 
-        private class Response
+        new private class Response
         {
             public bool Status { get; set; }
             public string Type { get; set; }

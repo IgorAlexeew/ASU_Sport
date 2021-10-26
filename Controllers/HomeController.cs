@@ -1,4 +1,5 @@
 ﻿using ASUSport.Models;
+using ASUSport.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -7,6 +8,8 @@ using System.Data;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace ASUSport.Controllers
 {
@@ -23,14 +26,7 @@ namespace ASUSport.Controllers
 
         public IActionResult Index()
         {
-            //System.Console.WriteLine(db.Users.First(u => u.Login == User.Identity.Name).Role);
-            /*var query = "select table_name, array_agg(column_name) from information_schema.columns where table_schema = 'public' group by table_name";
-            Console.WriteLine(String.Join('\n', 
-                db.SqlRaw(
-                    query,
-                    res => new { TableName = (string) res[0], Columns = String.Join(", ", (string[]) res[1]) }
-                    )
-                ));*/
+            Console.WriteLine(JArray.FromObject(db.Events.ToList()));
             return View();
         }
 
@@ -39,18 +35,25 @@ namespace ASUSport.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Вывод содержимого таблицы в представление
+        /// </summary>
+        /// <param name="tableName">Название таблицы</param>
+        /// <returns>Представление</returns>
         [HttpGet]
         public IActionResult TestDb(string tableName)
         {
+           
+            //код запроса
             var code = $"select * from \"{tableName}\"";
-               
+            ///загрузка результата запроса в таблицу
             DataTable codeResult = db.SqlRaw(code);
-
+            //добавление в результирующий объект названий столбцов
             var result = new List<List<string>>
             {
                 codeResult.Columns.Cast<DataColumn>().Select(key => key.ColumnName).ToList()
             };
-
+            //добавление в результирующий объект данных запроса
             foreach (DataRow row in codeResult.Rows)
             {
                 List<string> currentRow = new();

@@ -1,5 +1,3 @@
-<!---<?php session_start(); if ($_SESSION['user']['type'] == 1) { header('Location: /admin'); } ?>-->
-
 @{
     Layout = null;
     ViewBag.InputAccessCodeStatus = (ViewBag.AccessCode != "") ? "disabled" : "enabled";
@@ -14,11 +12,12 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Регистрация</title>
-    <link rel="stylesheet" href="/admin/css/registration.css">
+    <link rel="stylesheet" href="~/admin/css/registration.css">
+    <link rel="shortcut icon" href="~/admin/favicon.ico" type="image/x-icon">
 </head>
 <body>
     <header>
-        <img id="asu_logo" src="/img/asu.png" alt="Астраханский Государственный Университет">
+        <img id="asu_logo" src="~/img/asu.png" alt="Астраханский Государственный Университет">
         <div class="header_text">
             <div class="logo">АГУ<br>СПОРТ</div>
             <div class="title">admin_dashboard</div>
@@ -39,7 +38,7 @@
         <!--<?php if(isset($_GET['access_code'])) echo 'disabled="disabled"'; ?> value="<?= $_GET['access_code'] ?>">-->
         <button type="submit" class="confirm-btn">Подтвердить</button>
     </form>
-    <script src="/js/jquery-3.6.0.min.js"></script>
-    <script src="/admin/js/authentication.js"></script>
+    <script src="~/js/jquery-3.6.0.min.js"></script>
+    <script src="~/admin/js/authentication.js"></script>
 </body>
 </html>

@@ -4,11 +4,10 @@ namespace ASUSport.ViewModels
 {
     public class RegisterModel
     {
-        [Required]//(ErrorMessage = "Не указан логин")]
+        [Required]
         public string Login { get; set; }
 
-        [Required]//(ErrorMessage = "Не указан пароль")]
-        //[DataType(DataType.Password)]
+        [Required]
         public string Password { get; set; }
 
         public string AccessCode { get; set; }

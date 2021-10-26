@@ -43,6 +43,7 @@
     align-items: center;
     height: 100%;
     transition: color .3s ease-out;
+    font-size: 14px;
 }
 
 .header .back:hover {
@@ -70,10 +71,10 @@
     font-weight: 900;
     width: 40%;
     margin-right: 30%;
-    font-size: 25px;
+    font-size: 26px;
 }
 
-div.tables_set {
+.tables_set {
     /*display: flex;*/
     /*flex-direction: row;*/
     /*flex-wrap: wrap;*/
@@ -139,4 +140,70 @@ div.tables_set {
 
 .table.add-table:hover {
     border-color: #f7f8fa;
+}
+
+@media screen and (max-width: 800px) {
+    .container {
+        margin: 20px auto;
+    }
+
+    .tables_set {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .header {
+        min-width: 500px;
+    }
+
+    .header div.title {
+        font-size: 24px;
+    }
+
+    .header .back {
+        font-size: 13px;
+    }
+}
+
+@media screen and (max-width: 550px) {
+    .tables_set {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .header {
+        min-width: 390px;
+    }
+
+    .header div.title {
+        font-size: 22px;
+    }
+
+    .header .back {
+        font-size: 12px;
+    }
+}
+
+@media screen and (max-width: 400px) {
+
+
+    .tables_set {
+        grid-template-columns: repeat(1, 1fr);
+    }
+
+    .header {
+        min-width: auto;
+        /*margin-top: 20px;*/
+    }
+
+    .header div.title {
+        font-size: 16px;
+    }
+
+    .header .back p {
+        display: none;
+    }
+
+    /*.table {*/
+    /*    min-width: 100px;*/
+    /*    max-width: 100px;*/
+    /*}*/
 }

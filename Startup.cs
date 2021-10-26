@@ -29,6 +29,7 @@ namespace ASUSport
             // добавляем контекст ApplicationContext в качестве сервиса в приложение
             services.AddDbContext<ApplicationContext>(options =>
                 options.UseLazyLoadingProxies().UseNpgsql(connection));
+
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options => 
                 {
@@ -59,7 +60,7 @@ namespace ASUSport
                         };
                     });*/
             services.AddControllersWithViews();
-
+            //services.AddSingleton(ApplicationContext);
             services.AddAntiforgery(o => o.HeaderName = "XSRF-TOKEN");
         }
 

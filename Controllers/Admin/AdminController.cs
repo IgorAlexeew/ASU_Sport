@@ -2,13 +2,12 @@ using Microsoft.AspNetCore.Mvc;
 using ASUSport.Models;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace ASUSport.Controllers
 {
     public class AdminController : Controller
     {
-        // 
-        // GET: /admin/
         private readonly ApplicationContext db;
         public AdminController(ApplicationContext context)
         {
@@ -18,15 +17,15 @@ namespace ASUSport.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
+                if (User.FindFirst(x => x.Type == ClaimsIdentity.DefaultRoleClaimType).Value != "admin")
+                    return Content("У тебя здесь нет власти!");
                 ViewBag.UserName = User.Identity.Name;
-                if (db.Users.First(u => u.Login == User.Identity.Name).Role.Name != "admin")
-                    return RedirectToAction("Index", "Home");
                 return View();
             }
             else
                 return RedirectToAction("Login", "Admin");
         }
-
+        
         public IActionResult Login()
         {
             return View();

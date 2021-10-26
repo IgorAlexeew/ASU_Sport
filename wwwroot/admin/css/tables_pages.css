@@ -96,7 +96,29 @@
     border-radius: var(--table-border-radius);
     background: linear-gradient(145.83deg, #E9E9E9 10.08%, #E0E8EC 107.8%);
     aspect-ratio: 1;
+    transition: box-shadow .3s ease-in-out;
     /*margin: 10px;*/
+}
+
+.table:hover {
+    box-shadow: inset 0 0 0 8px #d3dde0;
+}
+
+.table.add-table:hover {
+    box-shadow: none;
+}
+
+.table.disabled:hover {
+    box-shadow: none;
+}
+
+.table.disabled .table_title {
+    color: #555555;
+}
+
+.table.disabled {
+    color: #555555;
+    background: linear-gradient(145.83deg, #f9fbfd 10.08%, #eff5f8 107.8%);
 }
 
 .table .wrapper {

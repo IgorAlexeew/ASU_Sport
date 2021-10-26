@@ -25,12 +25,24 @@
         <div class="tables_set">
             @foreach (var table in ViewBag.DbSnap)
             {
-                <div class="table">
-                    <div class="wrapper">
-                        <div class="title">@table.Name</div>
-                        <div class="description">Кол-во записей: @table.Value.Count<br>Последнее обновление: нет данных</div>
-                    </div>
-                </div>
+                @if (@table.Value.Count > 0)
+                {
+                    <a href="/admin/tableview?tablename=@table.Name" class="table">
+                        <div class="wrapper">
+                            <div class="title">@table.Name</div>
+                            <div class="description">Кол-во записей: @table.Value.Count<br>Последнее обновление: нет данных</div>
+                        </div>
+                    </a>
+                }
+                else
+                {
+                    <a href="#" class="table disabled">
+                        <div class="wrapper">
+                            <div class="title">@table.Name</div>
+                            <div class="description">Кол-во записей: @table.Value.Count<br>Последнее обновление: нет данных</div>
+                        </div>
+                    </a>
+                }
             }
             <a href="#" class="table add-table">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 74 74" fill="none">

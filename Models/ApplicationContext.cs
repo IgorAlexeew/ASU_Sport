@@ -13,6 +13,8 @@ namespace ASUSport.Models
     [DataContract]
     public class ApplicationContext : DbContext
     {
+        // Добавляя сюда новый Set, не забудь добавить его в DoCringe()
+        // и будет тебе счастье
         [DataMember]
         public DbSet<User> Users { get; set; }
         [DataMember]
@@ -36,29 +38,6 @@ namespace ASUSport.Models
 
         public void DoCringe()
         {
-            var fields = this.GetType().GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
-            // получить массив методов класса Date
-            /*var methods = this.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic).First().GetValue(this).GetType()
-                .GetMember("ToList").Cast<MethodInfo>().FirstOrDefault();*/
-
-            //Console.WriteLine(fields.First().GetValue(this).GetType());
-
-            //Console.WriteLine("Hello");
-            /*fields.ToList().ForEach(e => Console.WriteLine(e.Name));
-            fields.ToList().ForEach(f => ReflectionHelper.InvokeFunction(f.GetValue(this), "ToList", null));*/
-
-            /*foreach (FieldInfo field in fields.ToList())
-            {
-
-                var toListMethod = typeof(System.Linq.Enumerable)
-                .GetMethods(BindingFlags.Static | BindingFlags.Public)
-                .Where(mi => mi.Name == "ToList").FirstOrDefault();
-
-                var GenericToListMethod = toListMethod.MakeGenericMethod(field.GetValue(this).GetType());
-
-                GenericToListMethod.Invoke(field.GetValue(this), new object[] { field.GetValue(this) });
-            }*/
-
             Users.ToList();
             Roles.ToList();
             Events.ToList();

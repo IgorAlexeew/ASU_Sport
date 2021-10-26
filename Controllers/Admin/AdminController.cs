@@ -7,6 +7,9 @@ using Newtonsoft.Json.Linq;
 using System;
 using ASUSport.Helpers;
 using System.Reflection;
+using System.Data;
+using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace ASUSport.Controllers
 {
@@ -42,12 +45,44 @@ namespace ASUSport.Controllers
                 ViewBag.UserName = User.Identity.Name;
                 JObject dbSnap = JObject.FromObject(db);
                 ViewBag.Tables = dbSnap.Properties();
-                Console.WriteLine(dbSnap);
+                // Console.WriteLine(dbSnap);
                 ViewBag.DbSnap = dbSnap;
                 return View();
             }
             else
                 return RedirectToAction("Login", "Admin");
+        }
+
+        [HttpGet]
+        public IActionResult TableView(string tableName)
+        {
+            JObject dbSnap = JObject.FromObject(db);
+            JArray table = (JArray)dbSnap[tableName];
+
+            var result = new List<List<string>>
+            {
+                ((JObject) table.First()).Properties().Select(e => e.Name).ToList()
+            };
+            //добавление в результирующий объект данных запроса
+            foreach (JObject row in table)
+            {
+                List<string> currentRow = new();
+                foreach (string property in row.Properties().Select(e => e.Name))
+                {
+                    if (row[property].HasValues)
+                    {
+                        currentRow.Add(row[property]["Id"].ToString());
+                    }
+                    else
+                    {
+                        currentRow.Add(row[property].ToString());
+                    }
+                }
+                result.Add(currentRow);
+            }
+            ViewBag.TableName = tableName;
+            ViewBag.TableData = result;
+            return View();
         }
 
         public IActionResult Login()

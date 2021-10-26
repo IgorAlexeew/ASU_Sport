@@ -50,12 +50,30 @@
                 <div class="tables_set">
                     @foreach (var table in ViewBag.Tables)
                     {
-                    <a href="#" class="table table_block">
-                        <div class="table_title">@table.Name</div>
-                        <p class="table_description">
-                            Кол-во записей: @ViewBag.DbSnap[table.Name].Count<br>Последнее обновление: нет данных
-                        </p>
-                    </a>
+@*                        <a href="/admin/tableview?tablename=@table.Name" class="table table_block">
+                            <div class="table_title">@table.Name</div>
+                            <p class="table_description">
+                                Кол-во записей: @ViewBag.DbSnap[table.Name].Count<br>Последнее обновление: нет данных
+                            </p>
+                        </a>*@
+                        @if (@ViewBag.DbSnap[table.Name].Count > 0)
+                        {
+                            <a href="/admin/tableview?tablename=@table.Name" class="table table_block">
+                                <div class="table_title">@table.Name</div>
+                                <p class="table_description">
+                                    Кол-во записей: @ViewBag.DbSnap[table.Name].Count<br>Последнее обновление: нет данных
+                                </p>
+                            </a>
+                        }
+                        else
+                        {
+                            <a href="#" class="table table_block disabled">
+                                <div class="table_title">@table.Name</div>
+                                <p class="table_description">
+                                    Кол-во записей: @ViewBag.DbSnap[table.Name].Count<br>Последнее обновление: нет данных
+                                </p>
+                            </a>
+                        }
                     }
                     <a href="~/admin/tables" class="extra_block table_block" id="other_tables_block">
                         <svg width="43" height="75" viewBox="0 0 43 75" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -63,46 +81,46 @@
                         </svg>
                     </a>
                     <!--<?php
-                        $tables = $connection->query("SELECT table_name, table_rows, update_time FROM TABLES WHERE table_schema = 'asu.sport'");
-                        $num_rows = $tables->num_rows;
-                        if ($num_rows > 0)
-                        {
-                            for ($i = 0; $i < 3; $i ++)
-                            {
-                                $table = $tables->fetch_assoc();
-                                $name = $table['table_name'];
-                                $count = $table['table_rows'];
+        $tables = $connection->query("SELECT table_name, table_rows, update_time FROM TABLES WHERE table_schema = 'asu.sport'");
+        $num_rows = $tables->num_rows;
+        if ($num_rows > 0)
+        {
+            for ($i = 0; $i < 3; $i ++)
+            {
+                $table = $tables->fetch_assoc();
+                $name = $table['table_name'];
+                $count = $table['table_rows'];
 
-                                $format = "Y-m-d H:i:s";
-                                if ($table['update_time'] != '')
-                                {
-                                    $date_object = DateTime::createFromFormat($format, $table['update_time']);
-                                    $date = date_format($date_object, 'd.m.Y H:i:s');
-                                }
-                                else
-                                {
-                                    $date = 'нет данных';
-                                }
-                                ?>
-                                <a href="#" class="table table_block">
-                                    <div class="table_title"><?= $name; ?></div>
-                                    <p class="table_description">
-                                    Кол-во записей: <?= $count; ?><br>Последнее обновление: <?= $date; ?>
-                                    </p>
-                                </a><?php
-                            }
-                            if ($num_rows > 3)
-                            {
-                                ?>
-                                <div class="extra_block table_block" id="other_tables_block">
-                                    <svg width="43" height="75" viewBox="0 0 43 75" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M5.66669 5.83334L37.3334 37.5L5.66669 69.1667" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-                                    </svg>
-                                </div>
-                                <?php
-                            }
-                        }
-                        -?>-->
+                $format = "Y-m-d H:i:s";
+                if ($table['update_time'] != '')
+                {
+                    $date_object = DateTime::createFromFormat($format, $table['update_time']);
+                    $date = date_format($date_object, 'd.m.Y H:i:s');
+                }
+                else
+                {
+                    $date = 'нет данных';
+                }
+                ?>
+                <a href="#" class="table table_block">
+                    <div class="table_title"><?= $name; ?></div>
+                    <p class="table_description">
+                    Кол-во записей: <?= $count; ?><br>Последнее обновление: <?= $date; ?>
+                    </p>
+                </a><?php
+            }
+            if ($num_rows > 3)
+            {
+                ?>
+                <div class="extra_block table_block" id="other_tables_block">
+                    <svg width="43" height="75" viewBox="0 0 43 75" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M5.66669 5.83334L37.3334 37.5L5.66669 69.1667" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                    </svg>
+                </div>
+                <?php
+            }
+        }
+        -?>-->
                     <div class="extra_block table_block">
                         <svg width="74" height="74" viewBox="0 0 74 74" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M37 0C38.2266 0 39.403 0.487275 40.2704 1.35463C41.1377 2.22199 41.625 3.39837 41.625 4.625V32.375H69.375C70.6016 32.375 71.778 32.8623 72.6454 33.7296C73.5127 34.597 74 35.7734 74 37C74 38.2266 73.5127 39.403 72.6454 40.2704C71.778 41.1377 70.6016 41.625 69.375 41.625H41.625V69.375C41.625 70.6016 41.1377 71.778 40.2704 72.6454C39.403 73.5127 38.2266 74 37 74C35.7734 74 34.597 73.5127 33.7296 72.6454C32.8623 71.778 32.375 70.6016 32.375 69.375V41.625H4.625C3.39837 41.625 2.22199 41.1377 1.35463 40.2704C0.487275 39.403 0 38.2266 0 37C0 35.7734 0.487275 34.597 1.35463 33.7296C2.22199 32.8623 3.39837 32.375 4.625 32.375H32.375V4.625C32.375 3.39837 32.8623 2.22199 33.7296 1.35463C34.597 0.487275 35.7734 0 37 0V0Z" />

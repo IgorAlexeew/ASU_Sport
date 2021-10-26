@@ -13,6 +13,8 @@ namespace ASUSport.Models
     [DataContract]
     public class ApplicationContext : DbContext
     {
+        // Добавляя сюда новый Set, не забудь добавить его в DoCringe()
+        // и будет тебе счастье
         [DataMember]
         public DbSet<User> Users { get; set; }
         [DataMember]
@@ -36,7 +38,7 @@ namespace ASUSport.Models
         /// Do it works
         /// </summary>
         public void DoCringe()
-        { 
+        {
             Users.ToList();
             Roles.ToList();
             Events.ToList();

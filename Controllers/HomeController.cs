@@ -26,7 +26,6 @@ namespace ASUSport.Controllers
 
         public IActionResult Index()
         {
-            Console.WriteLine(JArray.FromObject(db.Events.ToList()));
             return View();
         }
 

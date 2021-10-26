@@ -11,8 +11,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ASUSport.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20211026055538_AddDurationMigration2")]
-    partial class AddDurationMigration2
+    [Migration("20211026071952_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

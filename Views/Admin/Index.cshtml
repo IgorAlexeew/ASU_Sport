@@ -48,29 +48,20 @@
                 <p class="block_title" id="tables_title">Таблицы</p>
                 <!-- Таблицы -->
                 <div class="tables_set">
+                    @foreach (var table in ViewBag.Tables)
+                    {
                     <a href="#" class="table table_block">
-                        <div class="table_title">TableName</div>
+                        <div class="table_title">@table.Name</div>
                         <p class="table_description">
-                            Кол-во записей: <br>Последнее обновление: nikogda
+                            Кол-во записей: @ViewBag.DbSnap[table.Name].Count<br>Последнее обновление: нет данных
                         </p>
                     </a>
-                    <a href="#" class="table table_block">
-                        <div class="table_title">TableName</div>
-                        <p class="table_description">
-                            Кол-во записей: 0<br>Последнее обновление: nikogda
-                        </p>
-                    </a>
-                    <a href="#" class="table table_block">
-                        <div class="table_title">TableName</div>
-                        <p class="table_description">
-                            Кол-во записей: 0<br>Последнее обновление: nikogda
-                        </p>
-                    </a>
-                    <div class="extra_block table_block" id="other_tables_block">
+                    }
+                    <a href="~/admin/tables" class="extra_block table_block" id="other_tables_block">
                         <svg width="43" height="75" viewBox="0 0 43 75" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M5.66669 5.83334L37.3334 37.5L5.66669 69.1667" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" fill="none" />
                         </svg>
-                    </div>
+                    </a>
                     <!--<?php
                         $tables = $connection->query("SELECT table_name, table_rows, update_time FROM TABLES WHERE table_schema = 'asu.sport'");
                         $num_rows = $tables->num_rows;

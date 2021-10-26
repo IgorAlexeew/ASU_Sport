@@ -7,7 +7,7 @@ namespace ASUSport.Models
         public int Id { get; set; }
         public string Login { get; set; }
         private string hashPassword;
-        public string HashPassword
+        public string Password
         {
             get { return hashPassword; }
             set

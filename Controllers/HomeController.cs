@@ -22,6 +22,8 @@ namespace ASUSport.Controllers
         {
             _logger = logger;
             db = context;
+            db.TestDbFill();
+            db.DoCringe();
         }
 
         public IActionResult Index()

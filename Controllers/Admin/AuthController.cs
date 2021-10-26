@@ -31,7 +31,7 @@ namespace ASUSport.Controllers.Admin
             if (db.Users.Any(u => u.Login == model.Login))
             {
                 User user = await db.Users.FirstOrDefaultAsync(
-                    u => u.Login == model.Login && u.HashPassword == PasswordHasherHelper.HashString(model.Password));
+                    u => u.Login == model.Login && u.Password == PasswordHasherHelper.HashString(model.Password));
                 if (user != null)
                 {
                     await Authenticate(user); // аутентификация
@@ -71,7 +71,7 @@ namespace ASUSport.Controllers.Admin
                     ) :
                     await db.Roles.FirstAsync(key => key.Name.Trim().ToLower() == "client");
 
-                User newUser = new() { Login = model.Login, HashPassword = model.Password, AccessCode = model.AccessCode, Role = role };
+                User newUser = new() { Login = model.Login, Password = model.Password, AccessCode = model.AccessCode, Role = role };
                 db.Users.Add(newUser);
 
                 await db.SaveChangesAsync();

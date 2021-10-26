@@ -30,35 +30,13 @@ namespace ASUSport.Models
             : base(options)
         {
             // Database.EnsureCreated();   // создаем базу данных при первом обращении
-            TestDbFill();
-            DoCringe();
         }
 
+        /// <summary>
+        /// Do it works
+        /// </summary>
         public void DoCringe()
-        {
-            var fields = this.GetType().GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
-            // получить массив методов класса Date
-            /*var methods = this.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic).First().GetValue(this).GetType()
-                .GetMember("ToList").Cast<MethodInfo>().FirstOrDefault();*/
-
-            //Console.WriteLine(fields.First().GetValue(this).GetType());
-
-            //Console.WriteLine("Hello");
-            /*fields.ToList().ForEach(e => Console.WriteLine(e.Name));
-            fields.ToList().ForEach(f => ReflectionHelper.InvokeFunction(f.GetValue(this), "ToList", null));*/
-
-            /*foreach (FieldInfo field in fields.ToList())
-            {
-
-                var toListMethod = typeof(System.Linq.Enumerable)
-                .GetMethods(BindingFlags.Static | BindingFlags.Public)
-                .Where(mi => mi.Name == "ToList").FirstOrDefault();
-
-                var GenericToListMethod = toListMethod.MakeGenericMethod(field.GetValue(this).GetType());
-
-                GenericToListMethod.Invoke(field.GetValue(this), new object[] { field.GetValue(this) });
-            }*/
-
+        { 
             Users.ToList();
             Roles.ToList();
             Events.ToList();
@@ -66,14 +44,10 @@ namespace ASUSport.Models
             Sections.ToList();
         }
 
-        /*protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder
-                .UseLazyLoadingProxies()
-                .UseNpgsql("Host=localhost;Port=5432;Database=asu.sport;Username=postgres;Password=postgres");
-        }*/
-
-        private void TestDbFill()
+        /// <summary>
+        /// Заполнение БД данными
+        /// </summary>
+        public void TestDbFill()
         {
             if (!Roles.Any())
             {
@@ -99,7 +73,35 @@ namespace ASUSport.Models
                     SaveChanges();
                 }
 
-                Users.Add(new User { Login = "admin", HashPassword = "admin", AccessCode = null, Role = adminRole });
+                Users.Add(new User { Login = "admin", Password = "admin", AccessCode = null, Role = adminRole });
+                SaveChanges();
+            }
+            if (!SportObjects.Any())
+            {
+                var swimmingPool = new SportObject() { Name = "бассейн", Capacity = 64 };
+                var playground = new SportObject() { Name = "спортивная площадка", Capacity = 1 };
+                var gym = new SportObject() { Name = " спортивный зал", Capacity = 1 };
+                SportObjects.Add(swimmingPool);
+                SportObjects.Add(playground);
+                SportObjects.Add(gym);
+                SaveChanges();
+            }
+            if (!Sections.Any())
+            {
+                var freeSwimming = new Section()
+                {
+                    Name = "свободное плавание",
+                    Duration = 60,
+                    SportObject = SportObjects.First(s => s.Name == "бассейн")
+                };
+                var swimmingWithCoach = new Section()
+                {
+                    Name = "плавание с тренером",
+                    Duration = 60,
+                    SportObject = SportObjects.First(s => s.Name == "бассейн")
+                };
+                Sections.Add(freeSwimming);
+                Sections.Add(swimmingWithCoach);
                 SaveChanges();
             }
         }

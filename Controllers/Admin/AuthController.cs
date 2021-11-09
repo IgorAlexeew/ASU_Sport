@@ -25,6 +25,11 @@ namespace ASUSport.Controllers.Admin
             db = context;
         }
 
+        /// <summary>
+        /// Авторизация
+        /// </summary>
+        /// <param name="model">Форма для ввода логина и пароля</param>
+        /// <returns></returns>
         [HttpPost("signin")]
         public async Task<IActionResult> SignIn([FromBody]LoginModel model)
         {
@@ -59,6 +64,11 @@ namespace ASUSport.Controllers.Admin
 
         }
 
+        /// <summary>
+        /// Регистрация
+        /// </summary>
+        /// <param name="model">Форма для ввода данных о новом пользователе</param>
+        /// <returns></returns>
         [HttpPost("signup")]
         public async Task<IActionResult> SignUp([FromBody] RegisterModel model)
         {
@@ -94,10 +104,14 @@ namespace ASUSport.Controllers.Admin
             });
         }
 
+        /// <summary>
+        /// Поиск пользователя по хэшу логина для регистрации нового админа
+        /// </summary>
+        /// <param name="loginHash">Хэш логина</param>
+        /// <returns></returns>
         private User GetAdminByHash(string loginHash)
         {
             var admin = db.Users.FirstOrDefault(u => u.Role.Name.Trim().ToLower() == "admin" && PasswordHasherHelper.HashString(u.Login) == loginHash);
-            System.Console.WriteLine(admin == null);
             return admin;
         }
 

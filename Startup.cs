@@ -60,7 +60,7 @@ namespace ASUSport
                         };
                     });*/
             services.AddControllersWithViews();
-            //services.AddSingleton(ApplicationContext);
+            services.AddScoped<ApplicationContext>();
             services.AddAntiforgery(o => o.HeaderName = "XSRF-TOKEN");
         }
 

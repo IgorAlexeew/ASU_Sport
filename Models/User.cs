@@ -1,4 +1,5 @@
 ﻿using ASUSport.Helpers;
+using System.Collections.Generic;
 
 namespace ASUSport.Models
 {
@@ -17,5 +18,7 @@ namespace ASUSport.Models
         } // пароль пользователя
         public string AccessCode { get; set; }
         public virtual Role Role { get; set; }
+
+        public virtual ICollection<Event> Events { get; set; }
     }
 }

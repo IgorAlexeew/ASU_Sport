@@ -144,6 +144,10 @@ namespace ASUSport.Models
                 .HasOne(o => o.SportObject)
                 .WithMany();
 
+            modelBuilder.Entity<Section>()
+                .Property(o => o.Duration)
+                .HasDefaultValue(60);
+
             // Спортивные объекты
             modelBuilder.Entity<SportObject>()
                 .Property(o => o.Id)

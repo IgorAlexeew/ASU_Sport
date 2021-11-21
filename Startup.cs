@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using ASUSport.Models;
+using ASUSport.Repositories;
+using ASUSport.Repositories.Impl;
 
 namespace ASUSport
 {
@@ -60,7 +62,11 @@ namespace ASUSport
                         };
                     });*/
             services.AddControllersWithViews();
-            services.AddScoped<ApplicationContext>();
+
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IEventRepository, EventRepository>();
+            services.AddScoped<ISportObjectRepository, SportObjectRepository>();
+
             services.AddAntiforgery(o => o.HeaderName = "XSRF-TOKEN");
         }
 
@@ -84,7 +90,6 @@ namespace ASUSport
 
             app.UseAuthentication();
             app.UseAuthorization();
-
 
             app.UseEndpoints(endpoints =>
             {

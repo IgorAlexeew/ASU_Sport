@@ -7,6 +7,7 @@ using System.Data;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using System;
 
 namespace ASUSport.Controllers
 {
@@ -20,19 +21,6 @@ namespace ASUSport.Controllers
             _logger = logger;
             db = context;
             db.TestDbFill();
-
-            /*db.Events.Add(
-                new Event()
-                {
-                    Clients = new List<User>()
-                    {
-                        db.Users.First(u => u.Login == "client1"),
-                        db.Users.First(u => u.Login == "client2")
-                    }
-                }
-                );
-            db.SaveChanges();
-            Console.WriteLine(db.Events.First().Clients.Count);*/
         }
 
         public IActionResult Index()

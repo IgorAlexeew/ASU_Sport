@@ -24,7 +24,8 @@ namespace ASUSport.Models
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
             : base(options)
         {
-            Database.EnsureCreated();   // создаем базу данных при первом обращении
+            /*Database.EnsureDeleted();
+            Database.EnsureCreated();*/  // создаем базу данных при первом обращении
         }
 
         /// <summary>
@@ -64,9 +65,9 @@ namespace ASUSport.Models
             }
             if (!SportObjects.Any())
             {
-                var swimmingPool = new SportObject() { Name = "бассейн", Capacity = 64 };
-                var playground = new SportObject() { Name = "спортивная площадка", Capacity = 1 };
-                var gym = new SportObject() { Name = " спортивный зал", Capacity = 1 };
+                var swimmingPool = new SportObject() { Name = "Бассейн", Capacity = 64 };
+                var playground = new SportObject() { Name = "Спортивная площадка", Capacity = 1 };
+                var gym = new SportObject() { Name = "Спортивный зал", Capacity = 1 };
                 SportObjects.Add(swimmingPool);
                 SportObjects.Add(playground);
                 SportObjects.Add(gym);
@@ -76,15 +77,13 @@ namespace ASUSport.Models
             {
                 var freeSwimming = new Section()
                 {
-                    Name = "свободное плавание",
-                    Duration = 60,
-                    SportObject = SportObjects.First(s => s.Name == "бассейн")
+                    Name = "Свободное плавание",
+                    SportObject = SportObjects.First(s => s.Name == "Бассейн")
                 };
                 var swimmingWithCoach = new Section()
                 {
-                    Name = "плавание с тренером",
-                    Duration = 60,
-                    SportObject = SportObjects.First(s => s.Name == "бассейн")
+                    Name = "Плавание с тренером",
+                    SportObject = SportObjects.First(s => s.Name == "Бассейн")
                 };
                 Sections.Add(freeSwimming);
                 Sections.Add(swimmingWithCoach);
@@ -164,6 +163,10 @@ namespace ASUSport.Models
                 .Property(o => o.Capacity)
                 .HasDefaultValue(1);
 
+            modelBuilder.Entity<SportObject>()
+                .Property(o => o.Location)
+                .HasMaxLength(50);
+
             //  Пользователи
             modelBuilder.Entity<User>()
                 .Property(o => o.Id)
@@ -197,12 +200,20 @@ namespace ASUSport.Models
                 .HasMaxLength(20);
 
             modelBuilder.Entity<UserData>()
+                .Property(o => o.FirstName)
+                .IsRequired();
+
+            modelBuilder.Entity<UserData>()
                 .Property(o => o.MiddleName)
                 .HasMaxLength(20);
 
             modelBuilder.Entity<UserData>()
+                .Property(o => o.MiddleName)
+                .IsRequired();
+
+            modelBuilder.Entity<UserData>()
                 .Property(o => o.LastName)
-                .HasMaxLength(20);
+                .HasMaxLength(30);
 
         }
 

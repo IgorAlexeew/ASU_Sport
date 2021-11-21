@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using ASUSport.Helpers;
 using Microsoft.AspNetCore.Authorization;
+using ASUSport.Repositories.Impl;
 
 namespace ASUSport.Controllers.Admin
 {
@@ -19,10 +20,11 @@ namespace ASUSport.Controllers.Admin
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly ApplicationContext db;
-        public AuthController(ApplicationContext context)
+        private readonly IUserRepository _userRepository;
+
+        public AuthController(IUserRepository userRepository)
         {
-            db = context;
+            _userRepository = userRepository;
         }
 
         /// <summary>
@@ -33,10 +35,10 @@ namespace ASUSport.Controllers.Admin
         [HttpPost("signin")]
         public async Task<IActionResult> SignIn([FromBody]LoginModel model)
         {
-            if (db.Users.Any(u => u.Login == model.Login))
+            if (_userRepository.IsContains(model.Login))
             {
-                User user = await db.Users.FirstOrDefaultAsync(
-                    u => u.Login == model.Login && u.Password == PasswordHasherHelper.HashString(model.Password));
+                User user = _userRepository.GetUserByLoginPassword(model.Login, model.Password);
+
                 if (user != null)
                 {
                     await Authenticate(user); // аутентификация
@@ -72,19 +74,13 @@ namespace ASUSport.Controllers.Admin
         [HttpPost("signup")]
         public async Task<IActionResult> SignUp([FromBody] RegisterModel model)
         {
-            if (!db.Users.Any(u => u.Login == model.Login))
+            if (!_userRepository.IsContains(model.Login))
             {
-                Role role = (model.AccessCode != null) ?
-                    (
-                        (GetAdminByHash(model.AccessCode?.Trim()) != null) ?
-                        await db.Roles.FirstAsync(key => key.Name.Trim().ToLower() == "admin") : await db.Roles.FirstAsync(key => key.Name.Trim().ToLower() == "client")
-                    ) :
-                    await db.Roles.FirstAsync(key => key.Name.Trim().ToLower() == "client");
+                Role role = _userRepository.SetRole(model.AccessCode);
 
                 User newUser = new() { Login = model.Login, Password = model.Password, AccessCode = model.AccessCode, Role = role };
-                db.Users.Add(newUser);
 
-                await db.SaveChangesAsync();
+                _userRepository.Save(newUser);
 
                 await Authenticate(newUser);
 
@@ -105,16 +101,10 @@ namespace ASUSport.Controllers.Admin
         }
 
         /// <summary>
-        /// Поиск пользователя по хэшу логина для регистрации нового админа
+        /// Аутентификация пользователя
         /// </summary>
-        /// <param name="loginHash">Хэш логина</param>
+        /// <param name="user">Пользователь</param>
         /// <returns></returns>
-        private User GetAdminByHash(string loginHash)
-        {
-            var admin = db.Users.FirstOrDefault(u => u.Role.Name.Trim().ToLower() == "admin" && PasswordHasherHelper.HashString(u.Login) == loginHash);
-            return admin;
-        }
-
         private async Task Authenticate(User user)
         {
             // создаем один claim

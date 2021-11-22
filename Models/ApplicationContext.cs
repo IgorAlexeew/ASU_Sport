@@ -4,46 +4,28 @@ using System.Data;
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Linq;
-using System.Runtime.Serialization;
-using System.Reflection;
-using ASUSport.Helpers;
 
 namespace ASUSport.Models
 {
-    [DataContract]
     public class ApplicationContext : DbContext
     {
-        // Добавляя сюда новый Set, не забудь добавить его в DoCringe()
-        // и будет тебе счастье
-        [DataMember]
         public DbSet<User> Users { get; set; }
-        [DataMember]
+
         public DbSet<Role> Roles { get; set; }
-        [DataMember]
+
         public DbSet<Event> Events { get; set; }
-        [DataMember]
+
         public DbSet<Section> Sections { get; set; }
-        [DataMember]
+
         public DbSet<SportObject> SportObjects { get; set; }
-        [DataMember]
+
         public DbSet<UserData> UserData { get; set; }
 
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
             : base(options)
         {
-            // Database.EnsureCreated();   // создаем базу данных при первом обращении
-        }
-
-        /// <summary>
-        /// Do it works
-        /// </summary>
-        public void DoCringe()
-        {
-            Users.ToList();
-            Roles.ToList();
-            Events.ToList();
-            SportObjects.ToList();
-            Sections.ToList();
+            /*Database.EnsureDeleted();
+            Database.EnsureCreated();*/  // создаем базу данных при первом обращении
         }
 
         /// <summary>
@@ -76,13 +58,16 @@ namespace ASUSport.Models
                 }
 
                 Users.Add(new User { Login = "admin", Password = "admin", AccessCode = null, Role = adminRole });
+                Users.Add(new User { Login = "trainer", Password = "trainer", AccessCode = null, Role = Roles.First(r => r.Name == "trainer") });
+                Users.Add(new User { Login = "client1", Password = "client1", AccessCode = null, Role = Roles.First(r => r.Name == "client") });
+                Users.Add(new User { Login = "client2", Password = "client2", AccessCode = null, Role = Roles.First(r => r.Name == "client") });
                 SaveChanges();
             }
             if (!SportObjects.Any())
             {
-                var swimmingPool = new SportObject() { Name = "бассейн", Capacity = 64 };
-                var playground = new SportObject() { Name = "спортивная площадка", Capacity = 1 };
-                var gym = new SportObject() { Name = " спортивный зал", Capacity = 1 };
+                var swimmingPool = new SportObject() { Name = "Бассейн", Capacity = 64 };
+                var playground = new SportObject() { Name = "Спортивная площадка", Capacity = 1 };
+                var gym = new SportObject() { Name = "Спортивный зал", Capacity = 1 };
                 SportObjects.Add(swimmingPool);
                 SportObjects.Add(playground);
                 SportObjects.Add(gym);
@@ -92,20 +77,144 @@ namespace ASUSport.Models
             {
                 var freeSwimming = new Section()
                 {
-                    Name = "свободное плавание",
-                    Duration = 60,
-                    SportObject = SportObjects.First(s => s.Name == "бассейн")
+                    Name = "Свободное плавание",
+                    SportObject = SportObjects.First(s => s.Name == "Бассейн")
                 };
                 var swimmingWithCoach = new Section()
                 {
-                    Name = "плавание с тренером",
-                    Duration = 60,
-                    SportObject = SportObjects.First(s => s.Name == "бассейн")
+                    Name = "Плавание с тренером",
+                    SportObject = SportObjects.First(s => s.Name == "Бассейн")
                 };
                 Sections.Add(freeSwimming);
                 Sections.Add(swimmingWithCoach);
                 SaveChanges();
             }
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            //  События
+            modelBuilder.Entity<Event>()
+                .HasKey(o => o.Id);
+
+            modelBuilder.Entity<Event>()
+                .Property(o => o.Id)
+                .ValueGeneratedOnAdd();
+
+            modelBuilder.Entity<Event>()
+                .HasOne(e => e.Section)
+                .WithMany();
+
+            modelBuilder.Entity<Event>()
+                .HasOne(e => e.Trainer)
+                .WithMany();
+
+            modelBuilder
+                .Entity<Event>()
+                .HasMany(e => e.Clients)
+                .WithMany(u => u.Events)
+                .UsingEntity(j => j.ToTable("EventsUsers"));
+
+            //  Роли
+            modelBuilder.Entity<Role>()
+                .Property(o => o.Id)
+                .ValueGeneratedOnAdd();
+
+            modelBuilder.Entity<Role>()
+                .HasKey(o => o.Id);
+
+            modelBuilder.Entity<Role>()
+                .Property(o => o.Name)
+                .IsRequired();
+
+            //  Секции
+            modelBuilder.Entity<Section>()
+                .Property(o => o.Id)
+                .ValueGeneratedOnAdd();
+
+            modelBuilder.Entity<Section>()
+                .HasKey(o => o.Id);
+
+            modelBuilder.Entity<Section>()
+                .Property(o => o.Name)
+                .IsRequired();
+
+            modelBuilder.Entity<Section>()
+                .HasOne(o => o.SportObject)
+                .WithMany();
+
+            modelBuilder.Entity<Section>()
+                .Property(o => o.Duration)
+                .HasDefaultValue(60);
+
+            // Спортивные объекты
+            modelBuilder.Entity<SportObject>()
+                .Property(o => o.Id)
+                .ValueGeneratedOnAdd();
+
+            modelBuilder.Entity<SportObject>()
+                .HasKey(o => o.Id);
+
+            modelBuilder.Entity<SportObject>()
+                .Property(o => o.Name)
+                .IsRequired();
+
+            modelBuilder.Entity<SportObject>()
+                .Property(o => o.Capacity)
+                .HasDefaultValue(1);
+
+            modelBuilder.Entity<SportObject>()
+                .Property(o => o.Location)
+                .HasMaxLength(50);
+
+            //  Пользователи
+            modelBuilder.Entity<User>()
+                .Property(o => o.Id)
+                .ValueGeneratedOnAdd();
+
+            modelBuilder.Entity<User>()
+                .HasKey(o => o.Id);
+
+            modelBuilder.Entity<User>()
+                .HasOne(o => o.Role)
+                .WithMany();
+
+            modelBuilder.Entity<User>()
+                .Property(o => o.Login)
+                .IsRequired();
+
+            modelBuilder.Entity<User>()
+                .Property(o => o.Password)
+                .IsRequired();
+
+            //  Данные пользователей
+            modelBuilder.Entity<UserData>()
+                .HasKey(o => o.Id);
+
+            modelBuilder.Entity<UserData>()
+                .HasOne(o => o.User)
+                .WithMany();
+
+            modelBuilder.Entity<UserData>()
+                .Property(o => o.FirstName)
+                .HasMaxLength(20);
+
+            modelBuilder.Entity<UserData>()
+                .Property(o => o.FirstName)
+                .IsRequired();
+
+            modelBuilder.Entity<UserData>()
+                .Property(o => o.MiddleName)
+                .HasMaxLength(20);
+
+            modelBuilder.Entity<UserData>()
+                .Property(o => o.MiddleName)
+                .IsRequired();
+
+            modelBuilder.Entity<UserData>()
+                .Property(o => o.LastName)
+                .HasMaxLength(30);
+
         }
 
         /// <summary>
@@ -135,6 +244,7 @@ namespace ASUSport.Models
                 }
             }
         }
+
         /// <summary>
         /// Выполнение SQL-запроса к БД
         /// </summary>

@@ -1,15 +1,14 @@
-﻿namespace ASUSport.Models
+﻿using System;
+using ASUSport.Models;
+using System.Collections.Generic;
+
+namespace ASUSport.ViewModels
 {
     /// <summary>
     /// Данные пользователя
     /// </summary>
-    public class UserData
+    public class UserDTO
     {
-        /// <summary>
-        /// Идентификатор записи
-        /// </summary>
-        public int Id { get; set; }
-
         /// <summary>
         /// Фамилия
         /// </summary>
@@ -36,8 +35,8 @@
         public string DateOfBirth { get; set; }
 
         /// <summary>
-        /// Пользователь
+        /// Список событий
         /// </summary>
-        public virtual User User { get;  set; }
+        public ICollection<EventForUserDTO> Events { get; set; }
     }
 }

@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using ASUSport.Models;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace ASUSport.Migrations
 {
-    public partial class Initial : Migration
+    public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -16,7 +14,7 @@ namespace ASUSport.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "text", nullable: true)
+                    Name = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -29,8 +27,9 @@ namespace ASUSport.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "text", nullable: true),
-                    Capacity = table.Column<int>(type: "integer", nullable: false)
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    Capacity = table.Column<int>(type: "integer", nullable: false, defaultValue: 1),
+                    Location = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -43,8 +42,8 @@ namespace ASUSport.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Login = table.Column<string>(type: "text", nullable: true),
-                    HashPassword = table.Column<string>(type: "text", nullable: true),
+                    Login = table.Column<string>(type: "text", nullable: false),
+                    Password = table.Column<string>(type: "text", nullable: false),
                     AccessCode = table.Column<string>(type: "text", nullable: true),
                     RoleId = table.Column<int>(type: "integer", nullable: true)
                 },
@@ -65,9 +64,9 @@ namespace ASUSport.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "text", nullable: true),
+                    Name = table.Column<string>(type: "text", nullable: false),
                     SportObjectId = table.Column<int>(type: "integer", nullable: true),
-                    Duration = table.Column<int>(type: "integer", nullable: false)
+                    Duration = table.Column<int>(type: "integer", nullable: false, defaultValue: 60)
                 },
                 constraints: table =>
                 {
@@ -86,10 +85,11 @@ namespace ASUSport.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    FirstName = table.Column<string>(type: "text", nullable: true),
-                    MiddleName = table.Column<string>(type: "text", nullable: true),
-                    LastName = table.Column<string>(type: "text", nullable: true),
+                    FirstName = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
+                    MiddleName = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
+                    LastName = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: true),
                     PhoneNumber = table.Column<string>(type: "text", nullable: true),
+                    DateOfBirth = table.Column<string>(type: "text", nullable: true),
                     UserId = table.Column<int>(type: "integer", nullable: true)
                 },
                 constraints: table =>
@@ -111,7 +111,6 @@ namespace ASUSport.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     SectionId = table.Column<int>(type: "integer", nullable: true),
                     TrainerId = table.Column<int>(type: "integer", nullable: true),
-                    Clients = table.Column<List<User>>(type: "jsonb", nullable: true),
                     Time = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
                 },
                 constraints: table =>
@@ -131,6 +130,30 @@ namespace ASUSport.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "EventsUsers",
+                columns: table => new
+                {
+                    ClientsId = table.Column<int>(type: "integer", nullable: false),
+                    EventsId = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EventsUsers", x => new { x.ClientsId, x.EventsId });
+                    table.ForeignKey(
+                        name: "FK_EventsUsers_Events_EventsId",
+                        column: x => x.EventsId,
+                        principalTable: "Events",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_EventsUsers_Users_ClientsId",
+                        column: x => x.ClientsId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Events_SectionId",
                 table: "Events",
@@ -140,6 +163,11 @@ namespace ASUSport.Migrations
                 name: "IX_Events_TrainerId",
                 table: "Events",
                 column: "TrainerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EventsUsers_EventsId",
+                table: "EventsUsers",
+                column: "EventsId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Sections_SportObjectId",
@@ -160,10 +188,13 @@ namespace ASUSport.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Events");
+                name: "EventsUsers");
 
             migrationBuilder.DropTable(
                 name: "UserData");
+
+            migrationBuilder.DropTable(
+                name: "Events");
 
             migrationBuilder.DropTable(
                 name: "Sections");

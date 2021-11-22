@@ -2,14 +2,12 @@
 using ASUSport.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using System;
 
 namespace ASUSport.Controllers
 {
@@ -23,7 +21,6 @@ namespace ASUSport.Controllers
             _logger = logger;
             db = context;
             db.TestDbFill();
-            db.DoCringe();
         }
 
         public IActionResult Index()

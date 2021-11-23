@@ -17,7 +17,7 @@ namespace ASUSport.ViewModels
         /// <summary>
         /// Тренеры
         /// </summary>
-        public UserDTO Trainer { get; set; }
+        public UserViewModel Trainer { get; set; }
 
         /// <summary>
         /// Дата и время начала событий

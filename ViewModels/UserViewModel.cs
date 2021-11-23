@@ -7,7 +7,7 @@ namespace ASUSport.ViewModels
     /// <summary>
     /// Данные пользователя
     /// </summary>
-    public class UserDTO
+    public class UserViewModel
     {
         /// <summary>
         /// Фамилия

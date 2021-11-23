@@ -19,7 +19,7 @@ namespace ASUSport.Controllers.API
             this.objectsRepository = objectsRepository;
         }
 
-        [HttpGet("getinfo")]
+        [HttpGet("get-info")]
         public IActionResult Index()
         {
             return new JsonResult(objectsRepository.GetInfo());

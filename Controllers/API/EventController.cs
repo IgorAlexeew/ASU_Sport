@@ -26,12 +26,10 @@ namespace ASUSport.Controllers.API
         /// </summary>
         /// <param name="data">Данные из формы</param>
         /// <returns></returns>
-        [HttpPost("signupforanevent")]
+        [HttpPost("sign-up-for-an-event")]
         public IActionResult SignUpForAnEvent([FromBody] EventDTO data)
         {
-            eventRepository.SignUpForAnEvent(data, User.Identity.Name);
-            
-            return Ok();
+            return new JsonResult(eventRepository.SignUpForAnEvent(data, User.Identity.Name));
         }
 
         /// <summary>
@@ -39,12 +37,10 @@ namespace ASUSport.Controllers.API
         /// </summary>
         /// <param name="data">Данные из формы</param>
         /// <returns></returns>
-        [HttpPost("addevent")]
+        [HttpPost("add-event")]
         public IActionResult AddEvent([FromBody] EventDTO data)
         {
-            eventRepository.AddEvent(data);
-
-            return Ok();
+            return new JsonResult(eventRepository.AddEvent(data));
         }
     }
 }

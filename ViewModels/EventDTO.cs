@@ -21,5 +21,15 @@ namespace ASUSport.ViewModels
         /// Дата и время начала события
         /// </summary>
         public string Time { get; set; }
+
+        /// <summary>
+        /// Продолжительность события
+        /// </summary>
+        public int Duration { get; set; }
+
+        /// <summary>
+        /// Свободные места
+        /// </summary>
+        public int FreeSpaces { get; set; }
     }
 }

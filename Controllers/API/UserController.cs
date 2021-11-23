@@ -29,18 +29,16 @@ namespace ASUSport.Controllers.API
         /// Получить данные авторизованного пользователя
         /// </summary>
         /// <returns>Данные о пользователе</returns>
-        [HttpGet("getclientinfo")]
-        public IActionResult GetClientInfo()
+        [HttpGet("get-user-info")]
+        public IActionResult GetUserInfo()
         {
             return new JsonResult(userRepository.GetUserInfo(User.Identity.Name));
         }
 
-        [HttpPost("adduserdata")]
-        public IActionResult AddUserData([FromBody] UserDTO data)
+        [HttpPost("add-user-data")]
+        public IActionResult AddUserData([FromBody] UserViewModel data)
         {
-            userRepository.AddUserData(data, User.Identity.Name);
-
-            return Ok();
+            return new JsonResult(userRepository.AddUserData(data, User.Identity.Name));
         }
 
         /*/// <summary>

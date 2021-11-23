@@ -19,7 +19,7 @@ namespace ASUSport.Repositories
         }
 
         ///<inheritdoc/>
-        public UserDTO GetUserInfo(string login)
+        public UserViewModel GetUserInfo(string login)
         {
             var user = db.UserData.First(u => u.User.Login == login);
 
@@ -29,7 +29,7 @@ namespace ASUSport.Repositories
             {
                 var trainer = db.UserData.First(o => o.User == e.Trainer);
 
-                var trainerData = new UserDTO()
+                var trainerData = new UserViewModel()
                 {
                     FirstName = trainer.FirstName,
                     MiddleName = trainer.MiddleName,
@@ -47,7 +47,7 @@ namespace ASUSport.Repositories
                 events.Add(eventDTO);
             }
             
-            var userInfo = new UserDTO()
+            var userInfo = new UserViewModel()
             {
                 FirstName = user.FirstName,
                 MiddleName = user.MiddleName,
@@ -99,7 +99,7 @@ namespace ASUSport.Repositories
         }
 
         ///<inheritdoc/>
-        public void AddUserData(UserDTO data, string login)
+        public Response AddUserData(UserViewModel data, string login)
         {
             var user = db.Users.First(u => u.Login == login);
 
@@ -115,6 +115,13 @@ namespace ASUSport.Repositories
 
             db.UserData.Add(userData);
             db.SaveChanges();
+
+            return new Response()
+            {
+                Status = true,
+                Type = "success",
+                Message = "OK"
+            };
         }
     }
 }

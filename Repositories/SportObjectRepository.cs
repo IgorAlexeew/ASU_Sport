@@ -34,7 +34,7 @@ namespace ASUSport.Repositories
             foreach (var obj in objects)
             {
                 var events = db.Events.Where(e => e.Section.SportObject.Name == obj
-                    && e.Time > today && e.Time < nearestSaturday);
+                    && e.Time > today && e.Time < nearestSaturday).ToList();
 
                 var info = new SportObjectInfo() { ObjectName = obj };
 

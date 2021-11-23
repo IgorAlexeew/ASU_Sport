@@ -6,7 +6,7 @@ using ASUSport.ViewModels;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
-using ASUSport.Models; // пространство имен UserContext и класса User
+using ASUSport.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using ASUSport.Helpers;
@@ -32,7 +32,7 @@ namespace ASUSport.Controllers.Admin
         /// </summary>
         /// <param name="model">Форма для ввода логина и пароля</param>
         /// <returns></returns>
-        [HttpPost("signin")]
+        [HttpPost("sign-in")]
         public async Task<IActionResult> SignIn([FromBody]LoginModel model)
         {
             if (_userRepository.IsContains(model.Login))
@@ -63,7 +63,6 @@ namespace ASUSport.Controllers.Admin
                 Type = "no_user",
                 Message = "Такого пользователя не существует"
             });
-
         }
 
         /// <summary>
@@ -71,7 +70,7 @@ namespace ASUSport.Controllers.Admin
         /// </summary>
         /// <param name="model">Форма для ввода данных о новом пользователе</param>
         /// <returns></returns>
-        [HttpPost("signup")]
+        [HttpPost("sign-up")]
         public async Task<IActionResult> SignUp([FromBody] RegisterModel model)
         {
             if (!_userRepository.IsContains(model.Login))
@@ -119,18 +118,11 @@ namespace ASUSport.Controllers.Admin
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
         }
 
-        [HttpGet("logout")]
+        [HttpGet("log-out")]
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Login", "Admin");
-        }
-
-        new private class Response
-        {
-            public bool Status { get; set; }
-            public string Type { get; set; }
-            public string Message { get; set; }
         }
     }
 }

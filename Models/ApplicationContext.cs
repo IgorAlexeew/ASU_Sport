@@ -24,75 +24,66 @@ namespace ASUSport.Models
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
             : base(options)
         {
-            /*Database.EnsureDeleted();
-            Database.EnsureCreated();*/  // создаем базу данных при первом обращении
-        }
-
-        /// <summary>
-        /// Заполнение БД данными
-        /// </summary>
-        public void TestDbFill()
-        {
-            if (!Roles.Any())
-            {
-                var adminRole = new Role() { Name = "admin" };
-                var clientRole = new Role() { Name = "client" };
-                var trainerRole = new Role() { Name = "trainer" };
-                Roles.Add(adminRole);
-                Roles.Add(clientRole);
-                Roles.Add(trainerRole);
-                SaveChanges();
-            }
-            if (!Users.Any())
-            {
-                Role adminRole;
-                if (Roles.Any(e => e.Name == "admin"))
-                {
-                    adminRole = Roles.Where(e => e.Name == "admin").First();
-                }
-                else
-                {
-                    adminRole = new Role() { Name = "admin" };
-                    Roles.Add(adminRole);
-                    SaveChanges();
-                }
-
-                Users.Add(new User { Login = "admin", Password = "admin", AccessCode = null, Role = adminRole });
-                Users.Add(new User { Login = "trainer", Password = "trainer", AccessCode = null, Role = Roles.First(r => r.Name == "trainer") });
-                Users.Add(new User { Login = "client1", Password = "client1", AccessCode = null, Role = Roles.First(r => r.Name == "client") });
-                Users.Add(new User { Login = "client2", Password = "client2", AccessCode = null, Role = Roles.First(r => r.Name == "client") });
-                SaveChanges();
-            }
-            if (!SportObjects.Any())
-            {
-                var swimmingPool = new SportObject() { Name = "Бассейн", Capacity = 64 };
-                var playground = new SportObject() { Name = "Спортивная площадка", Capacity = 1 };
-                var gym = new SportObject() { Name = "Спортивный зал", Capacity = 1 };
-                SportObjects.Add(swimmingPool);
-                SportObjects.Add(playground);
-                SportObjects.Add(gym);
-                SaveChanges();
-            }
-            if (!Sections.Any())
-            {
-                var freeSwimming = new Section()
-                {
-                    Name = "Свободное плавание",
-                    SportObject = SportObjects.First(s => s.Name == "Бассейн")
-                };
-                var swimmingWithCoach = new Section()
-                {
-                    Name = "Плавание с тренером",
-                    SportObject = SportObjects.First(s => s.Name == "Бассейн")
-                };
-                Sections.Add(freeSwimming);
-                Sections.Add(swimmingWithCoach);
-                SaveChanges();
-            }
+            Database.EnsureDeleted();
+            Database.EnsureCreated();
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            //  Роли
+            modelBuilder.Entity<Role>()
+                .Property(o => o.Id)
+                .ValueGeneratedOnAdd();
+
+            modelBuilder.Entity<Role>()
+                .HasKey(o => o.Id);
+
+            modelBuilder.Entity<Role>()
+                .Property(o => o.Name)
+                .IsRequired();
+
+            // Спортивные объекты
+            modelBuilder.Entity<SportObject>()
+                .Property(o => o.Id)
+                .ValueGeneratedOnAdd();
+
+            modelBuilder.Entity<SportObject>()
+                .HasKey(o => o.Id);
+
+            modelBuilder.Entity<SportObject>()
+                .Property(o => o.Name)
+                .IsRequired();
+
+            modelBuilder.Entity<SportObject>()
+                .Property(o => o.Capacity)
+                .HasDefaultValue(1);
+
+            modelBuilder.Entity<SportObject>()
+                .Property(o => o.Location)
+                .HasMaxLength(50);
+
+
+            //  Секции
+            modelBuilder.Entity<Section>()
+                .Property(o => o.Id)
+                .ValueGeneratedOnAdd();
+
+            modelBuilder.Entity<Section>()
+                .HasKey(o => o.Id);
+
+            modelBuilder.Entity<Section>()
+                .Property(o => o.Name)
+                .IsRequired();
+
+            modelBuilder.Entity<Section>()
+                .HasOne(o => o.SportObject)
+                .WithMany();
+
+            modelBuilder.Entity<Section>()
+                .Property(o => o.Duration)
+                .HasDefaultValue(60);
+
+
             //  События
             modelBuilder.Entity<Event>()
                 .HasKey(o => o.Id);
@@ -115,57 +106,6 @@ namespace ASUSport.Models
                 .WithMany(u => u.Events)
                 .UsingEntity(j => j.ToTable("EventsUsers"));
 
-            //  Роли
-            modelBuilder.Entity<Role>()
-                .Property(o => o.Id)
-                .ValueGeneratedOnAdd();
-
-            modelBuilder.Entity<Role>()
-                .HasKey(o => o.Id);
-
-            modelBuilder.Entity<Role>()
-                .Property(o => o.Name)
-                .IsRequired();
-
-            //  Секции
-            modelBuilder.Entity<Section>()
-                .Property(o => o.Id)
-                .ValueGeneratedOnAdd();
-
-            modelBuilder.Entity<Section>()
-                .HasKey(o => o.Id);
-
-            modelBuilder.Entity<Section>()
-                .Property(o => o.Name)
-                .IsRequired();
-
-            modelBuilder.Entity<Section>()
-                .HasOne(o => o.SportObject)
-                .WithMany();
-
-            modelBuilder.Entity<Section>()
-                .Property(o => o.Duration)
-                .HasDefaultValue(60);
-
-            // Спортивные объекты
-            modelBuilder.Entity<SportObject>()
-                .Property(o => o.Id)
-                .ValueGeneratedOnAdd();
-
-            modelBuilder.Entity<SportObject>()
-                .HasKey(o => o.Id);
-
-            modelBuilder.Entity<SportObject>()
-                .Property(o => o.Name)
-                .IsRequired();
-
-            modelBuilder.Entity<SportObject>()
-                .Property(o => o.Capacity)
-                .HasDefaultValue(1);
-
-            modelBuilder.Entity<SportObject>()
-                .Property(o => o.Location)
-                .HasMaxLength(50);
 
             //  Пользователи
             modelBuilder.Entity<User>()
@@ -186,6 +126,7 @@ namespace ASUSport.Models
             modelBuilder.Entity<User>()
                 .Property(o => o.Password)
                 .IsRequired();
+
 
             //  Данные пользователей
             modelBuilder.Entity<UserData>()
@@ -215,6 +156,47 @@ namespace ASUSport.Models
                 .Property(o => o.LastName)
                 .HasMaxLength(30);
 
+
+            // Заполнение бд
+            var roles = new List<Role>()
+            {
+                new Role() { Id = 1, Name = "admin" },
+                new Role() { Id = 2, Name = "client" },
+                new Role() { Id = 3, Name = "trainer" }
+            };
+
+            var users = new List<User>()
+            {
+                new User { Id = 1, Login = "trainer", Password = "trainer", AccessCode = null, Role = roles[2] },
+                new User { Id = 2, Login = "admin", Password = "admin", AccessCode = null, Role = roles[0] },
+                new User { Id = 3, Login = "client1", Password = "client1", AccessCode = null, Role = roles[1] },
+                new User { Id = 4, Login = "client2", Password = "client2", AccessCode = null, Role = roles[1] }
+            };
+
+            var sportObjects = new List<SportObject>()
+            {
+                new SportObject() { Id = 1, Name = "Бассейн", Capacity = 64 },
+                new SportObject() { Id = 2, Name = "Спортивная площадка" },
+                new SportObject() { Id = 3, Name = "Спортивный зал" }
+            };
+
+            var sections = new List<Section>()
+            {
+                new Section() { Id = 1, Name = "Свободное плавание", SportObject = sportObjects[0] },
+                new Section() { Id = 2, Name = "Плавание с тренером", SportObject = sportObjects[0] }
+            };
+
+            modelBuilder.Entity<Role>()
+                .HasData(roles);
+
+            modelBuilder.Entity<User>()
+                .HasData(users);
+
+            modelBuilder.Entity<SportObject>()
+                .HasData(sportObjects);
+
+            modelBuilder.Entity<Section>()
+                .HasData(sections);
         }
 
         /// <summary>

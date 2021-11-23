@@ -1,4 +1,6 @@
-﻿namespace ASUSport.Models
+﻿using System.Collections.Generic;
+
+namespace ASUSport.Models
 {
     /// <summary>
     /// Спортивный объект

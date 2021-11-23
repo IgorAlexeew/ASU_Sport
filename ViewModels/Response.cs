@@ -1,4 +1,4 @@
-﻿namespace ASUSport.Models
+﻿namespace ASUSport.ViewModels
 {
     /// <summary>
     /// Ответ

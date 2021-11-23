@@ -43,21 +43,21 @@ namespace ASUSport.Controllers.Admin
                 {
                     await Authenticate(user); // аутентификация
 
-                    return new JsonResult(new Response()
+                    return Ok(new Response()
                     {
                         Status = true,
                         Type = "success",
                         Message = "OK"
                     });
                 }
-                return new JsonResult(new Response()
+                return Ok(new Response()
                 {
                     Status = true,
                     Type = "wrong_password",
                     Message = "Неверный пароль"
                 });
             }
-            return new JsonResult(new Response()
+            return Ok(new Response()
             {
                 Status = false,
                 Type = "no_user",
@@ -83,7 +83,7 @@ namespace ASUSport.Controllers.Admin
 
                 await Authenticate(newUser);
 
-                return new JsonResult(new Response()
+                return Ok(new Response()
                 {
                     Status = true,
                     Type = "success",
@@ -91,7 +91,7 @@ namespace ASUSport.Controllers.Admin
                 });
             }
 
-            return new JsonResult(new Response()
+            return Ok(new Response()
             {
                 Status = false,
                 Type = "username_is_already_taken",

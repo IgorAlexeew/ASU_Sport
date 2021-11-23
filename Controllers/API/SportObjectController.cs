@@ -20,9 +20,11 @@ namespace ASUSport.Controllers.API
         }
 
         [HttpGet("get-info")]
-        public IActionResult Index()
+        public IActionResult GetInfo()
         {
-            return new JsonResult(objectsRepository.GetInfo());
+            var result = objectsRepository.GetInfo();
+
+            return Ok(result);
         }
     }
 }

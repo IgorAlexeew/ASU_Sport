@@ -24,8 +24,7 @@ namespace ASUSport.Models
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
             : base(options)
         {
-            Database.EnsureDeleted();
-            Database.EnsureCreated();
+            
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -41,6 +40,29 @@ namespace ASUSport.Models
             modelBuilder.Entity<Role>()
                 .Property(o => o.Name)
                 .IsRequired();
+
+
+            //  Пользователи
+            modelBuilder.Entity<User>()
+                .Property(o => o.Id)
+                .ValueGeneratedOnAdd();
+
+            modelBuilder.Entity<User>()
+                .HasKey(o => o.Id);
+
+            modelBuilder.Entity<User>()
+                .HasOne(o => o.Role)
+                .WithMany()
+                .HasForeignKey(o => o.RoleId);
+
+            modelBuilder.Entity<User>()
+                .Property(o => o.Login)
+                .IsRequired();
+
+            modelBuilder.Entity<User>()
+                .Property(o => o.Password)
+                .IsRequired();
+
 
             // Спортивные объекты
             modelBuilder.Entity<SportObject>()
@@ -77,7 +99,8 @@ namespace ASUSport.Models
 
             modelBuilder.Entity<Section>()
                 .HasOne(o => o.SportObject)
-                .WithMany();
+                .WithMany()
+                .HasForeignKey(o => o.SportObjectId);
 
             modelBuilder.Entity<Section>()
                 .Property(o => o.Duration)
@@ -105,27 +128,6 @@ namespace ASUSport.Models
                 .HasMany(e => e.Clients)
                 .WithMany(u => u.Events)
                 .UsingEntity(j => j.ToTable("EventsUsers"));
-
-
-            //  Пользователи
-            modelBuilder.Entity<User>()
-                .Property(o => o.Id)
-                .ValueGeneratedOnAdd();
-
-            modelBuilder.Entity<User>()
-                .HasKey(o => o.Id);
-
-            modelBuilder.Entity<User>()
-                .HasOne(o => o.Role)
-                .WithMany();
-
-            modelBuilder.Entity<User>()
-                .Property(o => o.Login)
-                .IsRequired();
-
-            modelBuilder.Entity<User>()
-                .Property(o => o.Password)
-                .IsRequired();
 
 
             //  Данные пользователей
@@ -167,10 +169,10 @@ namespace ASUSport.Models
 
             var users = new List<User>()
             {
-                new User { Id = 1, Login = "trainer", Password = "trainer", AccessCode = null, Role = roles[2] },
-                new User { Id = 2, Login = "admin", Password = "admin", AccessCode = null, Role = roles[0] },
-                new User { Id = 3, Login = "client1", Password = "client1", AccessCode = null, Role = roles[1] },
-                new User { Id = 4, Login = "client2", Password = "client2", AccessCode = null, Role = roles[1] }
+                new User { Id = 1, Login = "trainer", Password = "trainer", AccessCode = null, RoleId = 3 },
+                new User { Id = 2, Login = "admin", Password = "admin", AccessCode = null, RoleId = 1 },
+                new User { Id = 3, Login = "client1", Password = "client1", AccessCode = null, RoleId = 2 },
+                new User { Id = 4, Login = "client2", Password = "client2", AccessCode = null, RoleId = 2 }
             };
 
             var sportObjects = new List<SportObject>()
@@ -182,8 +184,8 @@ namespace ASUSport.Models
 
             var sections = new List<Section>()
             {
-                new Section() { Id = 1, Name = "Свободное плавание", SportObject = sportObjects[0] },
-                new Section() { Id = 2, Name = "Плавание с тренером", SportObject = sportObjects[0] }
+                new Section() { Id = 1, Name = "Свободное плавание", SportObjectId = 1 },
+                new Section() { Id = 2, Name = "Плавание с тренером", SportObjectId = 1 }
             };
 
             modelBuilder.Entity<Role>()

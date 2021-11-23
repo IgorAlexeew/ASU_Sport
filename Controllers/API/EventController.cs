@@ -29,18 +29,40 @@ namespace ASUSport.Controllers.API
         [HttpPost("sign-up-for-an-event")]
         public IActionResult SignUpForAnEvent([FromBody] EventDTO data)
         {
-            return new JsonResult(eventRepository.SignUpForAnEvent(data, User.Identity.Name));
+            var result = eventRepository.SignUpForAnEvent(data, User.Identity.Name);
+
+            return Ok(result);
         }
 
         /// <summary>
         /// Создание нового события
         /// </summary>
         /// <param name="data">Данные из формы</param>
-        /// <returns></returns>
+        /// <returns>Статус операции</returns>
         [HttpPost("add-event")]
         public IActionResult AddEvent([FromBody] EventDTO data)
         {
-            return new JsonResult(eventRepository.AddEvent(data));
+            var result = eventRepository.AddEvent(data);
+
+            return Ok(result);
+        }
+
+        [HttpGet("get-events")]
+        public IActionResult GetEvents([FromBody] EventDTO data)
+        {
+            var result = eventRepository.GetEvents(data);
+
+            if (!result.Any())
+            {
+                return Ok(new Response()
+                {
+                    Status = false,
+                    Type = "EventsNotFound",
+                    Message = "События не найдены"
+                });
+            }
+
+            return Ok(result);
         }
     }
 }

@@ -40,6 +40,7 @@ namespace ASUSport.Models
         /// Роль пользователя
         /// </summary>
         public virtual Role Role { get; set; }
+        public int RoleId { get; set; }
 
         /// <summary>
         /// Список событий

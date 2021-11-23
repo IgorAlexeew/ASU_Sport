@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using ASUSport.Models;
 using ASUSport.ViewModels;
 using ASUSport.Repositories.Impl;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ASUSport.Repositories
 {
@@ -21,9 +22,29 @@ namespace ASUSport.Repositories
         public Response SignUpForAnEvent(EventDTO data, string login)
         {
             var trainer = GetTrainer(data.TrainerName);
-            // проверка на отсутствие тренера + проверка на свободные места
-            var selectedEvent = db.Events.First(
+
+            var selectedEvent = db.Events.FirstOrDefault(
                 e => e.Trainer == trainer && e.Section.Name == data.SectionName && e.Time == DateTime.Parse(data.Time));
+
+            if (selectedEvent == null)
+            {
+                return new Response()
+                {
+                    Status = false,
+                    Type = "EventNotFound",
+                    Message = "События не существует"
+                };
+            }
+
+            if (selectedEvent.Section.SportObject.Capacity - selectedEvent.Clients.Count == 0)
+            {
+                return new Response()
+                {
+                    Status = false,
+                    Type = "NoFreeSpaces",
+                    Message = "Свободных мест нет"
+                };
+            }
 
             var user = db.Users.First(u => u.Login == login);
 
@@ -41,11 +62,33 @@ namespace ASUSport.Repositories
         /// <inheritdoc/>
         public Response AddEvent(EventDTO data)
         {
+            var section = db.Sections.FirstOrDefault(s => s.Name == data.SectionName);
+
+            if (section == null)
+            {
+                return new Response()
+                {
+                    Status = false,
+                    Type = "SectionNotFound",
+                    Message = "Секция не найдена"
+                };
+            }
+
             var selectedTrainer = GetTrainer(data.TrainerName);
+
+            if (selectedTrainer == null)
+            {
+                return new Response()
+                {
+                    Status = false,
+                    Type = "TrainerNotFound",
+                    Message = "Тренер не найден"
+                };
+            }
 
             var newEvent = new Event()
             {
-                Section = db.Sections.First(s => s.Name == data.SectionName),
+                Section = section,
                 Trainer = selectedTrainer,
                 Time = DateTime.Parse(data.Time)
             };
@@ -68,7 +111,7 @@ namespace ASUSport.Repositories
             string middleName = fullName.Split(' ')[1];
             string lastName = fullName.Split(' ')[2];
 
-            var trainer = db.UserData.First(
+            var trainer = db.UserData.FirstOrDefault(
                 t => t.FirstName == firstName && t.MiddleName == middleName && t.LastName == lastName)
                 .User;
 
@@ -80,23 +123,23 @@ namespace ASUSport.Repositories
         {
             var result = new List<EventDTO>();
 
-            IQueryable<Event> events = null;
+            List<Event> events = db.Events.Select(e => e).ToList();
 
             if (parametres.SectionName != null)
             {
-                events = db.Events.Where(e => e.Section.Name == parametres.SectionName);
+                _ = events.Where(e => e.Section.Name == parametres.SectionName);
             }
 
             if (parametres.Time != null)
             {
-                events.Where(e => e.Time.Date == DateTime.Parse(parametres.Time));
+                _ = events.Where(e => e.Time.Date == DateTime.Parse(parametres.Time));
             }
 
             if (parametres.TrainerName != null)
             {
                 var trainer = GetTrainer(parametres.TrainerName);
 
-                events.Where(e => e.Trainer == trainer);
+                _ = events.Where(e => e.Trainer == trainer);
             }
 
             foreach (Event ev in events.ToList())

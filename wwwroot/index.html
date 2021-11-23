@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Главная - АГУ СПОРТ</title>
+    <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/index.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
@@ -38,7 +39,7 @@
                     бронирование тех или иных объектов на интересующее Вас время
                 </div>
             </div>
-            <div class="objects">
+<!--            <div class="objects">
                 <div class="object">
                     <div class="title">Бассейн</div>
                     <div class="time-range">7:00-21:00</div>
@@ -48,6 +49,28 @@
                             <div class="day">пн</div>
                             <div class="day">чт</div>
                             <div class="day">пт</div>
+                        </div>
+                    </div>
+                    <div class="point average-cost">
+                        <div class="label">Средняя стоимость занятия:</div>
+                        <div class="cost">200 ₽</div>
+                    </div>
+                </div>
+            </div>-->
+            <div id="sport-objects-view" class="objects">
+                <div v-for="sportObject in sportObjects" class="object" v-bind:class="sportObject.backgroundClass">
+                    <div class="title">{{ sportObject.objectName }}</div>
+                    <div class="time-range">7:00-21:00</div>
+                    <div class="point days">
+                        <div class="label">Наименее загруженные дни:</div>
+                        <div v-if="sportObject.days" v-for="day in sportObject?.days" class="days-list">
+                            <!--                            @*<div class="day">пн</div>
+                                                        <div class="day">чт</div>
+                                                        <div class="day">пт</div>*@-->
+                            <div class="day">{{ day?.name }}</div>
+                        </div>
+                        <div class="days-list" v-else>
+                            <div class="day null">нет данных</div>
                         </div>
                     </div>
                     <div class="point average-cost">
@@ -71,5 +94,9 @@
             </defs>
         </svg>
     </div>
+    <script src="https://unpkg.com/vue@next"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/textfit/2.4.0/textFit.min.js"></script>
+    <script src="js/sport_objects_on_main_page.js"></script>
 </body>
 </html>

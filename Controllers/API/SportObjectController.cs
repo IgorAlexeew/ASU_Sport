@@ -8,7 +8,8 @@ using ASUSport.ViewModels;
 
 namespace ASUSport.Controllers.API
 {
-    [Route("api/[controller]")]
+    //[Route("api/[controller]")]
+    [Route("api/sport-object")]
     [ApiController]
     public class SportObjectController : Controller
     {
@@ -19,8 +20,8 @@ namespace ASUSport.Controllers.API
             this.objectsRepository = objectsRepository;
         }
 
-        [HttpGet("getinfo")]
-        public IActionResult Index()
+        [HttpGet("get-info")]
+        public IActionResult GetInfo()
         {
             return new JsonResult(objectsRepository.GetInfo());
         }

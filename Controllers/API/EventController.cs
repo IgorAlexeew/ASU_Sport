@@ -26,7 +26,7 @@ namespace ASUSport.Controllers.API
         /// </summary>
         /// <param name="data">Данные из формы</param>
         /// <returns></returns>
-        [HttpPost("signupforanevent")]
+        [HttpPost("signup-for-an-event")]
         public IActionResult SignUpForAnEvent([FromBody] EventDTO data)
         {
             eventRepository.SignUpForAnEvent(data, User.Identity.Name);
@@ -39,7 +39,7 @@ namespace ASUSport.Controllers.API
         /// </summary>
         /// <param name="data">Данные из формы</param>
         /// <returns></returns>
-        [HttpPost("addevent")]
+        [HttpPost("add-event")]
         public IActionResult AddEvent([FromBody] EventDTO data)
         {
             eventRepository.AddEvent(data);

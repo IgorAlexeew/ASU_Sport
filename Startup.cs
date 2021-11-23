@@ -95,7 +95,7 @@ namespace ASUSport
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=WebView}/{action=Index}/{id?}");
             });
         }
     }

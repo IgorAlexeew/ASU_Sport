@@ -29,13 +29,13 @@ namespace ASUSport.Controllers.API
         /// Получить данные авторизованного пользователя
         /// </summary>
         /// <returns>Данные о пользователе</returns>
-        [HttpGet("getclientinfo")]
+        [HttpGet("get-client-info")]
         public IActionResult GetClientInfo()
         {
             return new JsonResult(userRepository.GetUserInfo(User.Identity.Name));
         }
 
-        [HttpPost("adduserdata")]
+        [HttpPost("add-user-data")]
         public IActionResult AddUserData([FromBody] UserDTO data)
         {
             userRepository.AddUserData(data, User.Identity.Name);

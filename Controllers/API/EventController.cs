@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ASUSport.Models;
-using ASUSport.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ASUSport.Repositories.Impl;
+using ASUSport.DTO;
 //using ASUSport.ViewModels;
 
 namespace ASUSport.Controllers.API
@@ -29,9 +29,9 @@ namespace ASUSport.Controllers.API
         [HttpPost("signup-for-an-event")]
         public IActionResult SignUpForAnEvent([FromBody] EventDTO data)
         {
-            eventRepository.SignUpForAnEvent(data, User.Identity.Name);
-            
-            return Ok();
+            var result = eventRepository.SignUpForAnEvent(data, User.Identity.Name);
+
+            return Ok(result);
         }
 
         /// <summary>
@@ -42,9 +42,27 @@ namespace ASUSport.Controllers.API
         [HttpPost("add-event")]
         public IActionResult AddEvent([FromBody] EventDTO data)
         {
-            eventRepository.AddEvent(data);
+            var result = eventRepository.AddEvent(data);
 
-            return Ok();
+            return Ok(result);
+        }
+
+        [HttpGet("get-events")]
+        public IActionResult GetEvents([FromBody] EventDTO data)
+        {
+            var result = eventRepository.GetEvents(data);
+
+            if (!result.Any())
+            {
+                return Ok(new Response()
+                {
+                    Status = false,
+                    Type = "EventsNotFound",
+                    Message = "События не найдены"
+                });
+            }
+
+            return Ok(result);
         }
     }
 }

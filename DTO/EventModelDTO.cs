@@ -1,11 +1,9 @@
-﻿using System;
-
-namespace ASUSport.ViewModels
+﻿namespace ASUSport.DTO
 {
     /// <summary>
-    /// Модель для выбора события
+    /// Модель для отображения свойств события
     /// </summary>
-    public class EventDTO
+    public class EventModelDTO
     {
         /// <summary>
         /// Название секции
@@ -21,5 +19,15 @@ namespace ASUSport.ViewModels
         /// Дата и время начала события
         /// </summary>
         public string Time { get; set; }
+
+        /// <summary>
+        /// Продолжительность события
+        /// </summary>
+        public int Duration { get; set; }
+
+        /// <summary>
+        /// Свободные места
+        /// </summary>
+        public int FreeSpaces { get; set; }
     }
 }

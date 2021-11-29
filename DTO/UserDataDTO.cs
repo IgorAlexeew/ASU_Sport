@@ -1,13 +1,9 @@
-﻿using System;
-using ASUSport.Models;
-using System.Collections.Generic;
-
-namespace ASUSport.ViewModels
+﻿namespace ASUSport.DTO
 {
     /// <summary>
-    /// Данные пользователя
+    /// Форма для ввода данных пользователя
     /// </summary>
-    public class UserDTO
+    public class UserDataDTO
     {
         /// <summary>
         /// Фамилия
@@ -33,10 +29,5 @@ namespace ASUSport.ViewModels
         /// Дата рождения
         /// </summary>
         public string DateOfBirth { get; set; }
-
-        /// <summary>
-        /// Список событий
-        /// </summary>
-        public ICollection<EventForUserDTO> Events { get; set; }
     }
 }

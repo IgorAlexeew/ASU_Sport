@@ -19,6 +19,7 @@
         /// Спортивный объект
         /// </summary>
         public virtual SportObject SportObject { get; set; }
+        public int SportObjectId { get; set; }
 
         /// <summary>
         /// Продолжительность секции

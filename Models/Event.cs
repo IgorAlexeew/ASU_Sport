@@ -21,8 +21,8 @@ namespace ASUSport.Models
         /// <summary>
         /// Тренер
         /// </summary>
-        public virtual User Trainer { get; set; }  
-        
+        public virtual User Trainer { get; set; }
+
         /// <summary>
         /// Список клиентов
         /// </summary>

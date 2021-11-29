@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ASUSport.Models;
-using ASUSport.ViewModels;
 using ASUSport.Repositories.Impl;
 using ASUSport.Helpers;
+using ASUSport.DTO;
 
 namespace ASUSport.Repositories
 {
@@ -19,35 +19,40 @@ namespace ASUSport.Repositories
         }
 
         ///<inheritdoc/>
-        public UserDTO GetUserInfo(string login)
+        public UserModelDTO GetUserInfo(string login)
         {
             var user = db.UserData.First(u => u.User.Login == login);
 
-            List<EventForUserDTO> events = new();
+            List<EventForUserModelDTO> events = new();
 
             foreach (var e in user.User.Events)
             {
                 var trainer = db.UserData.First(o => o.User == e.Trainer);
 
-                var trainerData = new UserDTO()
+                var trainerData = new TrainerModelDTO()
                 {
                     FirstName = trainer.FirstName,
                     MiddleName = trainer.MiddleName,
                     LastName = trainer.LastName,
-                    DateOfBirth = trainer.DateOfBirth,
+                };
+
+                var section = new SectionForUserDTO()
+                {
+                    SectionName = e.Section.Name,
+                    Duration = e.Section.Duration
                 };
                 
-                var eventDTO = new EventForUserDTO()
+                var eventModel = new EventForUserModelDTO()
                 {
-                    Section = e.Section,
+                    Section = section,
                     Trainer = trainerData,
                     Time = e.Time,
                 };
 
-                events.Add(eventDTO);
+                events.Add(eventModel);
             }
             
-            var userInfo = new UserDTO()
+            var userInfo = new UserModelDTO()
             {
                 FirstName = user.FirstName,
                 MiddleName = user.MiddleName,
@@ -99,7 +104,7 @@ namespace ASUSport.Repositories
         }
 
         ///<inheritdoc/>
-        public void AddUserData(UserDTO data, string login)
+        public Response AddUserData(UserModelDTO data, string login)
         {
             var user = db.Users.First(u => u.Login == login);
 
@@ -115,6 +120,13 @@ namespace ASUSport.Repositories
 
             db.UserData.Add(userData);
             db.SaveChanges();
+
+            return new Response()
+            {
+                Status = true,
+                Type = "success",
+                Message = "OK"
+            };
         }
     }
 }

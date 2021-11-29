@@ -39,7 +39,7 @@ namespace ASUSport.Controllers.API
         }
 
         [HttpPost("add-user-data")]
-        public IActionResult AddUserData([FromBody] UserModelDTO data)
+        public IActionResult AddUserData([FromBody] UserDTO data)
         {
             var result = userRepository.AddUserData(data, User.Identity.Name);
             return Ok(result);

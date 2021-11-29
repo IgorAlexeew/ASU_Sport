@@ -6,7 +6,8 @@ using ASUSport.Repositories.Impl;
 
 namespace ASUSport.Controllers.API
 {
-    [Route("api/[controller]")]
+    //[Route("api/[controller]")]
+    [Route("api/sport-object")]
     [ApiController]
     public class SportObjectController : Controller
     {

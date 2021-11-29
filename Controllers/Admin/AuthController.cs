@@ -1,15 +1,12 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using System.Linq;
-using ASUSport.ViewModels;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using ASUSport.Models;
+using ASUSport.DTO;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using ASUSport.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using ASUSport.Repositories.Impl;
 
@@ -20,11 +17,11 @@ namespace ASUSport.Controllers.Admin
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly IUserRepository _userRepository;
+        private readonly IUserRepository userRepository;
 
         public AuthController(IUserRepository userRepository)
         {
-            _userRepository = userRepository;
+            this.userRepository = userRepository;
         }
 
         /// <summary>
@@ -33,11 +30,11 @@ namespace ASUSport.Controllers.Admin
         /// <param name="model">Форма для ввода логина и пароля</param>
         /// <returns></returns>
         [HttpPost("sign-in")]
-        public async Task<IActionResult> SignIn([FromBody]LoginModel model)
+        public async Task<IActionResult> SignIn([FromBody] LoginModel model)
         {
-            if (_userRepository.IsContains(model.Login))
+            if (userRepository.IsContains(model.Login))
             {
-                User user = _userRepository.GetUserByLoginPassword(model.Login, model.Password);
+                User user = userRepository.GetUserByLoginPassword(model.Login, model.Password);
 
                 if (user != null)
                 {
@@ -73,13 +70,13 @@ namespace ASUSport.Controllers.Admin
         [HttpPost("sign-up")]
         public async Task<IActionResult> SignUp([FromBody] RegisterModel model)
         {
-            if (!_userRepository.IsContains(model.Login))
+            if (!userRepository.IsContains(model.Login))
             {
-                Role role = _userRepository.SetRole(model.AccessCode);
+                Role role = userRepository.SetRole(model.AccessCode);
 
                 User newUser = new() { Login = model.Login, Password = model.Password, AccessCode = model.AccessCode, Role = role };
 
-                _userRepository.Save(newUser);
+                userRepository.Save(newUser);
 
                 await Authenticate(newUser);
 

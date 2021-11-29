@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ASUSport.Models;
-using ASUSport.ViewModels;
 using ASUSport.Repositories.Impl;
+using ASUSport.DTO;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ASUSport.Repositories
@@ -22,6 +22,16 @@ namespace ASUSport.Repositories
         public Response SignUpForAnEvent(EventDTO data, string login)
         {
             var trainer = GetTrainer(data.TrainerName);
+
+            if (trainer == null)
+            {
+                return new Response()
+                {
+                    Status = false,
+                    Type = "TrainerNotFound",
+                    Message = "Тренер не найден"
+                };
+            }
 
             var selectedEvent = db.Events.FirstOrDefault(
                 e => e.Trainer == trainer && e.Section.Name == data.SectionName && e.Time == DateTime.Parse(data.Time));
@@ -112,16 +122,18 @@ namespace ASUSport.Repositories
             string lastName = fullName.Split(' ')[2];
 
             var trainer = db.UserData.FirstOrDefault(
-                t => t.FirstName == firstName && t.MiddleName == middleName && t.LastName == lastName)
-                .User;
+                t => t.FirstName == firstName && t.MiddleName == middleName && t.LastName == lastName);
 
-            return trainer;
+            if (trainer == null)
+                return null;
+
+            return trainer.User;
         }
 
         /// <inheritdoc/>
-        public List<EventDTO> GetEvents(EventDTO parametres)
+        public List<EventModelDTO> GetEvents(EventDTO parametres)
         {
-            var result = new List<EventDTO>();
+            var result = new List<EventModelDTO>();
 
             List<Event> events = db.Events.Select(e => e).ToList();
 
@@ -144,7 +156,7 @@ namespace ASUSport.Repositories
 
             foreach (Event ev in events.ToList())
             {
-                var dto = new EventDTO()
+                var model = new EventModelDTO()
                 {
                     SectionName = ev.Section.Name,
                     TrainerName = parametres.TrainerName,
@@ -153,7 +165,7 @@ namespace ASUSport.Repositories
                     FreeSpaces = ev.Section.SportObject.Capacity - ev.Clients.Count
                 };
 
-                result.Add(dto);
+                result.Add(model);
             }
 
             return result;

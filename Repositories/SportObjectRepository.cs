@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ASUSport.Models;
-using ASUSport.ViewModels;
 using ASUSport.Repositories.Impl;
+using ASUSport.DTO;
 
 namespace ASUSport.Repositories
 {
     public class SportObjectRepository : ISportObjectRepository
     {
-        private ApplicationContext db;
+        private readonly ApplicationContext db;
 
         public SportObjectRepository(ApplicationContext context)
         {
@@ -18,7 +18,7 @@ namespace ASUSport.Repositories
         }
 
         /// <inheritdoc/>
-        public List<SportObjectInfo> GetInfo()
+        public List<SportObjectForMainDTO> GetInfo()
         {
             var objects = db.SportObjects.Take(3).Select(s => s.Name).ToList();
 
@@ -29,14 +29,22 @@ namespace ASUSport.Repositories
 
             DateTime nearestSaturday = GetNearestDay(today, DayOfWeek.Saturday);
 
-            var result = new List<SportObjectInfo>();
+            var result = new List<SportObjectForMainDTO>();
 
             foreach (var obj in objects)
             {
                 var events = db.Events.Where(e => e.Section.SportObject.Name == obj
                     && e.Time > today && e.Time < nearestSaturday).ToList();
 
-                var info = new SportObjectInfo() { ObjectName = obj };
+                var subscription = db.Subscriptions.First(s => s.SportObject.Name == obj && s.Type == "Разовое занятие");
+
+                var info = new SportObjectForMainDTO()
+                {
+                    ObjectName = obj,
+                    ServiceName = subscription.Type,
+                    WorkingHours = subscription.StartingTime != null ? subscription.StartingTime + " - " + subscription.ClosingTime : null,
+                    Price = subscription.Price
+                };
 
                 if (events.Any())
                 {

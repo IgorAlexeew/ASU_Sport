@@ -1,5 +1,5 @@
 ﻿using ASUSport.Models;
-using ASUSport.ViewModels;
+using ASUSport.DTO;
 using System.Collections.Generic;
 
 namespace ASUSport.Repositories.Impl
@@ -36,6 +36,6 @@ namespace ASUSport.Repositories.Impl
         /// </summary>
         /// <param name="parametres">Параметры отбора записей</param>
         /// <returns>Список событий</returns>
-        public List<EventDTO> GetEvents(EventDTO parametres);
+        public List<EventModelDTO> GetEvents(EventDTO parametres);
     }
 }

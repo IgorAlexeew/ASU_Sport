@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ASUSport.Models;
-using ASUSport.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ASUSport.Repositories.Impl;
+using ASUSport.DTO;
 //using ASUSport.ViewModels;
 
 namespace ASUSport.Controllers.API

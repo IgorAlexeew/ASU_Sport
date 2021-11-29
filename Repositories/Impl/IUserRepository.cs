@@ -1,5 +1,5 @@
 ﻿using ASUSport.Models;
-using ASUSport.ViewModels;
+using ASUSport.DTO;
 
 namespace ASUSport.Repositories.Impl
 {
@@ -13,7 +13,7 @@ namespace ASUSport.Repositories.Impl
         /// </summary>
         /// <param name="login">Логин</param>
         /// <returns></returns>
-        public UserViewModel GetUserInfo(string login);
+        public UserModelDTO GetUserInfo(string login);
 
         /// <summary>
         /// Проверка на наличие пользователя с таким логином в БД
@@ -56,7 +56,7 @@ namespace ASUSport.Repositories.Impl
         /// <param name="data">Данные из формы</param>
         /// <param name="login">Логин</param>
         /// /// <returns>Ответ</returns>
-        public Response AddUserData(UserViewModel data, string login);
+        public Response AddUserData(UserModelDTO data, string login);
 
     }
 }

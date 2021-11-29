@@ -32,7 +32,7 @@ namespace ASUSport.Controllers
             return View();
         }
 
-        /// <summary>
+        /*/// <summary>
         /// Вывод содержимого таблицы в представление
         /// </summary>
         /// <param name="tableName">Название таблицы</param>
@@ -61,7 +61,7 @@ namespace ASUSport.Controllers
             }
             ViewBag.TableData = result;
             return View();
-        }
+        }*/
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

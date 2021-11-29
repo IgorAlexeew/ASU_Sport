@@ -1,11 +1,9 @@
-﻿using System;
-
-namespace ASUSport.ViewModels
+﻿namespace ASUSport.DTO
 {
     /// <summary>
-    /// Модель для выбора события
+    /// Модель для отображения свойств события
     /// </summary>
-    public class EventDTO
+    public class EventModelDTO
     {
         /// <summary>
         /// Название секции

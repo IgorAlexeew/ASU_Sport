@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace ASUSport.Models
 {
@@ -26,5 +27,15 @@ namespace ASUSport.Models
         /// Местоположение
         /// </summary>
         public string Location { get; set; }
+
+        /// <summary>
+        /// Время открытия
+        /// </summary>
+        public string StartingTime { get; set; }
+
+        /// <summary>
+        /// Время закрытия
+        /// </summary>
+        public string ClosingTime { get; set; }
     }
 }

@@ -31,6 +31,7 @@ namespace ASUSport.Models
                 hashPassword = PasswordHasherHelper.HashString(value);
             }
         }
+
         /// <summary>
         /// Код доступа
         /// </summary>
@@ -46,5 +47,10 @@ namespace ASUSport.Models
         /// Список событий
         /// </summary>
         public virtual ICollection<Event> Events { get; set; }
+
+        /// <summary>
+        /// Список абонементов
+        /// </summary>
+        public virtual ICollection<Subscription> Subscriptions { get; set; }
     }
 }

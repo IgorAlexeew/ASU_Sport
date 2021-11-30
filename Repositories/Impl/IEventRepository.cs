@@ -1,5 +1,6 @@
 ﻿using ASUSport.Models;
-using ASUSport.ViewModels;
+using ASUSport.DTO;
+using System.Collections.Generic;
 
 namespace ASUSport.Repositories.Impl
 {
@@ -13,13 +14,15 @@ namespace ASUSport.Repositories.Impl
         /// </summary>
         /// <param name="data">Форма для ввода праметров события</param>
         /// <param name="login">Логин пользователя</param>
-        public void SignUpForAnEvent(EventDTO data, string login);
+        /// <returns>Ответ</returns>
+        public Response SignUpForAnEvent(EventDTO data, string login);
 
         /// <summary>
         /// Создание нового события
         /// </summary>
         /// <param name="data">Форма для ввода праметров события</param>
-        public void AddEvent(EventDTO data);
+        /// <returns>Ответ</returns>
+        public Response AddEvent(EventDTO data);
 
         /// <summary>
         /// Поиск тренера по ФИО
@@ -27,5 +30,12 @@ namespace ASUSport.Repositories.Impl
         /// <param name="fullName">ФИО тренера</param>
         /// <returns></returns>
         public User GetTrainer(string fullName);
+
+        /// <summary>
+        /// Получить список событий по параметрам
+        /// </summary>
+        /// <param name="parametres">Параметры отбора записей</param>
+        /// <returns>Список событий</returns>
+        public List<EventModelDTO> GetEvents(EventDTO parametres);
     }
 }

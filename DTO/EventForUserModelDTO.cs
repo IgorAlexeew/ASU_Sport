@@ -1,23 +1,23 @@
 ﻿using System;
 using ASUSport.Models;
-using System.Collections.Generic;
+using ASUSport.DTO;
 
-namespace ASUSport.ViewModels
+namespace ASUSport.DTO
 {
     /// <summary>
-    /// Представление для отображения события у пользователя
+    /// Модель для отображения события у пользователя в профиле
     /// </summary>
-    public class EventForUserDTO
+    public class EventForUserModelDTO
     {
         /// <summary>
         /// Секции
         /// </summary>
-        public Section Section { get; set; }
+        public SectionForUserDTO Section { get; set; }
 
         /// <summary>
         /// Тренеры
         /// </summary>
-        public UserDTO Trainer { get; set; }
+        public TrainerModelDTO Trainer { get; set; }
 
         /// <summary>
         /// Дата и время начала событий

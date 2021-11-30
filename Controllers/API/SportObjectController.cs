@@ -1,10 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using ASUSport.Repositories.Impl;
-using ASUSport.ViewModels;
 
 namespace ASUSport.Controllers.API
 {
@@ -23,7 +21,9 @@ namespace ASUSport.Controllers.API
         [HttpGet("get-info")]
         public IActionResult GetInfo()
         {
-            return new JsonResult(objectsRepository.GetInfo());
+            var result = objectsRepository.GetInfo();
+
+            return Ok(result);
         }
     }
 }

@@ -1,14 +1,15 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ASUSport.ViewModels
+namespace ASUSport.DTO
 {
-    public class LoginModel
+    public class RegisterModel
     {
-        [Required]/*(ErrorMessage = "Не указан логин")]*/
+        [Required]
         public string Login { get; set; }
 
         [Required]
-        /*[DataType(DataType.Password)]*/
         public string Password { get; set; }
+
+        public string AccessCode { get; set; }
     }
 }

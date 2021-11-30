@@ -7,7 +7,7 @@ using System.Data;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using ASUSport.Repositories.Impl;
-using ASUSport.ViewModels;
+using ASUSport.DTO;
 
 namespace ASUSport.Controllers.API
 {
@@ -29,18 +29,20 @@ namespace ASUSport.Controllers.API
         /// Получить данные авторизованного пользователя
         /// </summary>
         /// <returns>Данные о пользователе</returns>
-        [HttpGet("get-client-info")]
-        public IActionResult GetClientInfo()
+        [HttpGet("get-user-info")]
+        public IActionResult GetUserInfo()
         {
-            return new JsonResult(userRepository.GetUserInfo(User.Identity.Name));
+            var result = userRepository.GetUserInfo(User.Identity.Name);
+
+            return Ok(result);
+
         }
 
         [HttpPost("add-user-data")]
         public IActionResult AddUserData([FromBody] UserDTO data)
         {
-            userRepository.AddUserData(data, User.Identity.Name);
-
-            return Ok();
+            var result = userRepository.AddUserData(data, User.Identity.Name);
+            return Ok(result);
         }
 
         /*/// <summary>

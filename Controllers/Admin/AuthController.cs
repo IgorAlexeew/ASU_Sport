@@ -1,15 +1,12 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using System.Linq;
-using ASUSport.ViewModels;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
-using ASUSport.Models; // пространство имен UserContext и класса User
+using ASUSport.Models;
+using ASUSport.DTO;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using ASUSport.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using ASUSport.Repositories.Impl;
 
@@ -20,11 +17,11 @@ namespace ASUSport.Controllers.Admin
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly IUserRepository _userRepository;
+        private readonly IUserRepository userRepository;
 
         public AuthController(IUserRepository userRepository)
         {
-            _userRepository = userRepository;
+            this.userRepository = userRepository;
         }
 
         /// <summary>
@@ -32,38 +29,37 @@ namespace ASUSport.Controllers.Admin
         /// </summary>
         /// <param name="model">Форма для ввода логина и пароля</param>
         /// <returns></returns>
-        [HttpPost("signin")]
-        public async Task<IActionResult> SignIn([FromBody]LoginModel model)
+        [HttpPost("sign-in")]
+        public async Task<IActionResult> SignIn([FromBody] LoginModel model)
         {
-            if (_userRepository.IsContains(model.Login))
+            if (userRepository.IsContains(model.Login))
             {
-                User user = _userRepository.GetUserByLoginPassword(model.Login, model.Password);
+                User user = userRepository.GetUserByLoginPassword(model.Login, model.Password);
 
                 if (user != null)
                 {
                     await Authenticate(user); // аутентификация
 
-                    return new JsonResult(new Response()
+                    return Ok(new Response()
                     {
                         Status = true,
                         Type = "success",
                         Message = "OK"
                     });
                 }
-                return new JsonResult(new Response()
+                return Ok(new Response()
                 {
                     Status = true,
                     Type = "wrong_password",
                     Message = "Неверный пароль"
                 });
             }
-            return new JsonResult(new Response()
+            return Ok(new Response()
             {
                 Status = false,
                 Type = "no_user",
                 Message = "Такого пользователя не существует"
             });
-
         }
 
         /// <summary>
@@ -71,20 +67,20 @@ namespace ASUSport.Controllers.Admin
         /// </summary>
         /// <param name="model">Форма для ввода данных о новом пользователе</param>
         /// <returns></returns>
-        [HttpPost("signup")]
+        [HttpPost("sign-up")]
         public async Task<IActionResult> SignUp([FromBody] RegisterModel model)
         {
-            if (!_userRepository.IsContains(model.Login))
+            if (!userRepository.IsContains(model.Login))
             {
-                Role role = _userRepository.SetRole(model.AccessCode);
+                Role role = userRepository.SetRole(model.AccessCode);
 
                 User newUser = new() { Login = model.Login, Password = model.Password, AccessCode = model.AccessCode, Role = role };
 
-                _userRepository.Save(newUser);
+                userRepository.Save(newUser);
 
                 await Authenticate(newUser);
 
-                return new JsonResult(new Response()
+                return Ok(new Response()
                 {
                     Status = true,
                     Type = "success",
@@ -92,7 +88,7 @@ namespace ASUSport.Controllers.Admin
                 });
             }
 
-            return new JsonResult(new Response()
+            return Ok(new Response()
             {
                 Status = false,
                 Type = "username_is_already_taken",
@@ -119,18 +115,11 @@ namespace ASUSport.Controllers.Admin
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
         }
 
-        [HttpGet("logout")]
+        [HttpGet("log-out")]
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Login", "Admin");
-        }
-
-        new private class Response
-        {
-            public bool Status { get; set; }
-            public string Type { get; set; }
-            public string Message { get; set; }
         }
     }
 }

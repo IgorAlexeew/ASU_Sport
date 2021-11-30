@@ -14,6 +14,15 @@ body {
     align-items: center;
 }
 
+input::-webkit-input-placeholder       {opacity: 1; transition: opacity 0.2s ease;}
+input::-moz-placeholder                {opacity: 1; transition: opacity 0.2s ease;}
+input:-moz-placeholder                 {opacity: 1; transition: opacity 0.2s ease;}
+input:-ms-input-placeholder            {opacity: 1; transition: opacity 0.2s ease;}
+input:focus::-webkit-input-placeholder {opacity: 0; transition: opacity 0.2s ease;}
+input:focus::-moz-placeholder          {opacity: 0; transition: opacity 0.2s ease;}
+input:focus:-moz-placeholder           {opacity: 0; transition: opacity 0.2s ease;}
+input:focus:-ms-input-placeholder      {opacity: 0; transition: opacity 0.2s ease;}
+
 .content {
     z-index: 1;
     height: 100vh;
@@ -65,7 +74,7 @@ form.sign-in .title {
 
 form.sign-in input {
     border: none;
-    background: rgba(255, 255, 255, 0.8);
+    background: rgba(255, 255, 255, 0.5);
     border-radius: 34px;
     width: 100%;
     padding: 11px;
@@ -81,6 +90,18 @@ form.sign-in input {
     margin-bottom: 20px;
     box-shadow: inset 0 0 0 0 #dee8ec;
     transition: box-shadow .3s ease-in-out;
+}
+
+form.sign-in input::-webkit-input-placeholder{
+    color: #778993;
+}
+
+form.sign-in input::-moz-placeholder{
+    color: #778993;
+}
+
+form.sign-in input::-ms-input-placeholder{
+    color: #778993;
 }
 
 form.sign-in input::selection {
@@ -133,6 +154,9 @@ form.sign-in input:focus {
     height: 100vh;
     overflow: hidden;
     z-index: 0;
+    background: url("/img/login-background.svg") 50% 41%;
+    background-size: 155%;
+    min-width: 100%;
 }
 
 .background svg {

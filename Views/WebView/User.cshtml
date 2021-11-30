@@ -1,0 +1,57 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Пользователь</title>
+    <link rel="stylesheet" href="css/user.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+    <div id="app" class="content">
+        <div class="user">
+            <img src="/img/users/user.svg" class="photo" alt=""/>
+            <div class="data">
+                <p class="full-name">Достоевский Федор Михайлович</p>
+                <p class="birth-date">11 ноября 1821 г.</p>
+                <p class="e-mail">dostoevskiy@poet.ru</p>
+                <p class="phone-number">8(818)211-11-11</p>
+            </div>
+            <a href="#" class="logout">
+                <svg xmlns="http://www.w3.org/2000/svg" width="85" height="84" viewBox="0 0 85 84" fill="none">
+                    <path d="M0 9.33333C0 4.2 4.2 0 9.33333 0H46.6667V9.33333H9.33333V74.6667H46.6667V84H9.33333C4.2 84 0 79.8 0 74.6667V9.33333ZM66.1547 37.3333L54.32 25.4987L60.9187 18.9L84.0187 42L60.9187 65.1L54.32 58.5013L66.1547 46.6667H35.42V37.3333H66.1547Z"/>
+                </svg>
+            </a>
+        </div>
+        <div class="nearest-events">
+            <div class="title">Предстоящие занятия:</div>
+            <div class="events">
+                <a href="#" class="event blue">
+                    <p class="name">Свободное плавание</p>
+                    <p class="date">21.12.2021</p>
+                    <p class="time">12:00</p>
+                </a>
+                <a href="#" class="event blue">
+                    <p class="name">Свободное плавание</p>
+                    <p class="date">21.12.2021</p>
+                    <p class="time">12:00</p>
+                </a>
+                <a href="#" class="event green">
+                    <p class="name">Базовая тренировка</p>
+                    <p class="date">21.12.2021</p>
+                    <p class="time">12:00</p>
+                </a>
+            </div>
+        </div>
+    </div>
+    <script src="https://unpkg.com/vue@next"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/textfit/2.4.0/textFit.min.js"></script>
+    <script src="/js/events-for-the-day.js"></script>
+</body>
+</html>

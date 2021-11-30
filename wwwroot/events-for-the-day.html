@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Бассейн - 21 ноября - АГУ СПОРТ</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/events-for-the-day.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <img src="img/asu-clr.png" alt="Астраханский Государственный Университет" id="asu-logo">
+                <div class="description">
+                    Астраханский<br>
+                    государственный<br>
+                    университет<br>
+                </div>
+            </div>
+            <div class="nav">
+                <ul>
+                    <li><a class="selected" href="#">Объекты</a></li>
+                    <li><a href="#">Новости</a></li>
+                    <li><a href="#">Контакты</a></li>
+                </ul>
+            </div>
+            <div class="auth">
+                <a href="#" id="sign-in">войти</a>
+                <a href="#" id="sign-up">зарегистрироваться</a>
+            </div>
+        </div>
+        <div id="app" class="content">
+<!--            <div class="date-block">
+                <p class="sport-object-name">Бассейн</p>
+                &lt;!&ndash;<div class="date-picker-block">
+                        <p class="current-date"><span id="day">{{ day }}</span> <span id="month">{{ month }}</span> <span id="year">{{ year }}</span></p>
+                        <span class="datepicker-toggle">
+                            <span class="datepicker-toggle-button"></span>
+                            <input type="date" class="datepicker-input" v-model="date_string">
+                        </span>
+                    </div>&ndash;&gt;
+                <date-picker></date-picker>
+                &lt;!&ndash;<div class="calendar">
+                    <div class="month-selector">
+                        <div class="prev-month"><</div>
+                        <div class="current-month">октябрь</div>
+                        <div class="next-month">></div>
+                    </div>
+                    <div class="date-area">
+                        <div class="day" id="27.09">27</div>
+                        <div class="day" id="28.09">28</div>
+                        <div class="day" id="29.09">29</div>
+                        <div class="day" id="30.09">30</div>
+                        <div class="day" id="01.10">1</div>
+                        <div class="day" id="02.10">2</div>
+                        <div class="day" id="03.10">3</div>
+                        <div class="day" id="04.10">4</div>
+                        <div class="day" id="05.10">5</div>
+                        <div class="day" id="06.10">6</div>
+                        <div class="day" id="07.10">7</div>
+                        <div class="day" id="08.10">8</div>
+                        <div class="day" id="09.10">9</div>
+                        <div class="day" id="10.10">10</div>
+                        <div class="day" id="11.10">11</div>
+                        <div class="day" id="12.10">12</div>
+                        <div class="day" id="13.10">13</div>
+                        <div class="day" id="14.10">14</div>
+                        <div class="day" id="15.10">15</div>
+                        <div class="day" id="16.10">16</div>
+                        <div class="day" id="17.10">17</div>
+                        <div class="day" id="18.10">18</div>
+                        <div class="day" id="19.10">19</div>
+                        <div class="day" id="20.10">20</div>
+                        <div class="day" id="21.10">21</div>
+                        <div class="day" id="22.10">22</div>
+                        <div class="day" id="23.10">23</div>
+                        <div class="day" id="24.10">24</div>
+                        <div class="day" id="25.10">25</div>
+                        <div class="day" id="26.10">26</div>
+                        <div class="day" id="27.10">27</div>
+                        <div class="day" id="28.10">28</div>
+                        <div class="day" id="29.10">29</div>
+                        <div class="day" id="30.10">30</div>
+                        <div class="day" id="31.10">31</div>
+                    </div>
+                </div>&ndash;&gt;
+            </div>-->
+            <page-info></page-info>
+            <div class="events">
+                <div class="event">
+                    <div class="capacity-line">
+                        <div class="value"></div>
+                    </div>
+                    <div class="info">
+                        <p class="name">Свободное плавание</p>
+                        <p class="time">7:00 - 8:00</p>
+                        <div class="graph-info">
+                            <div class="duration">
+                                <img src="/img/clock.svg" alt="">
+                                <p class="text">1ч</p>
+                            </div>
+                            <div class="capacity-block">
+                                <div class="diagram">
+                                    <div class="value"></div>
+                                </div>
+                                <p class="count">40</p>
+                                <p class="text">мест<br/>свободно</p>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="#" class="sign-up-for-an-event">Записаться</a>
+                </div>
+            </div>
+            <div class="subscription-info">
+
+            </div>
+        </div>
+    </div>
+    <script src="https://unpkg.com/vue@next"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/textfit/2.4.0/textFit.min.js"></script>
+    <script src="/js/events-for-the-day.js"></script>
+</body>
+</html>

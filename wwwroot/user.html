@@ -2,23 +2,18 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Вход - АГУ СПОРТ</title>
-    <link rel="stylesheet" href="css/login.css">
+    <title>Пользователь - АГУ СПОРТ</title>
+    <link rel="stylesheet" href="css/user.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
     <div id="app" class="content">
-        <div class="logo">
-            <img src="/img/asu-clr.png" alt="Астраханский Государственный Университет" id="asu-logo">
-        </div>
-        <login-form></login-form>
-    </div>
-    <div class="background">
-
+        <user-info :user="user"></user-info>
+        <nearest-events :user="user"></nearest-events>
     </div>
     <script src="https://unpkg.com/vue@next"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/textfit/2.4.0/textFit.min.js"></script>
-    <script src="/js/login.js"></script>
+    <script src="/js/user.js"></script>
 </body>
 </html>

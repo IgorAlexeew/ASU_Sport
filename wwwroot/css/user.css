@@ -1,0 +1,131 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Rubik+Mono+One&family=Ruda:wght@400;500;600;700;800;900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Roboto, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(180deg, #F5F8F9 0%, #EAF0F2 100%);
+    /*overflow: hidden;*/
+}
+
+.content {
+    width: 960px;
+    margin-top: 90px;
+    display: flex;
+    flex-direction: column;
+}
+
+.user {
+    display: flex;
+    flex-direction: row;
+    background: #fff;
+    border-radius: 50px;
+    padding: 25px;
+    height: 170px;
+    box-shadow: 0 -40px 82px -24px #FFFFFF, 0 45px 193px -163px #000000;
+}
+
+.user .data {
+    margin-left: 20px;
+}
+
+.user .data .full-name {
+    font-weight: 700;
+    font-size: 35px;
+}
+
+.user .data p {
+    margin: 2px;
+}
+
+.user .logout {
+    align-self: center;
+    margin-left: auto;
+    height: 30%;
+}
+
+.user a.logout {
+    text-decoration: none;
+    color: #000;
+}
+
+.user .logout svg {
+    height: 100%;
+    fill: #CC3030;
+    transition: fill .3s ease-out;
+}
+
+.user a.logout:hover svg {
+    fill: #d95858;
+}
+
+.user img.photo {
+    height: 100%;
+    border-radius: 30px;
+}
+
+.nearest-events .title {
+    display: flex;
+    flex-direction: column;
+    font-size: 20px;
+    font-weight: 700;
+    margin-top: 25px;
+    margin-left: 30px;
+}
+
+.events {
+    display: flex;
+    margin: 10px 45px 100px;
+    flex-wrap: wrap;
+}
+
+.event {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    height: 125px;
+    width: 175px;
+    background: #36BCDA;
+    color: #fff;
+    font-size: 16px;
+    border-radius: 25px;
+    margin-right: 15px;
+    margin-top: 10px;
+    text-decoration: none;
+    transition: background .3s ease-out;
+}
+
+.event.blue {
+    background: #36BCDA;
+}
+
+.event.blue:hover {
+    background: #43d6f1;
+}
+
+.event.green {
+    background: #60DA36;
+}
+
+.event.green:hover {
+    background: #71f64a;
+}
+
+.event:last-child {
+    margin-right: 0;
+}
+
+.event .name {
+    font-weight: 600;
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+

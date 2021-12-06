@@ -25,12 +25,12 @@ namespace ASUSport.Controllers.Admin
         }
 
         /// <summary>
-        /// Авторизация
+        /// Логин
         /// </summary>
         /// <param name="model">Форма для ввода логина и пароля</param>
         /// <returns></returns>
         [HttpPost("sign-in")]
-        public async Task<IActionResult> SignIn([FromBody] LoginModel model)
+        public async Task<IActionResult> SignIn([FromBody] LoginDTO model)
         {
             if (userRepository.IsContains(model.Login))
             {
@@ -49,7 +49,7 @@ namespace ASUSport.Controllers.Admin
                 }
                 return Ok(new Response()
                 {
-                    Status = true,
+                    Status = false,
                     Type = "wrong_password",
                     Message = "Неверный пароль"
                 });
@@ -68,7 +68,7 @@ namespace ASUSport.Controllers.Admin
         /// <param name="model">Форма для ввода данных о новом пользователе</param>
         /// <returns></returns>
         [HttpPost("sign-up")]
-        public async Task<IActionResult> SignUp([FromBody] RegisterModel model)
+        public async Task<IActionResult> SignUp([FromBody] RegisterDTO model)
         {
             if (!userRepository.IsContains(model.Login))
             {

@@ -20,7 +20,23 @@ namespace ASUSport.Controllers.API
         [HttpGet("get-info")]
         public IActionResult GetInfo()
         {
-            var result = objectsRepository.GetInfo();
+            var result = objectsRepository.GetInfo(3);
+
+            return Ok(result);
+        }
+
+        [HttpGet("get-events-by-date-sport-object")]
+        public IActionResult GetEventsByDateSportObject(string id, string date)
+        {
+            var result = objectsRepository.GetEventByDateSportObject(id, date);
+
+            return Ok(result);
+        }
+
+        [HttpGet("get-objects-with-ids")]
+        public IActionResult GetSportObjectIds()
+        {
+            var result = objectsRepository.GetSportObjectIds();
 
             return Ok(result);
         }

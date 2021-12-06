@@ -1,13 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.Linq;
-using Microsoft.EntityFrameworkCore;
-using System.Security.Claims;
-using System;
-using System.Data;
-using Newtonsoft.Json;
-using System.Collections.Generic;
 using ASUSport.Repositories.Impl;
 using ASUSport.DTO;
+using System.Threading.Tasks;
 
 namespace ASUSport.Controllers.API
 {
@@ -39,22 +33,23 @@ namespace ASUSport.Controllers.API
         }
 
         [HttpPost("add-user-data")]
-        public IActionResult AddUserData([FromBody] UserModelDTO data)
+        public IActionResult AddUserData([FromBody] UserDataDTO data)
         {
             var result = userRepository.AddUserData(data, User.Identity.Name);
+
             return Ok(result);
         }
 
-        /*/// <summary>
+        /// <summary>
         /// Получить список всех тренеров
         /// </summary>
         /// <returns>Список всех тренеров</returns>
-        [HttpGet("gettrainers")]
+        [HttpGet("get-trainers")]
         public IActionResult GetTrainers()
         {
-            var trainers = db.UserData.Where(o => o.User.Role.Name == "trainer").ToList();
+            var result = userRepository.GetTrainers();
 
-            return new JsonResult(trainers);
-        }*/
+            return Ok(result);
+        }
     }
 }

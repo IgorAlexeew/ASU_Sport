@@ -15,7 +15,7 @@ namespace ASUSport.Repositories.Impl
         /// <param name="data">Форма для ввода праметров события</param>
         /// <param name="login">Логин пользователя</param>
         /// <returns>Ответ</returns>
-        public Response SignUpForAnEvent(EventDTO data, string login);
+        public Response SignUpForAnEvent(int eventId, string login);
 
         /// <summary>
         /// Создание нового события
@@ -25,17 +25,23 @@ namespace ASUSport.Repositories.Impl
         public Response AddEvent(EventDTO data);
 
         /// <summary>
-        /// Поиск тренера по ФИО
+        /// Поиск тренера по идентификатору
         /// </summary>
-        /// <param name="fullName">ФИО тренера</param>
+        /// <param name="id">Идентификатор тренера</param>
         /// <returns></returns>
-        public User GetTrainer(string fullName);
+        public User GetTrainer(int id);
 
         /// <summary>
         /// Получить список событий по параметрам
         /// </summary>
-        /// <param name="parametres">Параметры отбора записей</param>
         /// <returns>Список событий</returns>
-        public List<EventModelDTO> GetEvents(EventDTO parametres);
+        public List<EventModelDTO> GetEvents(string section, string trainerName, string date, string time);
+
+        /// <summary>
+        /// Получить идентификатор события по параметру
+        /// </summary>
+        /// <returns>Идентификатор события</returns>
+        public int GetEvent(string section, string trainer, string date, string time);
+
     }
 }

@@ -66,6 +66,7 @@ namespace ASUSport
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IEventRepository, EventRepository>();
             services.AddScoped<ISportObjectRepository, SportObjectRepository>();
+            services.AddScoped<ISubscriptionRepository, SubscriptionRepository>();
 
             services.AddAntiforgery(o => o.HeaderName = "XSRF-TOKEN");
         }

@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ASUSport.Models;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ASUSport.Repositories.Impl;
@@ -24,12 +22,12 @@ namespace ASUSport.Controllers.API
         /// <summary>
         /// Регистрация пользователя на событие
         /// </summary>
-        /// <param name="data">Данные из формы</param>
+        /// <param name="eventId">Идентификатор события</param>
         /// <returns></returns>
-        [HttpPost("sign-up-for-an-event")]
-        public IActionResult SignUpForAnEvent([FromBody] EventDTO data)
+        [HttpPost("signup-for-an-event")]
+        public IActionResult SignUpForAnEvent(int eventId)
         {
-            var result = eventRepository.SignUpForAnEvent(data, User.Identity.Name);
+            var result = eventRepository.SignUpForAnEvent(eventId, User.Identity.Name);
 
             return Ok(result);
         }
@@ -48,9 +46,9 @@ namespace ASUSport.Controllers.API
         }
 
         [HttpGet("get-events")]
-        public IActionResult GetEvents([FromBody] EventDTO data)
+        public IActionResult GetEvents(string section, string trainer, string date, string time)
         {
-            var result = eventRepository.GetEvents(data);
+            var result = eventRepository.GetEvents(section, trainer, date, time);
 
             if (!result.Any())
             {
@@ -61,6 +59,14 @@ namespace ASUSport.Controllers.API
                     Message = "События не найдены"
                 });
             }
+
+            return Ok(result);
+        }
+
+        [HttpGet("get-event")]
+        public IActionResult GetEvent(string section, string trainer, string date, string time)
+        {
+            var result = eventRepository.GetEvent(section, trainer, date, time);
 
             return Ok(result);
         }

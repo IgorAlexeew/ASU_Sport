@@ -874,15 +874,8 @@ namespace ASUSport.Migrations
                         new
                         {
                             Id = 3,
-                            Login = "client1",
-                            Password = "1917e33407c28366c8e3b975b17e7374589312676b90229adb4ce6e58552e223",
-                            RoleId = 2
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Login = "client2",
-                            Password = "3f455143e75d1e7fd659dea57023496da3bd9f2f8908d1e2ac32641cd819d3e3",
+                            Login = "client",
+                            Password = "948fe603f61dc036b5c596dc09fe3ce3f3d30dc90f024c85f3c82db2ccab679d",
                             RoleId = 2
                         });
                 });
@@ -894,8 +887,8 @@ namespace ASUSport.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<string>("DateOfBirth")
-                        .HasColumnType("text");
+                    b.Property<DateTime>("DateOfBirth")
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("FirstName")
                         .IsRequired()

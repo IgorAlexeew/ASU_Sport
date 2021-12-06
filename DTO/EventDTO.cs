@@ -1,23 +1,28 @@
 ﻿namespace ASUSport.DTO
 {
     /// <summary>
-    /// Форма для ввода свойств события
+    /// Форма для ввода свойств нового события
     /// </summary>
     public class EventDTO
     {
         /// <summary>
         /// Название секции
         /// </summary>
-        public string SectionName { get; set; }
+        public int Section { get; set; }
 
         /// <summary>
         /// ФИО тренера
         /// </summary>
-        public string TrainerName { get; set; }
+        public int Trainer { get; set; }
 
         /// <summary>
-        /// Дата и время начала события
+        /// Время начала события
         /// </summary>
         public string Time { get; set; }
+
+        /// <summary>
+        /// Дата начала события
+        /// </summary>
+        public string Date { get; set; }
     }
 }

@@ -116,7 +116,7 @@ namespace ASUSport.Migrations
                     MiddleName = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
                     LastName = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: true),
                     PhoneNumber = table.Column<string>(type: "text", nullable: true),
-                    DateOfBirth = table.Column<string>(type: "text", nullable: true),
+                    DateOfBirth = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     UserId = table.Column<int>(type: "integer", nullable: true)
                 },
                 constraints: table =>
@@ -247,7 +247,7 @@ namespace ASUSport.Migrations
                 columns: new[] { "Id", "ClosingTime", "Name", "Price", "SportObjectId", "StartingTime", "Type" },
                 values: new object[,]
                 {
-                    { 35, "22:00", "Для детей (7-14 лет)", 11000, 1, "07:00", "Абонемент \"Безлимитный на полгода\"" },
+                    { 36, "22:00", "Для студентов очной формы обучения", 11000, 1, "07:00", "Абонемент \"Безлимитный на полгода\"" },
                     { 39, "22:00", "24 раз в месяц", 6000, 1, "07:00", "Абонемент \"Семейный, 1 взрослый и ребенок\"" },
                     { 40, "22:00", "8 раз в месяц", 3200, 1, "07:00", "Абонемент \"Семейный, 2 взрослых и ребенок\"" },
                     { 41, "22:00", "12 раз в месяц", 4800, 1, "07:00", "Абонемент \"Семейный, 2 взрослых и ребенок\"" },
@@ -302,7 +302,7 @@ namespace ASUSport.Migrations
                     { 38, "22:00", "12 раз в месяц", 3000, 1, "07:00", "Абонемент \"Семейный, 1 взрослый и ребенок\"" },
                     { 37, "22:00", "8 раз в месяц", 2000, 1, "07:00", "Абонемент \"Семейный, 1 взрослый и ребенок\"" },
                     { 56, null, null, 1000, 7, null, "Разовое занятие" },
-                    { 55, null, null, 250, 6, null, "Разовое занятие" },
+                    { 35, "22:00", "Для детей (7-14 лет)", 11000, 1, "07:00", "Абонемент \"Безлимитный на полгода\"" },
                     { 11, "22:00", "Для граждан", 200, 1, "07:00", "Разовое занятие" },
                     { 12, "22:00", "Для детей (7-14 лет)", 150, 1, "07:00", "Разовое занятие" }
                 });
@@ -333,7 +333,7 @@ namespace ASUSport.Migrations
             migrationBuilder.InsertData(
                 table: "Subscriptions",
                 columns: new[] { "Id", "ClosingTime", "Name", "Price", "SportObjectId", "StartingTime", "Type" },
-                values: new object[] { 36, "22:00", "Для студентов очной формы обучения", 11000, 1, "07:00", "Абонемент \"Безлимитный на полгода\"" });
+                values: new object[] { 55, null, null, 250, 6, null, "Разовое занятие" });
 
             migrationBuilder.InsertData(
                 table: "Subscriptions",
@@ -373,8 +373,7 @@ namespace ASUSport.Migrations
                 values: new object[,]
                 {
                     { 1, null, "trainer", "2147de028af266f41937e4f060796c304fbca52562dcc93728d10d454c198fa7", 3 },
-                    { 4, null, "client2", "970e008ef15839c493324ce0499386d65c5a4f1a854c14aea280bd07a2d8494f", 2 },
-                    { 3, null, "client1", "61a63dfe5a5941c836a09875a085ce6196b7a48774edc29ada638a33d3514618", 2 },
+                    { 3, null, "client", "8d2c5606912d7ad7587297aea9c0a312c2084d5e6f0a3e0c7a33c0f5da59d5e9", 2 },
                     { 2, null, "admin", "998ed4d621742d0c2d85ed84173db569afa194d4597686cae947324aa58ab4bb", 1 }
                 });
 

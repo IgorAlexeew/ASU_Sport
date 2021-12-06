@@ -1,0 +1,64 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link rel="icon" href="~/favicon.ico">
+    <link rel="stylesheet" href="~/css/main.css">
+    <link rel="stylesheet" href="@ViewBag.PageStyle">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    @*<script src="https://unpkg.com/vue@next"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>*@
+    <script src="~/js/vue.global.js"></script>
+    <script src="~/js/axios.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <img src="img/asu-clr-120x120.png" alt="Астраханский Государственный Университет" id="asu-logo">
+                <div class="description">
+                    Астраханский<br>
+                    государственный<br>
+                    университет<br>
+                </div>
+            </div>
+            <div class="nav">
+                <ul>
+                    <li><a class="selected" href="#">Объекты</a></li>
+                    <li><a href="#">Новости</a></li>
+                    <li><a href="#">Контакты</a></li>
+                </ul>
+            </div>
+            <div class="auth">
+                <a href="~/webview/login" id="sign-in">войти</a>
+                <a href="#" id="sign-up">зарегистрироваться</a>
+            </div>
+        </div>
+        <div class="content">
+            @RenderBody()
+        </div>
+    </div>
+    @if (ViewBag.showBackground)
+    {
+    <div class="background">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 895" fill="none">
+            <path d="M0 0.5C0 0.5 320.363 223.029 601.5 198.5C882.637 173.971 985.138 117 1365.5 117C1745.86 117 1920 346.637 1920 346.637V446C1920 446 1524.5 346.637 1224 495.5C923.5 644.363 923.618 821.195 531.68 831.708C139.742 842.22 0 895 0 895V0.5Z" fill="url(#paint0_linear_62_0)"/>
+            <defs>
+                <linearGradient id="paint0_linear_62_0" x1="198.5" y1="488.5" x2="1920" y2="633.5" gradientUnits="userSpaceOnUse">
+                    <!--<stop id="bg-start-color" stop-color="#F45151" offset="0"/>
+                    <stop id="bg-stop-color" offset="1" stop-color="#B81919"/>-->
+                    <stop id="bg-start-color" offset="0"/>
+                    <stop id="bg-stop-color" offset="1"/>
+                </linearGradient>
+            </defs>
+        </svg>
+    </div>
+    }
+    @*<script src="https://unpkg.com/vue@next"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>*@
+    <script src="~/js/jquery-3.6.0.min.js"></script>
+    <script src="~/js/site.js"></script>
+</body>
+</html>

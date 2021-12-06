@@ -36,7 +36,7 @@ namespace ASUSport.Controllers.API
         /// Создание нового события
         /// </summary>
         /// <param name="data">Данные из формы</param>
-        /// <returns>Статус операции</returns>
+        /// <returns></returns>
         [HttpPost("add-event")]
         public IActionResult AddEvent([FromBody] EventDTO data)
         {

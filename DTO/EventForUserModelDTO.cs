@@ -17,11 +17,16 @@ namespace ASUSport.DTO
         /// <summary>
         /// Тренеры
         /// </summary>
-        public TrainerModelDTO Trainer { get; set; }
+        public TrainerDTO Trainer { get; set; }
 
         /// <summary>
-        /// Дата и время начала событий
+        /// Время начала событий
         /// </summary>
-        public DateTime Time { get; set; }
+        public string Time { get; set; }
+
+        /// <summary>
+        /// Дата начала событий
+        /// </summary>
+        public string Date { get; set; }
     }
 }

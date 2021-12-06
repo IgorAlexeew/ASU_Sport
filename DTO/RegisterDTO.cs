@@ -2,7 +2,7 @@
 
 namespace ASUSport.DTO
 {
-    public class RegisterModel
+    public class RegisterDTO
     {
         [Required]
         public string Login { get; set; }

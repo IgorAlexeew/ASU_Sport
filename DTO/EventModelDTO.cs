@@ -16,7 +16,12 @@
         public string TrainerName { get; set; }
 
         /// <summary>
-        /// Дата и время начала события
+        /// Дата начала события
+        /// </summary>
+        public string Date { get; set; }
+
+        /// <summary>
+        /// Время начала события
         /// </summary>
         public string Time { get; set; }
 
@@ -29,5 +34,10 @@
         /// Свободные места
         /// </summary>
         public int FreeSpaces { get; set; }
+
+        /// <summary>
+        /// Вместимость
+        /// </summary>
+        public int Capacity { get; set; }
     }
 }

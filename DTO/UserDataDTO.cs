@@ -1,4 +1,6 @@
-﻿namespace ASUSport.DTO
+﻿using System;
+
+namespace ASUSport.DTO
 {
     /// <summary>
     /// Форма для ввода данных пользователя

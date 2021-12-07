@@ -8,10 +8,6 @@
 
 body {
     font-family: Roboto, sans-serif;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
 }
 
 input::-webkit-input-placeholder       {opacity: 1; transition: opacity 0.2s ease;}
@@ -22,6 +18,13 @@ input:focus::-webkit-input-placeholder {opacity: 0; transition: opacity 0.2s eas
 input:focus::-moz-placeholder          {opacity: 0; transition: opacity 0.2s ease;}
 input:focus:-moz-placeholder           {opacity: 0; transition: opacity 0.2s ease;}
 input:focus:-ms-input-placeholder      {opacity: 0; transition: opacity 0.2s ease;}
+
+.login-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
 
 .content {
     z-index: 1;
@@ -85,23 +88,30 @@ form.sign-in input {
     display: flex;
     align-items: center;
     text-align: center;
-    text-transform: capitalize;
     color: #5D7282;
     margin-bottom: 20px;
     box-shadow: inset 0 0 0 0 #dee8ec;
-    transition: box-shadow .3s ease-in-out;
+    transition: box-shadow .3s ease-in-out, background .3s ease-out;
 }
 
 form.sign-in input::-webkit-input-placeholder{
     color: #778993;
+    transition: color .3s ease-out;
+}
+
+form.sign-in input::-webkit-input-placeholder{
+    color: #778993;
+    transition: color .3s ease-out;
 }
 
 form.sign-in input::-moz-placeholder{
     color: #778993;
+    transition: color .3s ease-out;
 }
 
 form.sign-in input::-ms-input-placeholder{
     color: #778993;
+    transition: color .3s ease-out;
 }
 
 form.sign-in input::selection {
@@ -112,6 +122,33 @@ form.sign-in input::selection {
 form.sign-in input:focus {
     outline: none;
     box-shadow: inset 0 0 0 3px #dee8ec;
+}
+
+form.sign-in input.error:focus {
+    outline: none;
+    box-shadow: inset 0 0 0 3px #e592af;
+}
+
+form.sign-in input.error {
+    color: #69393f;
+    /*box-shadow: inset 0 0 0 3px #e06d8b;*/
+}
+
+form.sign-in input.error::-webkit-input-placeholder{
+    color: #ab6776;
+}
+
+form.sign-in input.error::-moz-placeholder{
+    color: #ab6776;
+}
+
+form.sign-in input.error::-ms-input-placeholder{
+    color: #ab6776;
+}
+
+form.sign-in input.error::selection {
+    background: #69393f;
+    color: #fefefe;
 }
 
 .login-button {

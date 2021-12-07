@@ -20,7 +20,7 @@ namespace ASUSport.Repositories
         /// <inheritdoc/>
         public List<SportObjectForMainDTO> GetInfo()
         {
-            var objects = db.SportObjects.Take(3).Select(s => s.Name).ToList();
+            var objects = db.SportObjects.Select(s => s.Name).ToList();
 
             DateTime today = DateTime.Now;
 

@@ -87,6 +87,15 @@ body {
     flex-wrap: wrap;
 }
 
+.events .empty {
+    font-weight: 500;
+    color: #3e3e3e;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .event {
     display: flex;
     flex-direction: column;

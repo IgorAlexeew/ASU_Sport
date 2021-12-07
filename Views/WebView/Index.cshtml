@@ -2,52 +2,48 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
-    ViewBag.Title = "Главная страница - АГУ СПОРТ";
-    ViewBag.PageStyle = "/css/index.css";
-    ViewBag.showBackground = true;
+    Layout = null;
 }
-
-<div class="brief">
-    <div class="title">СПОРТ</div>
-    <div class="description">
-        Данный ресурс предоставляет  информацию о спортивных объектах АГУ,
-        мероприятиях с ними связанных, а также дает возможность осуществлять
-        бронирование тех или иных объектов на интересующее Вас время
-    </div>
-</div>
-<div id="sport-objects-view" class="objects">
-    <div v-for="sportObject in sportObjects" class="object" v-bind:class="sportObject.backgroundClass">
-        <div class="title">{{ sportObject.objectName }}</div>
-        <div class="time-range">7:00-21:00</div>
-        <div class="point days">
-            <div class="label">Наименее загруженные дни:</div>
-            <div v-if="sportObject.days" v-for="day in sportObject?.days" class="days-list">
-                <div class="day">{{ day?.name }}</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Главная - АГУ СПОРТ</title>
+    <link rel="stylesheet" href="css/main.css">
+<!--    <link rel="stylesheet" href="css/index.css">-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+    <div id="app" class="container">
+        <default-header :routing="site_routing"></default-header>
+        <div class="content">
+            <div class="brief" :class="{ 'none-display': !short_form}">
+                <div class="title">СПОРТ</div>
+                <div class="description">
+                    Данный ресурс предоставляет  информацию о спортивных объектах АГУ,
+                    мероприятиях с ними связанных, а также дает возможность осуществлять
+                    бронирование тех или иных объектов на интересующее Вас время
+                </div>
             </div>
-            <div class="days-list" v-else>
-                <div class="day null">нет данных</div>
-            </div>
+            <sport-objects-view v-if="sportObjects.length > 0" @@toggle_objects_view="toggle_objects_view" :sport_objects="objects_to_show"></sport-objects-view>
+            <p style="color: #fff; width: 800px; text-align: center;" v-else>Загрузка...</p>
         </div>
-        <div class="point average-cost">
-            <div class="label">Средняя стоимость занятия:</div>
-            <div class="cost">200 ₽</div>
+        <div class="background">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 895" fill="none">
+                <path d="M0 0.5C0 0.5 320.363 223.029 601.5 198.5C882.637 173.971 985.138 117 1365.5 117C1745.86 117 1920 346.637 1920 346.637V446C1920 446 1524.5 346.637 1224 495.5C923.5 644.363 923.618 821.195 531.68 831.708C139.742 842.22 0 895 0 895V0.5Z" fill="url(#paint0_linear_62_0)"/>
+                <defs>
+                    <linearGradient id="paint0_linear_62_0" x1="198.5" y1="488.5" x2="1920" y2="633.5" gradientUnits="userSpaceOnUse">
+                        <stop id="bg-start-color" offset="0"/>
+                        <stop id="bg-stop-color" offset="1"/>
+                    </linearGradient>
+                </defs>
+            </svg>
         </div>
     </div>
-</div>
-<script src="~/js/sport_objects_on_main_page.js"></script>
-
-
-@*<div class="background">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 895" fill="none">
-        <path d="M0 0.5C0 0.5 320.363 223.029 601.5 198.5C882.637 173.971 985.138 117 1365.5 117C1745.86 117 1920 346.637 1920 346.637V446C1920 446 1524.5 346.637 1224 495.5C923.5 644.363 923.618 821.195 531.68 831.708C139.742 842.22 0 895 0 895V0.5Z" fill="url(#paint0_linear_62_0)"/>
-        <defs>
-            <linearGradient id="paint0_linear_62_0" x1="198.5" y1="488.5" x2="1920" y2="633.5" gradientUnits="userSpaceOnUse">
-                <!--<stop id="bg-start-color" stop-color="#F45151" offset="0"/>
-                <stop id="bg-stop-color" offset="1" stop-color="#B81919"/>-->
-                <stop id="bg-start-color" offset="0"/>
-                <stop id="bg-stop-color" offset="1"/>
-            </linearGradient>
-        </defs>
-    </svg>
-</div>
-*@
+    <script src="~/js/vue.global.js"></script>
+    <script src="~/js/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/textfit/2.4.0/textFit.min.js"></script>
+    <script src="~/js/index.js"></script>
+    <script src="~/js/jquery-3.6.0.js"></script>
+</body>
+</html>

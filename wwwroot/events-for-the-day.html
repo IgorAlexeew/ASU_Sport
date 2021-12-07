@@ -86,31 +86,9 @@
                     </div>
                 </div>&ndash;&gt;
             </div>-->
-            <page-info></page-info>
+            <page-info :object_name="objectName" :date="date_string"></page-info>
             <div class="events">
-                <div class="event">
-                    <div class="capacity-line">
-                        <div class="value"></div>
-                    </div>
-                    <div class="info">
-                        <p class="name">Свободное плавание</p>
-                        <p class="time">7:00 - 8:00</p>
-                        <div class="graph-info">
-                            <div class="duration">
-                                <img src="/img/clock.svg" alt="">
-                                <p class="text">1ч</p>
-                            </div>
-                            <div class="capacity-block">
-                                <div class="diagram">
-                                    <div class="value"></div>
-                                </div>
-                                <p class="count">40</p>
-                                <p class="text">мест<br/>свободно</p>
-                            </div>
-                        </div>
-                    </div>
-                    <a href="#" class="sign-up-for-an-event">Записаться</a>
-                </div>
+                <event-block v-for="event in events" :event="event" :capacity="capacity"></event-block>
             </div>
             <div class="subscription-info">
 

@@ -1,3 +1,9 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = null;
+}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,15 +17,7 @@
     <div id="app" class="container">
         <default-header :routing="site_routing"></default-header>
         <div class="content">
-            <div class="brief" :class="{ 'none-display': !short_form}">
-                <div class="title">СПОРТ</div>
-                <div class="description">
-                    Данный ресурс предоставляет  информацию о спортивных объектах АГУ,
-                    мероприятиях с ними связанных, а также дает возможность осуществлять
-                    бронирование тех или иных объектов на интересующее Вас время
-                </div>
-            </div>
-            <sport-objects-view @toggle_objects_view="toggle_objects_view" :sport_objects="objects_to_show"></sport-objects-view>
+            <p style="font-size: 35px; font-weight: 600; color: #fff">Тут пока ничего нет</p>    
         </div>
         <div class="background">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 895" fill="none">
@@ -33,20 +31,14 @@
             </svg>
         </div>
     </div>
-    <script src="https://unpkg.com/vue@next"></script>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="~/js/vue.global.js"></script>
+    <script src="~/js/axios.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/textfit/2.4.0/textFit.min.js"></script>
-    <script src="js/index.js"></script>
-<!--    <script src="js/main.js"></script>-->
-    <script src="js/jquery-3.6.0.js"></script>
+    <script src="~/js/index.js"></script>
+    <script src="~/js/jquery-3.6.0.js"></script>
     <script>
-        let element = $("#sport-objects-view");
-        element.on('wheel', (event) => {
-            event.preventDefault();
-            let delta = Math.max(-1, Math.min(1, (event.originalEvent.wheelDelta || -event.originalEvent.detail)));
-
-            element.scrollLeft( element.scrollLeft() - ( delta * 40 ) );
-        });
+        $("#objects").removeClass("selected")
+        $("#news").addClass("selected")
     </script>
 </body>
 </html>

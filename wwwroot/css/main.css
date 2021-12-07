@@ -1,5 +1,5 @@
+/* ОБЩИЕ СТИЛИ */
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Rubik+Mono+One&family=Ruda:wght@400;500;600;700;800;900&display=swap');
-
 
 * {
     margin: 0;
@@ -29,6 +29,16 @@ input:focus:-ms-input-placeholder      {opacity: 0; transition: opacity 0.3s eas
     z-index: 1;
 }
 
+a {
+    text-decoration: none;
+    color: #000;
+    transition: color .3s ease-out;
+}
+
+a:hover {
+    color: #2f2f2f;
+}
+
 /* HEADER */
 .header {
     display: grid;
@@ -39,6 +49,7 @@ input:focus:-ms-input-placeholder      {opacity: 0; transition: opacity 0.3s eas
     font-size: 12px;
     padding: 30px;
     flex-shrink: 0;
+    z-index: 1;
 }
 
 .logo {
@@ -133,13 +144,28 @@ input:focus:-ms-input-placeholder      {opacity: 0; transition: opacity 0.3s eas
     align-items: center;
     flex-grow: 1;
     overflow: hidden;
+    z-index: 1;
 }
 
-/*.brief {
+.brief {
     display: flex;
     flex-direction: column;
     width: 27vw;
     margin-bottom: 180px;
+    z-index: 1;
+    animation: showOpacity 1s ease-out;
+}
+
+.brief.none-display {
+    width: 0;
+    height: 0;
+    opacity: 0;
+    overflow: hidden;
+}
+
+@keyframes showOpacity {
+    from { opacity: 0; }
+    to { opacity: 100%; }
 }
 
 .brief .title {
@@ -154,40 +180,90 @@ input:focus:-ms-input-placeholder      {opacity: 0; transition: opacity 0.3s eas
 }
 
 .objects {
+    z-index: 1;
     display: flex;
-    width: 400px;
+    /*width: 800px;*/
     margin-top: 30px;
+    justify-content: center;
+}
+
+.objects.wide {
+    justify-content: left;
+    overflow-x: scroll;
+    height: 100%;
+    align-items: center;
+    padding: 30px;
 }
 
 .object {
-    height: 411px;
-    width: 277px;
+    height: 370px;
+    width: 230px;
+    min-width: 230px;
     font-weight: 300;
-    font-size: 18px;
+    font-size: 16px;
     z-index: 1;
-    background: rgba(45, 121, 121, 0.58);
     border: 12px solid rgba(255, 255, 255, 0.05);
     box-sizing: border-box;
-    box-shadow: 0 61px 250px rgba(0, 0, 0, 0.11);
-    backdrop-filter: blur(9px);*/
+    /* box-shadow: 0 61px 250px rgba(0, 0, 0, 0.11); */
+    box-shadow: 0 15px 90px rgba(0, 0, 0, 0.22);
+    backdrop-filter: blur(9px);
     /* Note: backdrop-filter has minimal browser support */
-    /*border-radius: 50px;
+    border-radius: 50px;
     padding: 25px;
     color: #fff;
+    position: relative;
+    margin: 0 10px;
 }
 
+@keyframes fromBelow {
+    from { left: 100vh; opacity: 0; }
+    to { left: 0; opacity: 1; }
+}
+
+.object:nth-child(3n + 2) {
+    background: rgba(45, 121, 121, 0.58);
+    animation: fromBelow 2s cubic-bezier(0, 0.24, 0.24, 1);
+}
+
+.object:nth-child(3n + 3) {
+    background: rgba(62, 156, 30, 0.5);
+    animation: fromBelow 2.5s cubic-bezier(0, 0.24, 0.24, 1);
+}
+
+.object:nth-child(3n + 4) {
+    background: rgba(187, 19, 59, 0.54);
+    animation: fromBelow 3s cubic-bezier(0, 0.24, 0.24, 1);
+}
+
+
+/*.object.red {
+    background: rgba(226, 40, 84, 0.31);
+}
+
+.object.blue {
+    background: rgba(45, 121, 121, 0.58);
+}
+
+.object.green {
+    background: linear-gradient(9.7deg, rgba(88, 226, 40, 0.31) -1.36%, rgba(255, 255, 255, 0.31) 103.38%);
+}*/
+
 .object .title {
-    font-size: 52px;
+    font-size: 25px;
     font-weight: 600;
+    min-height: 70px;
+    align-items: center;
     display: flex;
     justify-content: center;
+    text-align: center;
+    margin: -10px 0 0 0;
 }
 
 .object .time-range {
     display: flex;
     justify-content: center;
     font-weight: 300;
-    font-size: 43px;
+    font-size: 25px;
 }
 
 .point {
@@ -211,6 +287,10 @@ input:focus:-ms-input-placeholder      {opacity: 0; transition: opacity 0.3s eas
     padding: 5px;
     width: 40px;
     font-weight: 500;
+}
+
+.days-list .day.null {
+    width: auto;
 }
 
 .average-cost .cost {
@@ -242,6 +322,55 @@ input:focus:-ms-input-placeholder      {opacity: 0; transition: opacity 0.3s eas
 }
 #bg-stop-color {
     stop-color: #B81919;
-}*/
+}
+
+a.more-objects {
+    display: flex;
+    position: relative;
+    top: 2vh;
+    opacity: 0;
+    align-self: center;
+    background: rgba(255, 255, 255, 0.42);
+    fill: rgba(43, 49, 52, 0.67);
+    justify-content: center;
+    align-items: center;
+    min-height: 40px;
+    min-width: 40px;
+    border-radius: 20px;
+    transition: box-shadow .3s ease-out, top .3s ease-out, opacity .3s ease-out;
+    box-shadow: 0 5px 20px -12px #000;
+    padding: 10px;
+    backdrop-filter: blur(10px);
+}
+
+a.more-objects:hover {
+    box-shadow: 0 2px 15px -12px #000;
+}
+.objects:hover a.more-objects {
+    top: 0;
+    opacity: 100%;
+}
+
+a.more-objects svg {
+    height: 100%;
+    width: 100%;
+}
+
+.contacts-block {
+    position: relative;
+    right: 20%;
+    bottom: 5%;
+    color: #fff;font-size: 20px;
+    font-weight: 300;
+}
+
+.contacts-block a {
+    color: #fff;
+    font-weight: 600;
+}
+
+.contacts-block a:hover {
+    color: #efefef;
+}
 
 /*CONTENT SECTION*/

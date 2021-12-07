@@ -285,4 +285,38 @@ body {
 #bg-stop-color {
     stop-color: #B81919;
 }
+
+a.more-objects {
+    display: flex;
+    position: relative;
+    top: 2vh;
+    opacity: 0;
+    align-self: center;
+    background: rgba(255, 255, 255, 0.42);
+    fill: rgba(43, 49, 52, 0.67);
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    width: 40px;
+    border-radius: 20px;
+    transition: box-shadow .3s ease-out, top .3s ease-out, opacity .3s ease-out;
+    box-shadow: 0 5px 20px -12px #000;
+    margin-left: 10px;
+    padding: 10px;
+    backdrop-filter: blur(10px);
+}
+
+a.more-objects:hover {
+    box-shadow: 0 2px 15px -12px #000;
+}
+.objects:hover a.more-objects {
+    top: 0;
+    opacity: 100%;
+}
+
+a.more-objects svg {
+    height: 100%;
+    width: 100%;
+}
+
 /*CONTENT SECTION*/

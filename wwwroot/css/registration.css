@@ -1,0 +1,186 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Rubik+Mono+One&family=Ruda:wght@400;500;600;700;800;900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Roboto, sans-serif;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    height: 100vh;
+    background: linear-gradient(180deg, #f6f8fa 0%, #EAF0F2 100%);
+}
+
+img#asu_logo {
+    width: 100px;
+    margin-right: 10px;
+}
+
+header {
+    position: absolute;
+    top: 30px;
+    left: 30px;
+    display: flex;
+    flex-direction: row;
+}
+
+div.header_text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+div.logo {
+    font-family: Rubik Mono One, sans-serif;
+    font-size: 40px;
+    line-height: 38px;
+    color: #202020;
+}
+
+div.title {
+    font-family: Rubik Mono One, sans-serif;
+    font-size: 9.5px;
+    text-align: center;
+    color: #4E5254;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 25px;
+    background: #ffffff;
+    border-radius: 25px;
+    box-shadow: 0px -40px 82px -24px #FFFFFF, 0px 45px 193px -163px #000000;
+}
+
+form p.form_title {
+    font-family: Roboto, sans-serif;
+    font-weight: bold;
+    font-size: 20px;
+    color: #303535;
+    text-align: center;
+    margin-bottom: 11px;
+}
+
+form label {
+    font-family: Roboto, sans-serif;
+    font-weight: bold;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    color: #656E72;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    text-align: left;
+    width: 100%;
+    transition: color .3s ease-in-out;
+}
+
+form label.error {
+    color: #9e133a;
+    transition: color .3s ease-in-out;
+}
+
+form input {
+    width: 240px;
+    height: 33px;
+    background: #EFF6F8;
+    border-radius: 12px;
+    border: none;
+    font-family: Roboto, sans-serif;
+    font-weight: 500;
+    text-align: center;
+    outline: none;
+    box-shadow: inset 0 0 0 0 #dee8ec;
+    transition: box-shadow .3s ease-in-out, background-color .3s ease-in-out;
+}
+
+form input:focus {
+    box-shadow: inset 0 0 0 2px #dee8ec;
+    /*transition: box-shadow .3s ease-in-out;*/
+}
+
+form input.error {
+    /*background-color: #ffdbe6;*/
+    box-shadow: inset 0 0 0 3px #e7828f;
+    /*transition: box-shadow .3s ease-in-out, background-color .3s ease-in-out;*/
+}
+
+form input.passed {
+    box-shadow: inset 0 0 0 3px #83f1a5;
+    /*transition: box-shadow .3s ease-in-out, background-color .3s ease-in-out;*/
+}
+
+form input#confirm_password::after {
+    content: 'Пароли не совпадают';
+    z-index: 1;
+}
+
+form p.message {
+    font-size: 10px;
+    font-weight: bold;
+    /*margin: 4px 0 0 0;*/
+    margin: 0 0 0 0;
+    height: 12px;
+    opacity: 0;
+    overflow: hidden;
+    transition: height 1s ease;
+}
+
+form p.message.animated {
+    transition: all 1s ease;
+}
+
+form p.message.error {
+    color: #a56c71;
+    opacity: 1;
+}
+
+form p.message.passed {
+    color: #559b5f;
+}
+
+form p.message.hidden {
+    height: 0;
+}
+
+form button {
+    width: 100%;
+    height: 33px;
+    background: #293336;
+    color: #fff;
+    font-family: Roboto, sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 12px;
+    cursor: pointer;
+    border: unset;
+    border-radius: 12px;
+    margin-top: 20px;
+    box-shadow: inset 0 0 0 0 #333e41;
+    transition: box-shadow .3s ease-in-out;
+    outline: none;
+}
+
+form button:hover {
+    box-shadow: inset 0 0 0 4px #555c5e;
+    /*transition: box-shadow .3s ease-in-out;*/
+}
+
+form button:focus {
+    box-shadow: inset 0 0 0 2px #1b4e5b;
+    /*transition: box-shadow .3s ease-in-out;*/
+}
+
+form button:active {
+    box-shadow: inset 0 0 0 5px #35677c;
+    /*transition: box-shadow .3s ease-in-out;*/
+}

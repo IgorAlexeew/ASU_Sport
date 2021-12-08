@@ -3,8 +3,13 @@
     /// <summary>
     /// Модель с информацией о тренере
     /// </summary>
-    public class TrainerModelDTO
+    public class TrainerDTO
     {
+        /// <summary>
+        /// Идентификатор тренера
+        /// </summary>
+        public int Id { get; set; }
+
         /// <summary>
         /// Фамилия тренера
         /// </summary>

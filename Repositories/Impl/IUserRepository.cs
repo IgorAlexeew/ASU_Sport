@@ -1,5 +1,6 @@
 ﻿using ASUSport.Models;
 using ASUSport.DTO;
+using System.Collections.Generic;
 
 namespace ASUSport.Repositories.Impl
 {
@@ -55,8 +56,21 @@ namespace ASUSport.Repositories.Impl
         /// </summary>
         /// <param name="data">Данные из формы</param>
         /// <param name="login">Логин</param>
-        /// /// <returns>Ответ</returns>
-        public Response AddUserData(UserModelDTO data, string login);
+        /// <returns>Ответ</returns>
+        public Response AddUserData(UserDataDTO data, string login);
+
+        /// <summary>
+        /// Изменить роль пользователя по логину
+        /// </summary>
+        /// <param name="data">Данные из формы</param>
+        /// <returns></returns>
+        public Response ChangeRole(ChangeRoleDTO data);
+
+        /// <summary>
+        /// Получить список тренеров
+        /// </summary>
+        /// <returns>Список тренеров</returns>
+        public List<TrainerDTO> GetTrainers();
 
     }
 }

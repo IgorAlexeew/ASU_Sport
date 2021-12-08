@@ -3,7 +3,7 @@
     /// <summary>
     /// Форма для логина
     /// </summary>
-    public class LoginModel
+    public class LoginDTO
     {
         /// <summary>
         /// Логин

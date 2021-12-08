@@ -18,9 +18,9 @@ namespace ASUSport.Repositories
         }
 
         /// <inheritdoc/>
-        public List<SportObjectForMainDTO> GetInfo()
+        public List<SportObjectForMainDTO> GetInfo(int num = 3)
         {
-            var objects = db.SportObjects.Select(s => s.Name).ToList();
+            var objects = db.SportObjects.Take(num).Select(s => s.Name).ToList();
 
             DateTime today = DateTime.Now;
 
@@ -64,10 +64,75 @@ namespace ASUSport.Repositories
             return result;
         }
 
+        /// <inheritdoc/>
         public DateTime GetNearestDay(DateTime today, DayOfWeek day)
         {
             int diff = ((int) day - (int) today.DayOfWeek + 6) % 7;
             return today.AddDays(diff + 1);
+        }
+
+        /// <inheritdoc/>
+        public EventsForSportobjectDTO GetEventByDateSportObject(string id, string date)
+        {
+            var events = db.Events.Where(e => e.Section.SportObject.Id == int.Parse(id) && e.Time.Date == DateTime.Parse(date)).ToList();
+
+            if (!events.Any())
+                return null;
+
+            var eventsList = new List<EventModelDTO>();
+
+            var selectedObject = db.SportObjects.First(s => s.Id == int.Parse(id));
+
+            int capacity = selectedObject.Capacity;
+            string name = selectedObject.Name;
+
+            foreach (var e in events)
+            {
+                string trainerName = string.Empty;
+                
+                if (e.Trainer != null)
+                {
+                    var trainer = db.UserData.First(u => u.User == e.Trainer);
+
+                    trainerName = trainer.FirstName + " " + trainer.MiddleName + " " + trainer.LastName;
+                }
+
+                var model = new EventModelDTO()
+                {
+                    SectionName = e.Section.Name,
+                    Time = e.Time.ToString("HH:mm"),
+                    Duration = e.Section.Duration,
+                    FreeSpaces = capacity - e.Clients.Count,
+                    TrainerName = trainerName
+                };
+
+                eventsList.Add(model);
+            }
+
+            var dto = new EventsForSportobjectDTO()
+            {
+                ObjectName = name,
+                Capacity = capacity,
+                Date = date,
+                Events = eventsList
+            };
+
+            return dto;
+        }
+
+        /// <inheritdoc/>
+        public List<object> GetSportObjectIds()
+        {
+            var objects = db.SportObjects.Select(s => s);
+
+            var result = new List<object>();
+
+            foreach (var obj in objects)
+            {
+                result.Add(new { obj.Id, obj.Name });
+            }
+
+            return result;
         }
     }
 }

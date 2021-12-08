@@ -1,4 +1,6 @@
-﻿namespace ASUSport.Models
+﻿using System;
+
+namespace ASUSport.Models
 {
     /// <summary>
     /// Данные пользователя
@@ -33,7 +35,7 @@
         /// <summary>
         /// Дата рождения
         /// </summary>
-        public string DateOfBirth { get; set; }
+        public DateTime DateOfBirth { get; set; }
 
         /// <summary>
         /// Пользователь

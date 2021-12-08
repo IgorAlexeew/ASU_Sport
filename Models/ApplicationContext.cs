@@ -22,7 +22,8 @@ namespace ASUSport.Models
 
         public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options)
         {
-
+            /*Database.EnsureDeleted();
+            Database.EnsureCreated();*/
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -53,8 +54,7 @@ namespace ASUSport.Models
             {
                 new User { Id = 1, Login = "trainer", Password = "trainer", AccessCode = null, RoleId = 3 },
                 new User { Id = 2, Login = "admin", Password = "admin", AccessCode = null, RoleId = 1 },
-                new User { Id = 3, Login = "client1", Password = "client1", AccessCode = null, RoleId = 2 },
-                new User { Id = 4, Login = "client2", Password = "client2", AccessCode = null, RoleId = 2 }
+                new User { Id = 3, Login = "client", Password = "client", AccessCode = null, RoleId = 2 },
             };
 
             var sportObjects = new List<SportObject>()

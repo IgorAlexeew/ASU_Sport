@@ -34,14 +34,22 @@ namespace ASUSport.Repositories.Impl
         /// <summary>
         /// Получить список событий по параметрам
         /// </summary>
+        /// <param name="section">Идентификатор секции</param>
+        /// <param name="trainer">Идентификатор тренера</param>
+        /// <param name="date">Дата</param>
+        /// <param name="time">Время</param>
         /// <returns>Список событий</returns>
-        public List<EventModelDTO> GetEvents(string section, string trainerName, string date, string time);
+        public List<EventModelDTO> GetEvents(int? section, int? trainer, string date, string time);
 
         /// <summary>
         /// Получить идентификатор события по параметру
         /// </summary>
+        /// <param name="section">Идентификатор секции</param>
+        /// <param name="trainer">Идентификатор тренера</param>
+        /// <param name="date">Дата</param>
+        /// <param name="time">Время</param>
         /// <returns>Идентификатор события</returns>
-        public int GetEvent(string section, string trainer, string date, string time);
+        public int GetEvent(int? section, int? trainer, string date, string time);
 
     }
 }

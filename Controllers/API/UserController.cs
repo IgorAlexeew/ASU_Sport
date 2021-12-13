@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ASUSport.Repositories.Impl;
 using ASUSport.DTO;
-using System.Threading.Tasks;
+using ASUSport.Models;
 
 namespace ASUSport.Controllers.API
 {
@@ -28,14 +28,26 @@ namespace ASUSport.Controllers.API
         {
             var result = userRepository.GetUserInfo(User.Identity.Name);
 
+            if (result == null)
+            {
+                return Ok(
+                    new Response()
+                    {
+                        Status = false,
+                        Type = "not_authorized",
+                        Message = "Пользователь не авторизован"
+                    }
+                );
+            }    
+
             return Ok(result);
 
         }
 
-        [HttpPost("add-user-data")]
-        public IActionResult AddUserData([FromBody] UserDataDTO data)
+        [HttpPost("edit-user-data")]
+        public IActionResult EditUserData([FromBody] UserDataDTO data)
         {
-            var result = userRepository.AddUserData(data, User.Identity.Name);
+            var result = userRepository.EditUserData(data, User.Identity.Name);
 
             return Ok(result);
         }

@@ -39,11 +39,10 @@ namespace ASUSport.Repositories.Impl
         public User GetUserByLoginPassword(string login, string password);
 
         /// <summary>
-        /// Присвоение пользователю роли в соответствии с кодом доступа
+        /// Поиск в БД роли клиента
         /// </summary>
-        /// <param name="accessCode">Код доступа</param>
-        /// <returns>Роль</returns>
-        public Role SetRole(string accessCode);
+        /// <returns>Роль клиента</returns>
+        public Role GetClientRole();
 
         /// <summary>
         /// Сохранение нового пользователя в БД
@@ -52,12 +51,12 @@ namespace ASUSport.Repositories.Impl
         public void Save(User user);
 
         /// <summary>
-        /// Добавление данных пользователя по логину
+        /// Изменение данных пользователя по логину
         /// </summary>
         /// <param name="data">Данные из формы</param>
         /// <param name="login">Логин</param>
         /// <returns>Ответ</returns>
-        public Response AddUserData(UserDataDTO data, string login);
+        public Response EditUserData(UserDataDTO data, string login);
 
         /// <summary>
         /// Изменить роль пользователя по логину
@@ -71,6 +70,13 @@ namespace ASUSport.Repositories.Impl
         /// </summary>
         /// <returns>Список тренеров</returns>
         public List<TrainerDTO> GetTrainers();
+
+        /// <summary>
+        /// Сохранение данных пользователя при регистрации
+        /// </summary>
+        /// <param name="data">Данные пользователя</param>
+        /// <returns></returns>
+        public Response SaveUserData(UserData data);
 
     }
 }

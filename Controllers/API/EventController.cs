@@ -46,25 +46,15 @@ namespace ASUSport.Controllers.API
         }
 
         [HttpGet("get-events")]
-        public IActionResult GetEvents(string section, string trainer, string date, string time)
+        public IActionResult GetEvents(int? section, int? trainer, string date, string time)
         {
             var result = eventRepository.GetEvents(section, trainer, date, time);
-
-            if (!result.Any())
-            {
-                return Ok(new Response()
-                {
-                    Status = false,
-                    Type = "EventsNotFound",
-                    Message = "События не найдены"
-                });
-            }
 
             return Ok(result);
         }
 
         [HttpGet("get-event")]
-        public IActionResult GetEvent(string section, string trainer, string date, string time)
+        public IActionResult GetEvent(int? section, int? trainer, string date, string time)
         {
             var result = eventRepository.GetEvent(section, trainer, date, time);
 

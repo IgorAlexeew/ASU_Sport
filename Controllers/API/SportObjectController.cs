@@ -1,12 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using ASUSport.Repositories.Impl;
 
 namespace ASUSport.Controllers.API
 {
-    //[Route("api/[controller]")]
     [Route("api/sport-object")]
     [ApiController]
     public class SportObjectController : Controller
@@ -21,7 +17,7 @@ namespace ASUSport.Controllers.API
         [HttpGet("get-info")]
         public IActionResult GetInfo()
         {
-            var result = objectsRepository.GetInfo(3);
+            var result = objectsRepository.GetInfo();
 
             return Ok(result);
         }

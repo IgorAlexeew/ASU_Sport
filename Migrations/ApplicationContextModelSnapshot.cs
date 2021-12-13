@@ -836,15 +836,11 @@ namespace ASUSport.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<string>("AccessCode")
-                        .HasColumnType("text");
-
                     b.Property<string>("Login")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Password")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<int>("RoleId")
@@ -861,7 +857,7 @@ namespace ASUSport.Migrations
                         {
                             Id = 1,
                             Login = "trainer",
-                            Password = "06ea17a8981d25b0315ff17bd1ebad3d95c15a3f8b764eaadb93612d9b61a54e",
+                            Password = "0ffe1abd1a08215353c233d6e009613e95eec4253832a761af28ff37ac5a150c",
                             RoleId = 3
                         },
                         new

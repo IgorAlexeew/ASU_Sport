@@ -45,8 +45,7 @@ namespace ASUSport.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Login = table.Column<string>(type: "text", nullable: false),
-                    Password = table.Column<string>(type: "text", nullable: false),
-                    AccessCode = table.Column<string>(type: "text", nullable: true),
+                    Password = table.Column<string>(type: "text", nullable: true),
                     RoleId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
@@ -369,12 +368,12 @@ namespace ASUSport.Migrations
 
             migrationBuilder.InsertData(
                 table: "Users",
-                columns: new[] { "Id", "AccessCode", "Login", "Password", "RoleId" },
+                columns: new[] { "Id", "Login", "Password", "RoleId" },
                 values: new object[,]
                 {
-                    { 1, null, "trainer", "2147de028af266f41937e4f060796c304fbca52562dcc93728d10d454c198fa7", 3 },
-                    { 3, null, "client", "8d2c5606912d7ad7587297aea9c0a312c2084d5e6f0a3e0c7a33c0f5da59d5e9", 2 },
-                    { 2, null, "admin", "998ed4d621742d0c2d85ed84173db569afa194d4597686cae947324aa58ab4bb", 1 }
+                    { 1, "trainer", "35a4be93635897d8338e3f3e995499c5a6b564e8c8829725ecb6459ae6671a9e", 3 },
+                    { 3, "client", "8d2c5606912d7ad7587297aea9c0a312c2084d5e6f0a3e0c7a33c0f5da59d5e9", 2 },
+                    { 2, "admin", "998ed4d621742d0c2d85ed84173db569afa194d4597686cae947324aa58ab4bb", 1 }
                 });
 
             migrationBuilder.CreateIndex(

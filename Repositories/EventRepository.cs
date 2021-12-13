@@ -20,6 +20,16 @@ namespace ASUSport.Repositories
         /// <inheritdoc/>
         public Response SignUpForAnEvent(int eventId, string login)
         {
+            if (login == null)
+            {
+                return new Response()
+                {
+                    Status = false,
+                    Type = "not_authorized",
+                    Message = "Пользователь не авторизован"
+                };
+            }
+            
             var selectedEvent = db.Events.FirstOrDefault(e => e.Id == eventId);
 
             if (selectedEvent == null)
@@ -27,7 +37,7 @@ namespace ASUSport.Repositories
                 return new Response()
                 {
                     Status = false,
-                    Type = "EventNotFound",
+                    Type = "event_not_found",
                     Message = "События не существует"
                 };
             }
@@ -37,7 +47,7 @@ namespace ASUSport.Repositories
                 return new Response()
                 {
                     Status = false,
-                    Type = "NoFreeSpaces",
+                    Type = "no_free_spaces",
                     Message = "Свободных мест нет"
                 };
             }
@@ -65,7 +75,7 @@ namespace ASUSport.Repositories
                 return new Response()
                 {
                     Status = false,
-                    Type = "SectionNotFound",
+                    Type = "section_not_found",
                     Message = "Секция не найдена"
                 };
             }
@@ -77,7 +87,7 @@ namespace ASUSport.Repositories
                 return new Response()
                 {
                     Status = false,
-                    Type = "TrainerNotFound",
+                    Type = "trainer_not_found",
                     Message = "Тренер не найден"
                 };
             }
@@ -112,7 +122,7 @@ namespace ASUSport.Repositories
         }
 
         /// <inheritdoc/>
-        public List<EventModelDTO> GetEvents(string section, string trainer, string date, string time)
+        public List<EventModelDTO> GetEvents(int? section, int? trainer, string date, string time)
         {
             var result = new List<EventModelDTO>();
 
@@ -120,24 +130,24 @@ namespace ASUSport.Repositories
 
             if (section != null)
             {
-                _ = events.Where(e => e.Section.Id == int.Parse(section));
+                events = events.Where(e => e.Section.Id == section).ToList();
             }
 
-            if (date != null)
+            if (date != "")
             {
-                _ = events.Where(e => e.Time.Date == DateTime.Parse(date));
+                events = events.Where(e => e.Time.Date == DateTime.Parse(date)).ToList();
             }
 
-            if (time != null)
+            if (time != "")
             {
-                _ = events.Where(e => e.Time.ToString("HH:mm") == time);
+                events = events.Where(e => e.Time.ToString("HH:mm") == time).ToList();
             }
 
             if (trainer != null)
             {
-                var trainerUser = GetTrainer(int.Parse(trainer));
+                var trainerUser = GetTrainer((int)trainer);
 
-                _ = events.Where(e => e.Trainer == trainerUser);
+                events = events.Where(e => e.Trainer == trainerUser).ToList();
             }
 
             foreach (Event ev in events.ToList())
@@ -166,9 +176,9 @@ namespace ASUSport.Repositories
         }
 
         /// <inheritdoc/>
-        public int GetEvent(string section, string trainer, string date, string time)
+        public int GetEvent(int? section, int? trainer, string date, string time)
         {
-            var trainerUser = GetTrainer(int.Parse(trainer));
+            var trainerUser = GetTrainer((int)trainer);
 
             if (trainer == null)
             {
@@ -176,7 +186,7 @@ namespace ASUSport.Repositories
             }
 
             var selectedEvent = db.Events.FirstOrDefault(
-                e => e.Trainer == trainerUser && e.Section.Id == int.Parse(section) && e.Time == DateTime.Parse(date + " " + time));
+                e => e.Trainer == trainerUser && e.Section.Id == section && e.Time == DateTime.Parse(date + " " + time));
 
             if (selectedEvent == null)
             {

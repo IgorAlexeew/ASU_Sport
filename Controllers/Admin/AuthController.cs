@@ -1,14 +1,14 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Security.Claims;
+﻿using ASUSport.DTO;
 using ASUSport.Models;
-using ASUSport.DTO;
+using ASUSport.Repositories.Impl;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authorization;
-using ASUSport.Repositories.Impl;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace ASUSport.Controllers.Admin
 {
@@ -72,13 +72,27 @@ namespace ASUSport.Controllers.Admin
         {
             if (!userRepository.IsContains(model.Login))
             {
-                Role role = userRepository.SetRole(model.AccessCode);
+                var role = userRepository.GetClientRole();
 
-                User newUser = new() { Login = model.Login, Password = model.Password, AccessCode = model.AccessCode, Role = role };
+                User newUser = new() { Login = model.Login, Password = model.Password, Role = role };
 
                 userRepository.Save(newUser);
 
                 await Authenticate(newUser);
+
+                var userData = new UserData()
+                {
+                    FirstName = model.FirstName,
+                    MiddleName = model.MiddleName,
+                    LastName = model.LastName,
+                    PhoneNumber = model.PhoneNumber,
+                    User = newUser
+                };
+
+                if (model.DateOfBirth != "")
+                    userData.DateOfBirth = DateTime.Parse(model.DateOfBirth);
+
+                userRepository.SaveUserData(userData);
 
                 return Ok(new Response()
                 {

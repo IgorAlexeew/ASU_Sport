@@ -6,12 +6,12 @@
     public class EventDTO
     {
         /// <summary>
-        /// Название секции
+        /// Идентификатор секции
         /// </summary>
         public int Section { get; set; }
 
         /// <summary>
-        /// ФИО тренера
+        /// Идентификатор тренера
         /// </summary>
         public int Trainer { get; set; }
 

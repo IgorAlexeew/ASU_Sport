@@ -33,11 +33,6 @@ namespace ASUSport.Models
         }
 
         /// <summary>
-        /// Код доступа
-        /// </summary>
-        public string AccessCode { get; set; }
-
-        /// <summary>
         /// Роль пользователя
         /// </summary>
         public virtual Role Role { get; set; }

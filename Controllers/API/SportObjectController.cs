@@ -1,12 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using ASUSport.Repositories.Impl;
 
 namespace ASUSport.Controllers.API
 {
-    //[Route("api/[controller]")]
     [Route("api/sport-object")]
     [ApiController]
     public class SportObjectController : Controller

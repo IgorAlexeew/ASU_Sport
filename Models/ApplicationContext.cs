@@ -20,6 +20,8 @@ namespace ASUSport.Models
 
         public DbSet<Subscription> Subscriptions { get; set; }
 
+        public DbSet<News> News { get; set; }
+
         public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options)
         {
             /*Database.EnsureDeleted();
@@ -42,6 +44,8 @@ namespace ASUSport.Models
 
             modelBuilder.Entity<Subscription>(SubscriptionConfigure);
 
+            modelBuilder.Entity<News>(NewsConfigure);
+
             // Заполнение бд
             var roles = new List<Role>()
             {
@@ -52,9 +56,9 @@ namespace ASUSport.Models
 
             var users = new List<User>()
             {
-                new User { Id = 1, Login = "trainer", Password = "trainer", AccessCode = null, RoleId = 3 },
-                new User { Id = 2, Login = "admin", Password = "admin", AccessCode = null, RoleId = 1 },
-                new User { Id = 3, Login = "client", Password = "client", AccessCode = null, RoleId = 2 },
+                new User { Id = 1, Login = "trainer", Password = "1111", RoleId = 3 },
+                new User { Id = 2, Login = "admin", Password = "admin", RoleId = 1 },
+                new User { Id = 3, Login = "client", Password = "client", RoleId = 2 },
             };
 
             var sportObjects = new List<SportObject>()
@@ -178,8 +182,6 @@ namespace ASUSport.Models
             builder.HasOne(o => o.Role).WithMany().HasForeignKey(o => o.RoleId);
 
             builder.Property(o => o.Login).IsRequired();
-
-            builder.Property(o => o.Password).IsRequired();
         }
 
         /// <summary>
@@ -273,6 +275,19 @@ namespace ASUSport.Models
             builder.Property(o => o.NumOfVisits).HasDefaultValue(1);
 
             builder.HasMany(o => o.Users).WithMany(o => o.Subscriptions).UsingEntity(j => j.ToTable("SubscriptionsUsers"));
+        }
+
+        /// <summary>
+        /// Конфигурация сущности новостей
+        /// </summary>
+        /// <param name="builder"></param>
+        private void NewsConfigure(EntityTypeBuilder<News> builder)
+        {
+            builder.HasKey(o => o.Id);
+
+            builder.Property(o => o.Id).ValueGeneratedOnAdd();
+
+            builder.Property(o => o.Title).HasMaxLength(50);
         }
     }
 }

@@ -6,9 +6,6 @@ using ASUSport.Models;
 using ASUSport.Repositories.Impl;
 using ASUSport.Helpers;
 using ASUSport.DTO;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
 
 namespace ASUSport.Repositories
 {
@@ -24,6 +21,9 @@ namespace ASUSport.Repositories
         ///<inheritdoc/>
         public UserModelDTO GetUserInfo(string login)
         {
+            if (login == null)
+                return null;
+
             var user = db.UserData.First(u => u.User.Login == login);
 
             List<EventForUserModelDTO> events = new();
@@ -44,7 +44,7 @@ namespace ASUSport.Repositories
                     SectionName = e.Section.Name,
                     Duration = e.Section.Duration
                 };
-                
+
                 var eventModel = new EventForUserModelDTO()
                 {
                     Section = section,
@@ -55,7 +55,7 @@ namespace ASUSport.Repositories
 
                 events.Add(eventModel);
             }
-            
+
             var userInfo = new UserModelDTO()
             {
                 FirstName = user.FirstName,
@@ -85,22 +85,14 @@ namespace ASUSport.Repositories
         ///<inheritdoc/>
         public User GetUserByLoginPassword(string login, string password)
         {
-            Console.WriteLine(db.Users.First(u => u.Login == "trainer").Password);
-            Console.WriteLine(PasswordHasherHelper.HashString(password));
-            
             return db.Users.FirstOrDefault(
                     u => u.Login == login && u.Password == PasswordHasherHelper.HashString(password));
         }
 
         ///<inheritdoc/>
-        public Role SetRole(string accessCode)
+        public Role GetClientRole()
         {
-            return (accessCode != null) ?
-                (
-                    (GetAdminByHash(accessCode?.Trim()) != null) ?
-                    db.Roles.First(key => key.Name.Trim().ToLower() == "admin") : db.Roles.First(key => key.Name.Trim().ToLower() == "client")
-                ) :
-                db.Roles.First(key => key.Name.Trim().ToLower() == "client");
+            return db.Roles.First(r => r.Name == "client");
         }
 
         ///<inheritdoc/>
@@ -111,21 +103,17 @@ namespace ASUSport.Repositories
         }
 
         ///<inheritdoc/>
-        public Response AddUserData(UserDataDTO data, string login)
+        public Response EditUserData(UserDataDTO data, string login)
         {
-            var user = db.Users.First(u => u.Login == login);
+            var user = db.UserData.First(u => u.User.Login == login);
 
-            var userData = new UserData()
-            {
-                FirstName = data.FirstName,
-                MiddleName = data.MiddleName,
-                LastName = data.LastName,
-                DateOfBirth = DateTime.Parse(data.DateOfBirth),
-                PhoneNumber = data.PhoneNumber,
-                User = user
-            };
+            user.FirstName = data.FirstName;
+            user.LastName = data.LastName;
+            user.PhoneNumber = data.PhoneNumber;
+            user.MiddleName = data.MiddleName;
+            user.DateOfBirth = DateTime.Parse(data.DateOfBirth);
 
-            db.UserData.Add(userData);
+            db.UserData.Update(user);
             db.SaveChanges();
 
             return new Response()
@@ -146,7 +134,7 @@ namespace ASUSport.Repositories
                 return new Response()
                 {
                     Status = false,
-                    Type = "NoUserFound",
+                    Type = "no_user_found",
                     Message = "Пользователь с таким логином не найден"
                 };
             }
@@ -158,7 +146,7 @@ namespace ASUSport.Repositories
                 return new Response()
                 {
                     Status = false,
-                    Type = "NoRoleFound",
+                    Type = "no_role_found",
                     Message = "Роль не найдена"
                 };
             }
@@ -174,6 +162,7 @@ namespace ASUSport.Repositories
             };
         }
 
+        ///<inheritdoc/>
         public List<TrainerDTO> GetTrainers()
         {
             var result = new List<TrainerDTO>();
@@ -196,6 +185,20 @@ namespace ASUSport.Repositories
             }
 
             return result;
+        }
+
+        ///<inheritdoc/>
+        public Response SaveUserData(UserData data)
+        {
+            db.UserData.Add(data);
+            db.SaveChanges();
+
+            return new Response()
+            {
+                Status = true,
+                Type = "success",
+                Message = "OK"
+            };
         }
 
     }

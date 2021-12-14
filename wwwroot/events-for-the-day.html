@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <title>Бассейн - 21 ноября - АГУ СПОРТ</title>
     <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="css/events-for-the-day.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
@@ -86,13 +85,7 @@
                     </div>
                 </div>&ndash;&gt;
             </div>-->
-            <page-info :object_name="objectName" :date="date_string"></page-info>
-            <div class="events">
-                <event-block v-for="event in events" :event="event" :capacity="capacity"></event-block>
-            </div>
-            <div class="subscription-info">
-
-            </div>
+            <events-block></events-block>
         </div>
     </div>
     <script src="https://unpkg.com/vue@next"></script>

@@ -1,17 +1,54 @@
 const app = Vue.createApp({
+    components: { 'default-header': header_component },
     data() {
+        let params = new URLSearchParams(window.location.search)
+        let date = params
         return {
+            search_params: params,
             objectName: "Бассейн",
             capacity: 64,
-            date_string: "2021-12-21",
+            date_string: date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate(),
             events: [
                 {
                     sectionName: "Свободное плавание",
                     time: "12:00",
                     duration: 60,
-                    freeSpaces: 63
+                    freeSpaces: 80
                 }
             ],
+        }
+    },
+    mounted() {
+        let month_strings =  [
+            "января",
+            "февраля",
+            "марта",
+            "апреля",
+            "мая",
+            "июня",
+            "июля",
+            "августа",
+            "сентября",
+            "октября",
+            "ноября",
+            "декабря",
+        ]
+        let date = new Date(this.date_string)
+        let options = {
+            day: "numeric",
+            month: "long",
+            year: "numeric"
+        }
+        document.title = this.objectName + " - " + date.toLocaleDateString("ru", options)
+    },
+    methods: {
+        get_right_form(num, words) {
+            if (num % 10 === 0 || num % 10 > 4 || (num % 100 / 10 | 0) === 1)
+                return words[0]
+            else if (num % 10 === 1)
+                return words[1]
+            else
+                return words[2]
         }
     }
 });
@@ -102,7 +139,7 @@ app.component('event-block', {
                   <div class="value"></div>
                 </div>
                 <p class="count">{{ event.freeSpaces }}</p>
-                <p class="text">мест<br/>свободно</p>
+                <p class="text">{{ this.$root.get_right_form(event.freeSpaces, ["мест", "место", "места"])}}<br/>свободно</p>
               </div>
             </div>
           </div>
@@ -110,4 +147,17 @@ app.component('event-block', {
       </div>
     `
 });
+
+app.component('events-block', {
+    props: [],
+    template: `
+        <div class="day-events-container">
+            <page-info :object_name="this.$root.objectName" :date="this.$root.date_string"></page-info>
+            <div class="events">
+              <event-block v-for="event in this.$root.events" :event="event" :capacity="this.$root.capacity"></event-block>
+            </div>
+            <div class="subscription-info"></div>
+        </div>
+    `
+})
 app.mount("#app");

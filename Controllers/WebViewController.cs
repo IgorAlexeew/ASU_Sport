@@ -52,5 +52,12 @@ namespace ASUSport.Controllers.WebView
         {
             return View();
         }
+
+        [HttpGet("events")]
+        public IActionResult Events(string id)
+        {
+            System.Console.WriteLine(id);
+            return View();
+        }
     }
 }

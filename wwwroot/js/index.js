@@ -2,17 +2,6 @@ const app = Vue.createApp({
     data() {
         return {
             sportObjects: [],
-            site_routing: {
-                nav_links: {
-                    objects: { name: "Объекты", url: "/", is_selected: false},
-                    news: { name: "Новости", url: "/news", is_selected: false},
-                    contacts: { name: "Контакты", url: "/contacts", is_selected: false}
-                },
-                auth_links: {
-                    sign_in_url: "/login",
-                    sign_up_url: "/registration"
-                }
-            },
             short_form: true,
             objects_count_to_show: 3
         }
@@ -35,94 +24,14 @@ const app = Vue.createApp({
             }
         }
     },
+    components: {'default-header': header_component},
     mounted() {
-        let path = window.location.pathname
-        for (let key in this.site_routing.nav_links) {
-            let link = this.site_routing.nav_links[key]
-            link.is_selected = (path === link.url)
-        }
-        /*this.sportObjects = [
-            {
-                "objectName": "Бассейн",
-                "workingHours": "07:00 - 22:00",
-                "days": null,
-                "serviceName": "Разовое занятие",
-                "price": 200
-            },
-            {
-                "objectName": "Мини футбольное поле",
-                "workingHours": null,
-                "days": null,
-                "serviceName": "Разовое занятие",
-                "price": 600
-            },
-            {
-                "objectName": "Тренажерный зал",
-                "workingHours": "09:00 - 21:00",
-                "days": null,
-                "serviceName": "Разовое занятие",
-                "price": 100
-            },
-            {
-                "objectName": "Тренажерный зал",
-                "workingHours": "09:00 - 21:00",
-                "days": null,
-                "serviceName": "Разовое занятие",
-                "price": 100
-            },
-            {
-                "objectName": "Мини футбольное поле",
-                "workingHours": null,
-                "days": null,
-                "serviceName": "Разовое занятие",
-                "price": 600
-            },
-            {
-                "objectName": "Тренажерный зал",
-                "workingHours": "09:00 - 21:00",
-                "days": null,
-                "serviceName": "Разовое занятие",
-                "price": 100
-            },
-            {
-                "objectName": "Тренажерный зал",
-                "workingHours": "09:00 - 21:00",
-                "days": null,
-                "serviceName": "Разовое занятие",
-                "price": 100
-            }
-        ]*/
         axios
             .get("https://localhost:5001/api/sport-object/get-info")
             .then(response => {this.sportObjects = response.data; })
             .catch(error => console.log(error));
 
     }
-})
-
-app.component("default-header",{
-    props: ['routing'],
-    template:`
-        <div class="header">
-            <div class="logo">
-                <img src="/img/asu-clr.png" alt="Астраханский Государственный Университет" id="asu-logo">
-                <div class="description">
-                    Астраханский<br>
-                    государственный<br>
-                    университет<br>
-                </div>
-            </div>
-            <div class="nav">
-                <ul>
-                    <li v-for="link in routing.nav_links"><a :class="{ selected: link.is_selected }" :href="link.url">{{ link.name }}</a></li>
-                </ul>
-            </div>
-            <div class="auth">
-                <a :href="routing.auth_links.sign_in_url" id="sign-in">войти</a>
-                <a :href="routing.auth_links.sign_up_url" id="sign-up">зарегистрироваться</a>
-            </div>
-        </div>
-    `
 })
 
 app.component("sport-object",
@@ -135,7 +44,7 @@ app.component("sport-object",
         },
         template: `
             <div @toggle_objects_view="this.toggle_objects_view" class="object">
-                <div class="title">{{ sport_object.objectName }}</div>
+                <a href="/events" class="title">{{ sport_object.objectName }}</a>
                 <div class="time-range">{{ sport_object.workingHours }}</div>
                 <div class="point days">
                     <div class="label">Наименее загруженные дни:</div>
@@ -169,17 +78,19 @@ function bindScroll() {
 app.component("sport-objects-view",{
     props: ['sport_objects'],
     mounted() {
-        bindScroll();
+        // bindScroll();
+        console.log(this.$root.short_form)
     },
     template: `
-      <div id="sport-objects-view" class="objects" :class="{ wide: !this.$parent.short_form }">
-          <a v-show="!this.$parent.short_form" href="#" class="more-objects" @click='$emit("toggle_objects_view")'>
+      <div id="sport-objects-view" class="objects" :class="{ wide: !this.$root.short_form }">
+          <a v-show="!this.$root.short_form" href="#" class="more-objects" @click='this.$root.toggle_objects_view()'>
             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 1024 1024">
               <path d="M685.248 104.704a64 64 0 0 1 0 90.496L368.448 512l316.8 316.8a64 64 0 0 1-90.496 90.496L232.704 557.248a64 64 0 0 1 0-90.496l362.048-362.048a64 64 0 0 1 90.496 0z"/>
             </svg>
           </a>
-          <sport-object v-for="sportObject in sport_objects" :sport_object="sportObject"></sport-object>
-          <a v-show="this.$parent.short_form" href="#" class="more-objects" @click='$emit("toggle_objects_view")'>
+          <sport-object v-if="sport_objects.length > 0" v-for="sportObject in sport_objects" :sport_object="sportObject"></sport-object>
+          <p v-else>Загрузка...</p>
+          <a v-show="this.$root.short_form && sport_objects.length > 0" href="#" class="more-objects" @click='this.$root.toggle_objects_view()'>
             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img"
                  width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 1024 1024">
               <path
@@ -189,4 +100,22 @@ app.component("sport-objects-view",{
       </div>
     `
 })
+
+app.component('main-page', {
+    props: [],
+    template: `
+        <div class="main-page-block">
+            <div class="brief" :class="{ 'none-display': !this.$root.short_form }">
+                <div class="title">СПОРТ</div>
+                <div class="description">
+                    Данный ресурс предоставляет  информацию о спортивных объектах АГУ,
+                    мероприятиях с ними связанных, а также дает возможность осуществлять
+                    бронирование тех или иных объектов на интересующее Вас время
+                </div>
+            </div>
+            <sport-objects-view :sport_objects="this.$root.objects_to_show"></sport-objects-view>
+        </div>
+    `
+})
+
 app.mount("#app")

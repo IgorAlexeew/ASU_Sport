@@ -22,14 +22,6 @@ namespace ASUSport.Repositories.Impl
         public DateTime GetNearestDay(DateTime today, DayOfWeek day);
 
         /// <summary>
-        /// Получить для конкретной даты и названия объекта список событий
-        /// </summary>
-        /// <param name="name">Название объекта</param>
-        /// <param name="date">Дата</param>
-        /// <returns>Список событий</returns>
-        public EventsForSportobjectDTO GetEventByDateSportObject(string name, string date);
-
-        /// <summary>
         /// Поулчить список с идентификаторами и названиями объектов
         /// </summary>
         /// <returns>Список объектов</returns>

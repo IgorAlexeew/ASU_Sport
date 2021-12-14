@@ -22,14 +22,6 @@ namespace ASUSport.Controllers.API
             return Ok(result);
         }
 
-        [HttpGet("get-events-by-date-sport-object")]
-        public IActionResult GetEventsByDateSportObject(string id, string date)
-        {
-            var result = objectsRepository.GetEventByDateSportObject(id, date);
-
-            return Ok(result);
-        }
-
         [HttpGet("get-objects-with-ids")]
         public IActionResult GetSportObjectIds()
         {

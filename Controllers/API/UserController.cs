@@ -63,5 +63,13 @@ namespace ASUSport.Controllers.API
 
             return Ok(result);
         }
+
+        [HttpPost("change-role")]
+        public IActionResult ChangeRole([FromBody] ChangeRoleDTO data)
+        {
+            var result = userRepository.ChangeRole(data);
+
+            return Ok(result);
+        }
     }
 }

@@ -9,6 +9,11 @@ namespace ASUSport.DTO
     public class SportObjectForMainDTO
     {
         /// <summary>
+        /// Идентификатор объекта
+        /// </summary>
+        public int Id { get; set; }
+
+        /// <summary>
         /// Название объекта
         /// </summary>
         public string ObjectName { get; set; }

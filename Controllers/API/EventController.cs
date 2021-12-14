@@ -1,10 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ASUSport.Models;
-using System.Linq;
-using System.Threading.Tasks;
 using ASUSport.Repositories.Impl;
 using ASUSport.DTO;
-//using ASUSport.ViewModels;
 
 namespace ASUSport.Controllers.API
 {
@@ -49,6 +45,15 @@ namespace ASUSport.Controllers.API
         public IActionResult GetEvents(int? section, int? trainer, string date, string time)
         {
             var result = eventRepository.GetEvents(section, trainer, date, time);
+
+            return Ok(result);
+        }
+
+
+        [HttpGet("get-events-by-date-sport-object")]
+        public IActionResult GetEventsByDateSportObject(int id, string date)
+        {
+            var result = eventRepository.GetEventByDateSportObject(id, date);
 
             return Ok(result);
         }

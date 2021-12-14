@@ -56,9 +56,12 @@ namespace ASUSport.Models
 
             var users = new List<User>()
             {
-                new User { Id = 1, Login = "trainer", Password = "1111", RoleId = 3 },
-                new User { Id = 2, Login = "admin", Password = "admin", RoleId = 1 },
-                new User { Id = 3, Login = "client", Password = "client", RoleId = 2 },
+                new User { Id = 1, Login = "admin", Password = "admin", RoleId = 1 },
+            };
+
+            var userData = new List<UserData>()
+            {
+                new UserData {Id = 1, UserId = 1}
             };
 
             var sportObjects = new List<SportObject>()
@@ -145,6 +148,9 @@ namespace ASUSport.Models
 
             modelBuilder.Entity<User>()
                 .HasData(users);
+
+            modelBuilder.Entity<UserData>()
+                .HasData(userData);
 
             modelBuilder.Entity<SportObject>()
                 .HasData(sportObjects);
@@ -247,15 +253,11 @@ namespace ASUSport.Models
         {
             builder.HasKey(o => o.Id);
 
-            builder.HasOne(o => o.User).WithMany();
+            builder.HasOne(o => o.User).WithMany().HasForeignKey(o => o.UserId);
 
             builder.Property(o => o.FirstName).HasMaxLength(20);
 
-            builder.Property(o => o.FirstName).IsRequired();
-
-            builder.Property(o => o.MiddleName).HasMaxLength(20);
-
-            builder.Property(o => o.MiddleName).IsRequired();
+            builder.Property(o => o.MiddleName).HasMaxLength(30);
 
             builder.Property(o => o.LastName).HasMaxLength(30);
         }

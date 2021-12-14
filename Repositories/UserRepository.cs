@@ -139,7 +139,7 @@ namespace ASUSport.Repositories
                 };
             }
 
-            var role = db.Roles.FirstOrDefault(r => r.Name == data.RoleName);
+            var role = db.Roles.FirstOrDefault(r => r.Id == data.Role);
 
             if (role == null)
             {
@@ -152,6 +152,7 @@ namespace ASUSport.Repositories
             }
 
             user.Role = role;
+            db.Users.Update(user);
             db.SaveChanges();
 
             return new Response()

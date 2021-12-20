@@ -34,6 +34,7 @@ app.component("login-form",{
                     else if (response.data.type === "wrong_password")
                     {
                         this.password_input_class.error = true
+                        this.login_input_class.error = false
                     }
                     else if (response.data.type === "success")
                     {

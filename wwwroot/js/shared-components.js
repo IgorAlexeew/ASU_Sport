@@ -22,7 +22,7 @@ const header_component = {
         }
     },
     template:`
-        <div class="header">
+        <div class="header white-background">
             <div class="logo">
                 <img src="/img/asu-clr.png" alt="Астраханский Государственный Университет" id="asu-logo">
                 <div class="description">

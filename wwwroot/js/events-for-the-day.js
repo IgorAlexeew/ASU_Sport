@@ -2,13 +2,50 @@ const app = Vue.createApp({
     components: { 'default-header': header_component },
     data() {
         let params = new URLSearchParams(window.location.search)
-        let date = params
+        let date = new Date()
         return {
             search_params: params,
             objectName: "Бассейн",
+            objectId: 1,
             capacity: 64,
-            date_string: date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate(),
+            date_string: params.get("date") ?? date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate(),
             events: [
+                {
+                    sectionName: "Свободное плавание",
+                    time: "12:00",
+                    duration: 60,
+                    freeSpaces: 50
+                },
+                {
+                    sectionName: "Свободное плавание",
+                    time: "12:00",
+                    duration: 60,
+                    freeSpaces: 12
+                },
+                {
+                    sectionName: "Свободное плавание",
+                    time: "12:00",
+                    duration: 60,
+                    freeSpaces: 31
+                },
+                {
+                    sectionName: "Свободное плавание",
+                    time: "12:00",
+                    duration: 60,
+                    freeSpaces: 80
+                },
+                {
+                    sectionName: "Свободное плавание",
+                    time: "12:00",
+                    duration: 60,
+                    freeSpaces: 80
+                },
+                {
+                    sectionName: "Свободное плавание",
+                    time: "12:00",
+                    duration: 60,
+                    freeSpaces: 80
+                },
                 {
                     sectionName: "Свободное плавание",
                     time: "12:00",
@@ -19,20 +56,6 @@ const app = Vue.createApp({
         }
     },
     mounted() {
-        let month_strings =  [
-            "января",
-            "февраля",
-            "марта",
-            "апреля",
-            "мая",
-            "июня",
-            "июля",
-            "августа",
-            "сентября",
-            "октября",
-            "ноября",
-            "декабря",
-        ]
         let date = new Date(this.date_string)
         let options = {
             day: "numeric",
@@ -40,6 +63,12 @@ const app = Vue.createApp({
             year: "numeric"
         }
         document.title = this.objectName + " - " + date.toLocaleDateString("ru", options)
+
+        let data;
+        axios
+            .get("https://localhost:5001/api/sport-object/get-events-by-date-sport-object?id=" + this.objectId + "&date=" + this.date_string)
+            .then(response => {data = response.data; })
+            .catch(error => console.log(error));
     },
     methods: {
         get_right_form(num, words) {
@@ -94,7 +123,7 @@ app.component('date-picker', {
         <p class="current-date"><span id="day">{{ day }}</span> <span id="month">{{ month }}</span> <span id="year">{{ year }}</span></p>
         <span class="datepicker-toggle">
             <span class="datepicker-toggle-button"></span>
-            <input type="date" class="datepicker-input" v-model="date_string">
+            <input type="date" class="datepicker-input" v-model="this.$root.date_string">
         </span>
     </div>
     `
@@ -104,8 +133,10 @@ app.component('page-info', {
     props: ['object_name', 'date'],
     template: `
         <div class="date-block">
-            <p class="sport-object-name">{{ object_name }}</p>
-            <date-picker :date="date"></date-picker>
+            <div class="wrapper">
+                <p class="sport-object-name">{{ object_name }}</p>
+                <date-picker :date="date"></date-picker>
+            </div>
         </div>
     `
 });
@@ -161,3 +192,10 @@ app.component('events-block', {
     `
 })
 app.mount("#app");
+
+$(window).scroll(function(){
+    $('.wrapper').css({
+        'top': $(this).scrollTop()
+        //Why this 15, because in the CSS, we have set left 15, so as we scroll, we would want this to remain at 15px left
+    });
+});

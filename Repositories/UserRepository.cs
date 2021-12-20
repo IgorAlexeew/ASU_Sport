@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using ASUSport.Models;
 using ASUSport.Repositories.Impl;
 using ASUSport.Helpers;
@@ -91,7 +90,7 @@ namespace ASUSport.Repositories
         public User GetUserByLoginPassword(string login, string password)
         {
             return db.Users.FirstOrDefault(
-                    u => u.Login == login && u.Password == PasswordHasherHelper.HashString(password));
+                    u => u.Login == login && u.HashPassword == PasswordHasherHelper.HashString(password));
         }
 
         ///<inheritdoc/>

@@ -18,19 +18,10 @@ namespace ASUSport.Models
         /// </summary>
         public string Login { get; set; }
 
-        private string hashPassword;
-
         /// <summary>
         /// Пароль
         /// </summary>
-        public string Password
-        {
-            get { return hashPassword; }
-            set
-            {
-                hashPassword = PasswordHasherHelper.HashString(value);
-            }
-        }
+        public string HashPassword { get; set; }
 
         /// <summary>
         /// Роль пользователя

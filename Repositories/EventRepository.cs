@@ -200,9 +200,6 @@ namespace ASUSport.Repositories
         {
             var events = db.Events.Where(e => e.Section.SportObject.Id == id && e.Time.Date == DateTime.Parse(date)).ToList();
 
-            if (!events.Any())
-                return null;
-
             var eventsList = new List<EventModelDTO>();
 
             var selectedObject = db.SportObjects.First(s => s.Id == id);

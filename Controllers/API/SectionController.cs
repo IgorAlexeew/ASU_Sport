@@ -16,7 +16,7 @@ namespace ASUSport.Controllers.API
         }
 
         [HttpPost("add-section")]
-        public IActionResult AddSection(SectionDTO data)
+        public IActionResult AddSection([FromBody] SectionDTO data)
         {
             var result = sectionRepository.AddSection(data);
 

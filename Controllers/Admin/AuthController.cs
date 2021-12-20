@@ -1,5 +1,6 @@
 ﻿using ASUSport.DTO;
 using ASUSport.Models;
+using ASUSport.Helpers;
 using ASUSport.Repositories.Impl;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -74,7 +75,7 @@ namespace ASUSport.Controllers.Admin
             {
                 var role = userRepository.GetClientRole();
 
-                User newUser = new() { Login = model.Login, Password = model.Password, Role = role };
+                User newUser = new() { Login = model.Login, HashPassword = PasswordHasherHelper.HashString(model.Password), Role = role };
 
                 userRepository.Save(newUser);
 

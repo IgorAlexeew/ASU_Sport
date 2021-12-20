@@ -5,70 +5,29 @@ const app = Vue.createApp({
         let date = new Date()
         return {
             search_params: params,
-            objectName: "Бассейн",
-            objectId: 1,
-            capacity: 64,
+            // objectName: "Нет названия",
+            // objectId: 1,
+            // capacity: 64,
             date_string: params.get("date") ?? date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate(),
-            events: [
-                {
-                    sectionName: "Свободное плавание",
-                    time: "12:00",
-                    duration: 60,
-                    freeSpaces: 50
-                },
-                {
-                    sectionName: "Свободное плавание",
-                    time: "12:00",
-                    duration: 60,
-                    freeSpaces: 12
-                },
-                {
-                    sectionName: "Свободное плавание",
-                    time: "12:00",
-                    duration: 60,
-                    freeSpaces: 31
-                },
-                {
-                    sectionName: "Свободное плавание",
-                    time: "12:00",
-                    duration: 60,
-                    freeSpaces: 80
-                },
-                {
-                    sectionName: "Свободное плавание",
-                    time: "12:00",
-                    duration: 60,
-                    freeSpaces: 80
-                },
-                {
-                    sectionName: "Свободное плавание",
-                    time: "12:00",
-                    duration: 60,
-                    freeSpaces: 80
-                },
-                {
-                    sectionName: "Свободное плавание",
-                    time: "12:00",
-                    duration: 60,
-                    freeSpaces: 80
-                }
-            ],
+            view_data: null
         }
     },
     mounted() {
-        let date = new Date(this.date_string)
-        let options = {
-            day: "numeric",
-            month: "long",
-            year: "numeric"
+        this.view_data_update()
+    },
+    computed: {
+        objectId() {
+            return this.search_params.get("id");
+        },
+        events() {
+            return this.view_data?.events ?? [];
+        },
+        objectName() {
+            return this.view_data?.objectName ?? "Загрузка...";
+        },
+        capacity() {
+            return this.view_data?.capacity;
         }
-        document.title = this.objectName + " - " + date.toLocaleDateString("ru", options)
-
-        let data;
-        axios
-            .get("https://localhost:5001/api/sport-object/get-events-by-date-sport-object?id=" + this.objectId + "&date=" + this.date_string)
-            .then(response => {data = response.data; })
-            .catch(error => console.log(error));
     },
     methods: {
         get_right_form(num, words) {
@@ -78,6 +37,28 @@ const app = Vue.createApp({
                 return words[1]
             else
                 return words[2]
+        },
+        view_data_update() {
+            let date = new Date(this.date_string)
+            let options = {
+                day: "numeric",
+                month: "long",
+                year: "numeric"
+            }
+            axios
+                .get("https://localhost:5001/api/event/get-events-by-date-sport-object?id=" + this.objectId + "&date=" + this.date_string)
+                .then(response => {
+                    this.view_data = response.data;
+                    document.title = response.data.objectName + " - " + date.toLocaleDateString("ru", options)
+                    // history.pushState({id:this.objectId,date:this.date_string}, '', "events")
+                })
+                .catch(error => console.log(error));
+            history.pushState(null, '', "events?id=" + this.objectId + "&date=" + this.date_string)
+        }
+    },
+    watch: {
+        date_string(old_val, new_val) {
+            this.view_data_update()
         }
     }
 });
@@ -142,6 +123,11 @@ app.component('page-info', {
 });
 
 app.component('event-block', {
+    data() {
+        return {
+            signed: false
+        }
+    },
     props: ['event', 'capacity'],
     computed: {
         value_height() {
@@ -149,6 +135,24 @@ app.component('event-block', {
         },
         value_background() {
             return `hsl(${this.event.freeSpaces/this.capacity*100},85%,65%)`;
+        }
+    },
+    methods: {
+        sign_up_for_the_event(event_id)
+        {
+            if (!this.signed)
+            {
+                axios
+                    .post("https://localhost:5001/api/event/signup-for-an-event?eventid=" + event_id)
+                    .then(response => {
+                        console.log(response)
+                        if (response.data.type === "already_signed_up")
+                        {
+                            this.signed = true
+                        }
+                    })
+                    .catch(error => console.log(error));
+            }
         }
     },
     template: `
@@ -174,7 +178,7 @@ app.component('event-block', {
               </div>
             </div>
           </div>
-          <a href="#" class="sign-up-for-an-event">Записаться</a>
+          <a href="#" class="sign-up-for-an-event" :class="{signed: this.signed}" @click="this.sign_up_for_the_event(event.id)">Записаться</a>
       </div>
     `
 });

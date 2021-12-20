@@ -142,6 +142,31 @@ a:hover {
 #sign-up:hover {
     background: #f12f2f;
 }
+
+.user .username {
+    font-size: 14px;
+    text-decoration: none;
+    color: #000;
+    transition: color .3s ease-out;
+    font-weight: 500;
+    margin-right: 5px;
+}
+
+.user .username:hover {
+    color: #3f3f3f;
+}
+
+.user .logout {
+    font-size: 14px;
+    text-decoration: none;
+    color: #962020;
+    transition: color .3s ease-out;
+    font-weight: 500;
+}
+
+.user .logout:hover {
+    color: #bd3e3e;
+}
 /*HEADER END*/
 
 /* CONTENT SECTION */
@@ -303,16 +328,35 @@ a:hover {
 .days-list .day {
     display: flex;
     justify-content: center;
+    text-decoration: none;
+    color: #fff;
     align-items: center;
     background: rgba(255, 255, 255, 0.24);
     border-radius: 10px;
     padding: 5px;
-    width: 40px;
+    /*width: 40px;*/
     font-weight: 500;
+    flex-grow: 1;
+    margin-right: 5px;
+    transition: background .3s ease-out;
+    cursor: pointer;
+}
+
+.days-list .day:hover {
+    background: rgba(255, 255, 255, 0.53);
+}
+
+.days-list .day:last-child {
+    margin-right: 0;
 }
 
 .days-list .day.null {
     width: auto;
+    cursor: auto;
+}
+
+.days-list .day.null:hover {
+    background: rgba(255, 255, 255, 0.24);
 }
 
 .average-cost .cost {
@@ -552,6 +596,16 @@ a.more-objects svg {
 .sign-up-for-an-event:hover {
     background: #62f576;
     color: #fff;
+}
+
+.sign-up-for-an-event.signed {
+    background: #d3d3d3;
+    color: #f5f5f5;
+    cursor: auto;
+}
+
+.sign-up-for-an-event.signed:hover {
+    background: #d3d3d3;
 }
 
 .sport-object-name {

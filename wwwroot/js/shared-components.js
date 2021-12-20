@@ -11,7 +11,20 @@ const header_component = {
             auth_links: {
                 sign_in_url: "/login",
                 sign_up_url: "/registration"
-            }
+            },
+            _user: null
+        }
+    },
+    computed: {
+        username() {
+            axios
+                .get("https://localhost:5001/api/user/get-user-info")
+                .then(response => {
+                    if (response.data.type !== "not_authorized")
+                        this._user = response.data.lastName + " " + response.data.firstName + " " + response.data.middleName
+                })
+                .catch(error => console.log(error));
+            return this._user
         }
     },
     mounted() {
@@ -36,9 +49,13 @@ const header_component = {
                     <li v-for="link in this.nav_links"><a :class="{ selected: link.is_selected }" :href="link.url">{{ link.name }}</a></li>
                 </ul>
             </div>
-            <div class="auth">
+            <div v-if="this.username === null" class="auth">
                 <a :href="this.auth_links.sign_in_url" id="sign-in">войти</a>
                 <a :href="this.auth_links.sign_up_url" id="sign-up">зарегистрироваться</a>
+            </div>
+            <div class="user" v-else>
+                <a href="/user" class="username">{{ username }}</a>
+                <a href="/api/auth/logout" class="logout">Выйти</a>
             </div>
         </div>
     `

@@ -1,3 +1,14 @@
+String.prototype.hashCode = function() {
+    var hash = 0, i, chr;
+    if (this.length === 0) return hash;
+    for (i = 0; i < this.length; i++) {
+        chr   = this.charCodeAt(i);
+        hash  = ((hash << 5) - hash) + chr;
+        hash |= 0; // Convert to 32bit integer
+    }
+    return hash;
+};
+
 const app = Vue.createApp({
     data() {
         return {
@@ -39,7 +50,7 @@ app.component("user-info",{
             <img src="/img/users/user.svg" class="photo" alt=""/>
             <div class="data">
                 <p class="full-name">{{ user?.lastName }} {{ user?.firstName }} {{ user?.middleName }}</p>
-                <p class="birth-date">Дата рождения: {{ user?.dateOfBirth }}</p>
+                <p class="birth-date">Дата рождения: {{ (new Date(user?.dateOfBirth)).toLocaleDateString("ru", {day:"2-digit",month:"2-digit",year:"numeric"}) }}</p>
     <!--            <p class="e-mail">dostoevskiy@poet.ru</p>-->
                 <p class="phone-number">Номер телефона: {{ user?.phoneNumber }}</p>
             </div>
@@ -60,11 +71,11 @@ app.component("nearest-events",{
             <div class="title">Предстоящие занятия:</div>
             <div class="events">
                 <template v-if="user.events !== null && user.events.length > 0">
-                  <a v-for="event in user?.events" href="#" class="event blue">
-                    <p class="name">{{ event?.section?.sectionName }}</p>
-                    <p class="date">{{ event?.time }}</p>
-                    <!--                    <p class="time">{{ event.time }}</p>-->
-                  </a>
+                    <a v-for="event in user?.events" href="#" class="event">
+                        <p class="name">{{ event?.section?.sectionName }}</p>
+                        <p class="date">{{ (new Date(event?.date)).toLocaleDateString("ru", {day:"2-digit",month:"2-digit",year:"numeric"}) }}</p>
+                        <p class="time">{{ event?.time }}</p>
+                    </a>
                 </template>
               <p class="empty" v-else>Нет предстоящих событий</p>
             </div>

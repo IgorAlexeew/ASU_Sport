@@ -36,6 +36,13 @@ const app = Vue.createApp({
 
 app.component("sport-object",
     {
+        data() {
+            return {
+                day_date_options: {
+                    weekday: "short"
+                }
+            }
+        },
         props: ['sport_object'],
         methods: {
             toggle_objects_view() {
@@ -44,12 +51,12 @@ app.component("sport-object",
         },
         template: `
             <div @toggle_objects_view="this.toggle_objects_view" class="object">
-                <a href="/events" class="title">{{ sport_object.objectName }}</a>
+                <a :href="'/events?id=' + sport_object.id" class="title">{{ sport_object.objectName }}</a>
                 <div class="time-range">{{ sport_object.workingHours }}</div>
                 <div class="point days">
                     <div class="label">Наименее загруженные дни:</div>
                     <div v-if="sport_object.days" v-for="day in sport_object?.days" class="days-list">
-                        <div class="day">{{ day?.name }}</div>
+                        <a :href="'events?id=' + sport_object.id + '&date=' + day" class="day">{{ (new Date(day)).toLocaleDateString("ru", this.day_date_options) }}</a>
                     </div>
                     <div class="days-list" v-else>
                         <div class="day null">нет данных</div>

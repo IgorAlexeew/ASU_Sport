@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using ASUSport.Helpers;
 
 namespace ASUSport.Models
 {
@@ -56,7 +57,7 @@ namespace ASUSport.Models
 
             var users = new List<User>()
             {
-                new User { Id = 1, Login = "admin", Password = "admin", RoleId = 1 },
+                new User { Id = 1, Login = "admin", HashPassword = PasswordHasherHelper.HashString("admin"), RoleId = 1 },
             };
 
             var userData = new List<UserData>()

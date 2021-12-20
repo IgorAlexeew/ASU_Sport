@@ -6,6 +6,11 @@
     public class EventModelDTO
     {
         /// <summary>
+        /// Идентификатор события
+        /// </summary>
+        public int Id { get; set; }
+
+        /// <summary>
         /// Название секции
         /// </summary>
         public string SectionName { get; set; }

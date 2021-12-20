@@ -77,6 +77,5 @@ namespace ASUSport.Repositories.Impl
         /// <param name="data">Данные пользователя</param>
         /// <returns></returns>
         public Response SaveUserData(UserData data);
-
     }
 }

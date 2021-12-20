@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using ASUSport.Models;
 using ASUSport.Repositories.Impl;
 using ASUSport.DTO;
@@ -42,6 +41,18 @@ namespace ASUSport.Repositories
                 };
             }
 
+            var user = db.Users.First(u => u.Login == login);
+
+            if (user.Events.FirstOrDefault(e => e.Id == eventId) != null)
+            {
+                return new Response()
+                {
+                    Status = false,
+                    Type = "already_signed_up",
+                    Message = "Пользователь уже записан на это событие"
+                };
+            }
+
             if (selectedEvent.Section.SportObject.Capacity - selectedEvent.Clients.Count == 0)
             {
                 return new Response()
@@ -51,8 +62,6 @@ namespace ASUSport.Repositories
                     Message = "Свободных мест нет"
                 };
             }
-
-            var user = db.Users.First(u => u.Login == login);
 
             selectedEvent.Clients.Add(user);
             db.SaveChanges();
@@ -80,16 +89,21 @@ namespace ASUSport.Repositories
                 };
             }
 
-            var selectedTrainer = GetTrainer(data.Trainer);
+            User selectedTrainer = null;
 
-            if (selectedTrainer == null)
+            if (data.Trainer != null)
             {
-                return new Response()
+                selectedTrainer = GetTrainer((int)data.Trainer);
+
+                if (selectedTrainer == null)
                 {
-                    Status = false,
-                    Type = "trainer_not_found",
-                    Message = "Тренер не найден"
-                };
+                    return new Response()
+                    {
+                        Status = false,
+                        Type = "trainer_not_found",
+                        Message = "Тренер не найден"
+                    };
+                }
             }
 
             var newEvent = new Event()
@@ -133,12 +147,12 @@ namespace ASUSport.Repositories
                 events = events.Where(e => e.Section.Id == section).ToList();
             }
 
-            if (date != "")
+            if (date != null)
             {
                 events = events.Where(e => e.Time.Date == DateTime.Parse(date)).ToList();
             }
 
-            if (time != "")
+            if (time != null)
             {
                 events = events.Where(e => e.Time.ToString("HH:mm") == time).ToList();
             }
@@ -152,14 +166,20 @@ namespace ASUSport.Repositories
 
             foreach (Event ev in events.ToList())
             {
-                var trainerUser = db.UserData.First(u => u.User == ev.Trainer);
+                string trainerName = string.Empty;
+                
+                if (ev.Trainer != null)
+                {
+                    var trainerUser = db.UserData.First(u => u.User == ev.Trainer);
 
-                string trainerName = trainerUser.FirstName + " " + trainerUser.MiddleName + " " + trainerUser.LastName;
+                    trainerName = trainerUser.FirstName + " " + trainerUser.MiddleName + " " + trainerUser.LastName;
+                }
 
                 var capacity = ev.Section.SportObject.Capacity;
 
                 var model = new EventModelDTO()
                 {
+                    Id = ev.Id,
                     SectionName = ev.Section.Name,
                     TrainerName = trainerName,
                     Date = ev.Time.ToString("yyyy-MM-dd"),
@@ -176,13 +196,68 @@ namespace ASUSport.Repositories
         }
 
         /// <inheritdoc/>
+        public EventsForSportobjectDTO GetEventByDateSportObject(int id, string date)
+        {
+            var events = db.Events.Where(e => e.Section.SportObject.Id == id && e.Time.Date == DateTime.Parse(date)).ToList();
+
+            if (!events.Any())
+                return null;
+
+            var eventsList = new List<EventModelDTO>();
+
+            var selectedObject = db.SportObjects.First(s => s.Id == id);
+
+            int capacity = selectedObject.Capacity;
+            string name = selectedObject.Name;
+
+            foreach (var e in events)
+            {
+                string trainerName = string.Empty;
+
+                if (e.Trainer != null)
+                {
+                    var trainer = db.UserData.First(u => u.User.Id == e.Trainer.Id);
+
+                    trainerName = trainer.FirstName + " " + trainer.MiddleName + " " + trainer.LastName;
+                }
+
+                var model = new EventModelDTO()
+                {
+                    Id = e.Id,
+                    SectionName = e.Section.Name,
+                    Time = e.Time.ToString("HH:mm"),
+                    Duration = e.Section.Duration,
+                    FreeSpaces = capacity - e.Clients.Count,
+                    TrainerName = trainerName
+                };
+
+                eventsList.Add(model);
+            }
+
+            var dto = new EventsForSportobjectDTO()
+            {
+                ObjectName = name,
+                Capacity = capacity,
+                Date = date,
+                Events = eventsList
+            };
+
+            return dto;
+        }
+
+        /// <inheritdoc/>
         public int GetEvent(int? section, int? trainer, string date, string time)
         {
-            var trainerUser = GetTrainer((int)trainer);
+            User trainerUser = null;
 
-            if (trainer == null)
+            if (trainer != null)
             {
-                return 0;
+                trainerUser = GetTrainer((int)trainer);
+
+                if (trainer == null)
+                {
+                    return 0;
+                }
             }
 
             var selectedEvent = db.Events.FirstOrDefault(
@@ -194,6 +269,39 @@ namespace ASUSport.Repositories
             }
 
             return selectedEvent.Id;
+        }
+
+        /// <inheritdoc/>
+        public Response SignUpForUnathorized(SignUpForUnathorizedDTO data)
+        {
+            var selectedEvent = db.Events.First(o => o.Id == data.EventId);
+
+            var newUser = new User()
+            {
+                Login = data.Login,
+                RoleId = db.Roles.First(r => r.Name == "client").Id
+            };
+
+            db.Users.Add(newUser);
+
+            var userData = new UserData()
+            {
+                FirstName = data.Name,
+                User = newUser
+            };
+
+            db.UserData.Add(userData);
+
+            selectedEvent.Clients.Add(newUser);
+
+            db.SaveChanges();
+
+            return new Response()
+            {
+                Status = true,
+                Type = "success",
+                Message = "OK"
+            };
         }
     }
 }

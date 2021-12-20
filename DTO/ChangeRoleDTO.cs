@@ -16,8 +16,8 @@ namespace ASUSport.DTO
         public string Login { get; set; }
 
         /// <summary>
-        /// Название роли
+        /// Идентификатор роли
         /// </summary>
-        public string RoleName { get; set; }
+        public int Role { get; set; }
     }
 }

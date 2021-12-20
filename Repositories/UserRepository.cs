@@ -30,14 +30,19 @@ namespace ASUSport.Repositories
 
             foreach (var e in user.User.Events)
             {
-                var trainer = db.UserData.First(o => o.User == e.Trainer);
+                TrainerDTO trainerData = null;
 
-                var trainerData = new TrainerDTO()
+                if (e.Trainer != null)
                 {
-                    FirstName = trainer.FirstName,
-                    MiddleName = trainer.MiddleName,
-                    LastName = trainer.LastName,
-                };
+                    var trainer = db.UserData.First(o => o.User == e.Trainer);
+
+                    trainerData = new TrainerDTO()
+                    {
+                        FirstName = trainer.FirstName,
+                        MiddleName = trainer.MiddleName,
+                        LastName = trainer.LastName,
+                    };
+                }
 
                 var section = new SectionForUserDTO()
                 {
@@ -139,7 +144,7 @@ namespace ASUSport.Repositories
                 };
             }
 
-            var role = db.Roles.FirstOrDefault(r => r.Name == data.RoleName);
+            var role = db.Roles.FirstOrDefault(r => r.Id == data.Role);
 
             if (role == null)
             {
@@ -152,6 +157,7 @@ namespace ASUSport.Repositories
             }
 
             user.Role = role;
+            db.Users.Update(user);
             db.SaveChanges();
 
             return new Response()
@@ -200,6 +206,5 @@ namespace ASUSport.Repositories
                 Message = "OK"
             };
         }
-
     }
 }

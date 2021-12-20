@@ -27,7 +27,7 @@ namespace ASUSport
         public void ConfigureServices(IServiceCollection services)
         {
             // получаем строку подключения из файла конфигурации
-            string connection = Configuration.GetConnectionString("DefaultConnection");
+            string connection = Configuration.GetConnectionString("RemoteDatabaseConnection");
             // добавляем контекст ApplicationContext в качестве сервиса в приложение
             services.AddDbContext<ApplicationContext>(options =>
                 options.UseLazyLoadingProxies().UseNpgsql(connection));

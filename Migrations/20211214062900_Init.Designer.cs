@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ASUSport.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20211207114344_Init")]
+    [Migration("20211214062900_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -44,6 +44,25 @@ namespace ASUSport.Migrations
                     b.HasIndex("TrainerId");
 
                     b.ToTable("Events");
+                });
+
+            modelBuilder.Entity("ASUSport.Models.News", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<string>("Text")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Title")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("News");
                 });
 
             modelBuilder.Entity("ASUSport.Models.Role", b =>
@@ -858,23 +877,9 @@ namespace ASUSport.Migrations
                         new
                         {
                             Id = 1,
-                            Login = "trainer",
-                            Password = "0ffe1abd1a08215353c233d6e009613e95eec4253832a761af28ff37ac5a150c",
-                            RoleId = 3
-                        },
-                        new
-                        {
-                            Id = 2,
                             Login = "admin",
                             Password = "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918",
                             RoleId = 1
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Login = "client",
-                            Password = "948fe603f61dc036b5c596dc09fe3ce3f3d30dc90f024c85f3c82db2ccab679d",
-                            RoleId = 2
                         });
                 });
 
@@ -889,7 +894,6 @@ namespace ASUSport.Migrations
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("FirstName")
-                        .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("character varying(20)");
 
@@ -898,14 +902,13 @@ namespace ASUSport.Migrations
                         .HasColumnType("character varying(30)");
 
                     b.Property<string>("MiddleName")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("character varying(20)");
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)");
 
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("text");
 
-                    b.Property<int?>("UserId")
+                    b.Property<int>("UserId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
@@ -913,6 +916,14 @@ namespace ASUSport.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("UserData");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            DateOfBirth = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            UserId = 1
+                        });
                 });
 
             modelBuilder.Entity("EventUser", b =>
@@ -997,7 +1008,9 @@ namespace ASUSport.Migrations
                 {
                     b.HasOne("ASUSport.Models.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("User");
                 });

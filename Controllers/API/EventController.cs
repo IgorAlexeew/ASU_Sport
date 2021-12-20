@@ -1,10 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ASUSport.Models;
-using System.Linq;
-using System.Threading.Tasks;
 using ASUSport.Repositories.Impl;
 using ASUSport.DTO;
-//using ASUSport.ViewModels;
 
 namespace ASUSport.Controllers.API
 {
@@ -53,10 +49,27 @@ namespace ASUSport.Controllers.API
             return Ok(result);
         }
 
+
+        [HttpGet("get-events-by-date-sport-object")]
+        public IActionResult GetEventsByDateSportObject(int id, string date)
+        {
+            var result = eventRepository.GetEventByDateSportObject(id, date);
+
+            return Ok(result);
+        }
+
         [HttpGet("get-event")]
         public IActionResult GetEvent(int? section, int? trainer, string date, string time)
         {
             var result = eventRepository.GetEvent(section, trainer, date, time);
+
+            return Ok(result);
+        }
+
+        [HttpPost("sign-up-for-unathorized")]
+        public IActionResult SignUpForUnathorized([FromBody] SignUpForUnathorizedDTO data)
+        {
+            var result = eventRepository.SignUpForUnathorized(data);
 
             return Ok(result);
         }

@@ -13,7 +13,7 @@
         /// <summary>
         /// Идентификатор тренера
         /// </summary>
-        public int Trainer { get; set; }
+        public int? Trainer { get; set; }
 
         /// <summary>
         /// Время начала события

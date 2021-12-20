@@ -10,8 +10,9 @@ namespace ASUSport.Repositories.Impl
         /// <summary>
         /// Получить информацию о объектах для главной страницы
         /// </summary>
+        /// /// <param name="id">Идентификатор объекта</param>
         /// <returns>Информация о спорт объекте</returns>
-        public List<SportObjectForMainDTO> GetInfo();
+        public List<SportObjectForMainDTO> GetInfo(int? id);
         
         /// <summary>
         /// Получить дату ближайшего дня на этой неделе

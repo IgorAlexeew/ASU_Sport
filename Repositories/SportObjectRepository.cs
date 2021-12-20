@@ -17,9 +17,12 @@ namespace ASUSport.Repositories
         }
 
         /// <inheritdoc/>
-        public List<SportObjectForMainDTO> GetInfo()
+        public List<SportObjectForMainDTO> GetInfo(int? id)
         {
             var objects = db.SportObjects.Select(s => s).ToList();
+
+            if (id != null)
+                objects = objects.Where(o => o.Id == id).ToList();
 
             DateTime today = DateTime.Now;
 
@@ -50,7 +53,7 @@ namespace ASUSport.Repositories
                 {
                     var grouping = events.GroupBy(e => e.Time.Date)
                         .Select(g => new { date = g.Key, num = g.Sum(e => e.Clients.Count) })
-                        .OrderBy(key => key.num).Take(3).Select(s => s.date).ToList();
+                        .OrderBy(key => key.num).Take(3).Select(s => s.date.ToString("yyyy-MM-dd")).ToList();
 
                     info.Days = grouping;
                 }

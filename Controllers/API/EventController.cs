@@ -65,5 +65,13 @@ namespace ASUSport.Controllers.API
 
             return Ok(result);
         }
+
+        [HttpPost("sign-up-for-unathorized")]
+        public IActionResult SignUpForUnathorized([FromBody] SignUpForUnathorizedDTO data)
+        {
+            var result = eventRepository.SignUpForUnathorized(data);
+
+            return Ok(result);
+        }
     }
 }

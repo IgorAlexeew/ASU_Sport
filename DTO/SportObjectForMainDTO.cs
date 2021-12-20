@@ -26,7 +26,7 @@ namespace ASUSport.DTO
         /// <summary>
         /// Наименее загруженные дни
         /// </summary>
-        public List<DateTime> Days { get; set; }
+        public List<string> Days { get; set; }
 
         /// <summary>
         /// название услуги

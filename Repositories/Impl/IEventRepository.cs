@@ -60,5 +60,12 @@ namespace ASUSport.Repositories.Impl
         /// <returns>Список событий</returns>
         public EventsForSportobjectDTO GetEventByDateSportObject(int id, string date);
 
+        /// <summary>
+        /// Запись на событие неавторизованного пользователя
+        /// </summary>
+        /// <param name="data">Идентификатор события, имя и e-mail клиента</param>
+        /// <returns></returns>
+        public Response SignUpForUnathorized(SignUpForUnathorizedDTO data);
+
     }
 }

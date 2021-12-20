@@ -15,9 +15,9 @@ namespace ASUSport.Controllers.API
         }
 
         [HttpGet("get-info")]
-        public IActionResult GetInfo()
+        public IActionResult GetInfo(int? id)
         {
-            var result = objectsRepository.GetInfo();
+            var result = objectsRepository.GetInfo(id);
 
             return Ok(result);
         }

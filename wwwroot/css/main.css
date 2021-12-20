@@ -46,12 +46,17 @@ a:hover {
     grid-template-columns: repeat(3, 1fr);
     align-items: center;
     justify-items: center;
-    height: 120px;
+    height: 85px;
     font-size: 12px;
-    padding: 30px;
+    padding: 0 30px;
     flex-shrink: 0;
     z-index: 2;
     width: 100vw;
+}
+
+.header.white-background {
+    background: rgba(255, 255, 255, 0.66);
+    backdrop-filter: blur(10px);
 }
 
 .logo {
@@ -78,7 +83,7 @@ a:hover {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-gap: 20px;
-    font-size: 20px;
+    font-size: 15px;
 }
 
 .nav li {
@@ -233,17 +238,17 @@ a:hover {
 
 .object:nth-child(3n + 2) {
     background: rgba(45, 121, 121, 0.58);
-    animation: fromBelow 2s cubic-bezier(0, 0.24, 0.24, 1);
+    /*animation: fromBelow 2s cubic-bezier(0, 0.24, 0.24, 1);*/
 }
 
 .object:nth-child(3n + 3) {
     background: rgba(62, 156, 30, 0.5);
-    animation: fromBelow 2.5s cubic-bezier(0, 0.24, 0.24, 1);
+    /*animation: fromBelow 2.5s cubic-bezier(0, 0.24, 0.24, 1);*/
 }
 
 .object:nth-child(3n + 4) {
     background: rgba(187, 19, 59, 0.54);
-    animation: fromBelow 3s cubic-bezier(0, 0.24, 0.24, 1);
+    /*animation: fromBelow 3s cubic-bezier(0, 0.24, 0.24, 1);*/
 }
 
 
@@ -467,6 +472,7 @@ a.more-objects svg {
     height: 130px;
     display: flex;
     align-items: center;
+    margin-bottom: 20px;
 }
 
 .capacity-line {
@@ -638,4 +644,12 @@ a.more-objects svg {
     margin: 0;
     padding: 0;
     cursor: pointer;
+}
+
+.date-block {
+    position: relative;
+}
+
+.date-block .wrapper {
+    position: relative;
 }

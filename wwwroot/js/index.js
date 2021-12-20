@@ -64,23 +64,9 @@ app.component("sport-object",
     }
 )
 
-function bindScroll() {
-    let element = $("#sport-objects-view");
-    console.log(element)
-    element.on('wheel', (event) => {
-        event.preventDefault();
-        let delta = Math.max(-1, Math.min(1, (event.originalEvent.wheelDelta || -event.originalEvent.detail)));
-
-        element.scrollLeft( element.scrollLeft() - ( delta * 40 ) );
-    });
-}
 
 app.component("sport-objects-view",{
     props: ['sport_objects'],
-    mounted() {
-        // bindScroll();
-        console.log(this.$root.short_form)
-    },
     template: `
       <div id="sport-objects-view" class="objects" :class="{ wide: !this.$root.short_form }">
           <a v-show="!this.$root.short_form" href="#" class="more-objects" @click='this.$root.toggle_objects_view()'>
@@ -119,3 +105,13 @@ app.component('main-page', {
 })
 
 app.mount("#app")
+
+
+let element = $("#sport-objects-view")
+console.log(element)
+element.on('wheel', (event) => {
+    event.preventDefault();
+    let delta = Math.max(-1, Math.min(1, (event.originalEvent.wheelDelta || -event.originalEvent.detail)));
+
+    element.scrollLeft( element.scrollLeft() - ( delta * 40 ) );
+});

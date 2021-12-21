@@ -57,8 +57,9 @@ namespace ASUSport.Repositories.Impl
         /// </summary>
         /// <param name="id">Идентификатор объекта</param>
         /// <param name="date">Дата</param>
+        /// <param name="login">Логин пользователя</param>
         /// <returns>Список событий</returns>
-        public EventsForSportobjectDTO GetEventByDateSportObject(int id, string date);
+        public EventsForSportobjectDTO GetEventByDateSportObject(int id, string date, string login);
 
         /// <summary>
         /// Запись на событие неавторизованного пользователя

@@ -44,5 +44,10 @@
         /// Вместимость
         /// </summary>
         public int Capacity { get; set; }
+
+        /// <summary>
+        /// Флаг, показывающий, записан ли пользователь на это событие
+        /// </summary>
+        public bool IsSigned { get; set; }
     }
 }

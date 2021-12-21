@@ -53,7 +53,7 @@ namespace ASUSport.Controllers.API
         [HttpGet("get-events-by-date-sport-object")]
         public IActionResult GetEventsByDateSportObject(int id, string date)
         {
-            var result = eventRepository.GetEventByDateSportObject(id, date);
+            var result = eventRepository.GetEventByDateSportObject(id, date, User.Identity.Name);
 
             return Ok(result);
         }

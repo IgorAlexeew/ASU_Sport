@@ -196,7 +196,7 @@ namespace ASUSport.Repositories
         }
 
         /// <inheritdoc/>
-        public EventsForSportobjectDTO GetEventByDateSportObject(int id, string date)
+        public EventsForSportobjectDTO GetEventByDateSportObject(int id, string date, string login)
         {
             var events = db.Events.Where(e => e.Section.SportObject.Id == id && e.Time.Date == DateTime.Parse(date)).ToList();
 
@@ -207,26 +207,36 @@ namespace ASUSport.Repositories
             int capacity = selectedObject.Capacity;
             string name = selectedObject.Name;
 
-            foreach (var e in events)
+            foreach (var ev in events)
             {
                 string trainerName = string.Empty;
 
-                if (e.Trainer != null)
+                if (ev.Trainer != null)
                 {
-                    var trainer = db.UserData.First(u => u.User.Id == e.Trainer.Id);
+                    var trainer = db.UserData.First(u => u.User.Id == ev.Trainer.Id);
 
                     trainerName = trainer.FirstName + " " + trainer.MiddleName + " " + trainer.LastName;
                 }
 
+                bool isSigned = false;
+
+                if (login != null)
+                {
+                    isSigned = db.Users.First(u => u.Login == login).Events.Select(e => e.Id).Contains(ev.Id);
+                }
+
                 var model = new EventModelDTO()
                 {
-                    Id = e.Id,
-                    SectionName = e.Section.Name,
-                    Time = e.Time.ToString("HH:mm"),
-                    Duration = e.Section.Duration,
-                    FreeSpaces = capacity - e.Clients.Count,
+                    Id = ev.Id,
+                    SectionName = ev.Section.Name,
+                    Time = ev.Time.ToString("HH:mm"),
+                    Duration = ev.Section.Duration,
+                    FreeSpaces = capacity - ev.Clients.Count,
                     TrainerName = trainerName
                 };
+
+                if (login != null)
+                    model.IsSigned = isSigned;
 
                 eventsList.Add(model);
             }

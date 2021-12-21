@@ -125,7 +125,7 @@ app.component('page-info', {
 app.component('event-block', {
     data() {
         return {
-            signed: false
+            // signed: false
         }
     },
     props: ['event', 'capacity'],
@@ -135,6 +135,9 @@ app.component('event-block', {
         },
         value_background() {
             return `hsl(${this.event.freeSpaces/this.capacity*100},85%,65%)`;
+        },
+        signed() {
+            return this.event.isSigned
         }
     },
     methods: {
@@ -146,9 +149,29 @@ app.component('event-block', {
                     .post("https://localhost:5001/api/event/signup-for-an-event?eventid=" + event_id)
                     .then(response => {
                         console.log(response)
-                        if (response.data.type === "already_signed_up")
+                        if (response.data.type === "already_signed_up" || response.data.type === "success")
                         {
-                            this.signed = true
+                            this.event.isSigned = true
+                            this.event.freeSpaces -= 1
+                            console.log(this.signed)
+                        }
+                    })
+                    .catch(error => console.log(error));
+            }
+        },
+        unsubcribe_for_the_event(event_id)
+        {
+            if (this.signed)
+            {
+                axios
+                    .delete("https://localhost:5001/api/event/unsubscribe-for-the-event?id=" + event_id)
+                    .then(response => {
+                        console.log(response)
+                        if (response.data.type === "success")
+                        {
+                            this.event.isSigned = false
+                            this.event.freeSpaces += 1
+                            console.log(this.signed)
                         }
                     })
                     .catch(error => console.log(error));
@@ -174,11 +197,12 @@ app.component('event-block', {
                   <div class="value"></div>
                 </div>
                 <p class="count">{{ event.freeSpaces }}</p>
-                <p class="text">{{ this.$root.get_right_form(event.freeSpaces, ["мест", "место", "места"])}}<br/>свободно</p>
+                <p class="text">{{ this.$root.get_right_form(this.event.freeSpaces, ["мест", "место", "места"]) }}<br/>свободно</p>
               </div>
             </div>
           </div>
-          <a href="#" class="sign-up-for-an-event" :class="{signed: this.signed}" @click="this.sign_up_for_the_event(event.id)">Записаться</a>
+          <a v-if="!this.signed" href="#" class="sign-up-for-an-event" @click="this.sign_up_for_the_event(event.id)">Записаться</a>
+          <a v-else href="#" class="sign-up-for-an-event signed" @click="this.unsubcribe_for_the_event(event.id)">Отписаться</a>
       </div>
     `
 });
@@ -188,9 +212,10 @@ app.component('events-block', {
     template: `
         <div class="day-events-container">
             <page-info :object_name="this.$root.objectName" :date="this.$root.date_string"></page-info>
-            <div class="events">
+            <div class="events" v-if="this.$root.events.length > 0">
               <event-block v-for="event in this.$root.events" :event="event" :capacity="this.$root.capacity"></event-block>
             </div>
+            <p style="margin-top: 50px; font-weight: 500; font-size: 20px;" v-else>Нет событий</p>
             <div class="subscription-info"></div>
         </div>
     `

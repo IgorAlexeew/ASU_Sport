@@ -68,5 +68,7 @@ namespace ASUSport.Repositories.Impl
         /// <returns></returns>
         public Response SignUpForUnathorized(SignUpForUnathorizedDTO data);
 
+        public Response UnsubscribeForTheEvent(int id, string login);
+
     }
 }

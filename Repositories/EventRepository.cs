@@ -229,7 +229,7 @@ namespace ASUSport.Repositories
                 {
                     Id = ev.Id,
                     SectionName = ev.Section.Name,
-                    Time = ev.Time.ToString("HH:mm"),
+                    Time = ev.Time.ToString("HH:mm") + " - " + ev.Time.AddMinutes(ev.Section.Duration).ToString("HH:mm"),
                     Duration = ev.Section.Duration,
                     FreeSpaces = capacity - ev.Clients.Count,
                     TrainerName = trainerName
@@ -303,6 +303,23 @@ namespace ASUSport.Repositories
 
             db.SaveChanges();
 
+            return new Response()
+            {
+                Status = true,
+                Type = "success",
+                Message = "OK"
+            };
+        }
+
+        public Response UnsubscribeForTheEvent(int id, string login)
+        {
+            var user = db.Users.FirstOrDefault(o => o.Login == login);
+
+            var ev = db.Events.FirstOrDefault(o => o.Id == id);
+
+            user.Events.Remove(ev);
+            db.SaveChanges();
+            
             return new Response()
             {
                 Status = true,

@@ -82,7 +82,7 @@ app.component("sport-objects-view",{
             </svg>
           </a>
           <sport-object v-if="sport_objects.length > 0" v-for="sportObject in sport_objects" :sport_object="sportObject"></sport-object>
-          <p v-else>Загрузка...</p>
+          <p style="color: #fff" v-else>Загрузка...</p>
           <a v-show="this.$root.short_form && sport_objects.length > 0" href="#" class="more-objects" @click='this.$root.toggle_objects_view()'>
             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img"
                  width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 1024 1024">

@@ -73,5 +73,13 @@ namespace ASUSport.Controllers.API
 
             return Ok(result);
         }
+
+        [HttpDelete("unsubscribe-for-the-event")]
+        public IActionResult UnsubscribeForTheEvent(int id)
+        {
+            var result = eventRepository.UnsubscribeForTheEvent(id, User.Identity.Name);
+
+            return Ok(result);
+        }
     }
 }

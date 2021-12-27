@@ -56,7 +56,7 @@ namespace ASUSport.Repositories.Impl
         /// <param name="data">Данные из формы</param>
         /// <param name="login">Логин</param>
         /// <returns>Ответ</returns>
-        public Response EditUserData(UserDataDTO data, string login);
+        public Response UpdateUserData(UserDataDTO data, string login);
 
         /// <summary>
         /// Изменить роль пользователя по логину

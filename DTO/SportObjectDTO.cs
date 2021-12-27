@@ -1,15 +1,10 @@
-﻿namespace ASUSport.Models
+﻿namespace ASUSport.DTO
 {
     /// <summary>
-    /// Спортивный объект
+    /// Форма для создания спортивного объекта
     /// </summary>
-    public class SportObject
+    public class SportObjectDTO
     {
-        /// <summary>
-        /// Идентификатор объекта
-        /// </summary>
-        public int Id { get; set; }
-
         /// <summary>
         /// Название
         /// </summary>

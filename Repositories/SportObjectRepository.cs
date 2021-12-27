@@ -17,6 +17,29 @@ namespace ASUSport.Repositories
         }
 
         /// <inheritdoc/>
+        public Response AddSportObject(SportObjectDTO data)
+        {
+            var sportObject = new SportObject()
+            {
+                Name = data.Name,
+                Capacity = data.Capacity,
+                StartingTime = data.StartingTime,
+                ClosingTime = data.ClosingTime,
+                Location = data.Location
+            };
+
+            db.SportObjects.Add(sportObject);
+            db.SaveChanges();
+            
+            return new Response()
+            {
+                Status = true,
+                Type = "success",
+                Message = "OK"
+            };
+        }
+
+        /// <inheritdoc/>
         public List<SportObjectForMainDTO> GetInfo(int? id)
         {
             var objects = db.SportObjects.Select(s => s).ToList();
@@ -87,6 +110,63 @@ namespace ASUSport.Repositories
             }
 
             return result;
+        }
+
+        /// <inheritdoc/>
+        public Response DeleteSportObject(int id)
+        {
+            var sportObject = db.SportObjects.FirstOrDefault(s => s.Id == id);
+
+            db.SportObjects.Remove(sportObject);
+            db.SaveChanges();
+            
+            return new Response()
+            {
+                Status = true,
+                Type = "success",
+                Message = "OK"
+            };
+        }
+
+        /// <inheritdoc/>
+        public Response UpdateSportObject(SportObjectForUpdateDTO data)
+        {
+            var sportObject = db.SportObjects.FirstOrDefault(s => s.Id == data.Id);
+
+            if (data.Name != null)
+            {
+                sportObject.Name = data.Name;
+            }
+
+            if (data.Location != null)
+            {
+                sportObject.Location = data.Location;
+            }
+
+            if (data.Capacity != null)
+            {
+                sportObject.Capacity = (int)data.Capacity;
+            }
+
+            if (data.StartingTime != null)
+            {
+                sportObject.StartingTime = data.StartingTime;
+            }
+
+            if (data.ClosingTime != null)
+            {
+                sportObject.ClosingTime = data.ClosingTime;
+            }
+
+            db.SportObjects.Update(sportObject);
+            db.SaveChanges();
+
+            return new Response()
+            {
+                Status = true,
+                Type = "success",
+                Message = "OK"
+            };
         }
     }
 }

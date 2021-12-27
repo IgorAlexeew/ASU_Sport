@@ -20,5 +20,19 @@ namespace ASUSport.Repositories.Impl
         /// <param name="sportobject">Идентификатор спортивного объекта</param>
         /// <returns>Список секций</returns>
         public List<object> GetSections(string name, string sportobject);
+
+        /// <summary>
+        /// Обновление секции
+        /// </summary>
+        /// <param name="data">Данные из формы</param>
+        /// <returns></returns>
+        public Response UpdateSection(SectionForUpdateDTO data);
+
+        /// <summary>
+        /// Удаление секции
+        /// </summary>
+        /// <param name="id">Идентификатор секции</param>
+        /// <returns></returns>
+        public Response DeleteSection(int id);
     }
 }

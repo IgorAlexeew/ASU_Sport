@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ASUSport.Repositories.Impl;
 using ASUSport.DTO;
+using ASUSport.Models;
 
 namespace ASUSport.Controllers.API
 {
@@ -27,6 +28,22 @@ namespace ASUSport.Controllers.API
         public IActionResult GetSections(string name, string sportobject)
         {
             var result = sectionRepository.GetSections(name, sportobject);
+
+            return Ok(result);
+        }
+
+        [HttpPut("update-section")]
+        public IActionResult UpdateSection([FromBody] SectionForUpdateDTO data)
+        {
+            var result = sectionRepository.UpdateSection(data);
+
+            return Ok(result);
+        }
+
+        [HttpDelete("delete-section")]
+        public IActionResult DeleteSection(int id)
+        {
+            var result = sectionRepository.DeleteSection(id);
 
             return Ok(result);
         }

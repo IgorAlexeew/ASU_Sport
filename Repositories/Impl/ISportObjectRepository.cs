@@ -27,5 +27,26 @@ namespace ASUSport.Repositories.Impl
         /// </summary>
         /// <returns>Список объектов</returns>
         public List<object> GetSportObjectIds();
+
+        /// <summary>
+        /// Добавление нового спортивного объекта
+        /// </summary>
+        /// <param name="data">Свойства объекта</param>
+        /// <returns></returns>
+        public Response AddSportObject(SportObjectDTO data);
+
+        /// <summary>
+        /// Обновление существующей записи о спортивном объекте
+        /// </summary>
+        /// <param name="data">Свойства объекта</param>
+        /// <returns></returns>
+        public Response UpdateSportObject(SportObjectForUpdateDTO data);
+
+        /// <summary>
+        /// Удаление спортивного объекта по идентификатору
+        /// </summary>
+        /// <param name="id">Идентификатор</param>
+        /// <returns></returns>
+        public Response DeleteSportObject(int id);
     }
 }

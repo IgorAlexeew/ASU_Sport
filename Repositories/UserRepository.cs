@@ -107,14 +107,20 @@ namespace ASUSport.Repositories
         }
 
         ///<inheritdoc/>
-        public Response EditUserData(UserDataDTO data, string login)
+        public Response UpdateUserData(UserDataDTO data, string login)
         {
             var user = db.UserData.First(u => u.User.Login == login);
 
-            user.FirstName = data.FirstName;
-            user.LastName = data.LastName;
+            if (data.FirstName != null)
+                user.FirstName = data.FirstName;
+
+            if (data.LastName != null)
+                user.LastName = data.LastName;
+
             user.PhoneNumber = data.PhoneNumber;
+
             user.MiddleName = data.MiddleName;
+
             user.DateOfBirth = DateTime.Parse(data.DateOfBirth);
 
             db.UserData.Update(user);

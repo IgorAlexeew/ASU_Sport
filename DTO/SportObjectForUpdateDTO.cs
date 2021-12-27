@@ -1,9 +1,9 @@
-﻿namespace ASUSport.Models
+﻿namespace ASUSport.DTO
 {
     /// <summary>
-    /// Спортивный объект
+    /// Форма для обновления существующего спортивного объекта
     /// </summary>
-    public class SportObject
+    public class SportObjectForUpdateDTO
     {
         /// <summary>
         /// Идентификатор объекта
@@ -18,7 +18,7 @@
         /// <summary>
         /// Вместимость
         /// </summary>
-        public int Capacity { get; set; }
+        public int? Capacity { get; set; }
 
         /// <summary>
         /// Местоположение

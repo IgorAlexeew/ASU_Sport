@@ -51,6 +51,21 @@ namespace ASUSport.Repositories
             };
         }
 
+        public Response DeleteSection(int id)
+        {
+            var section = db.Sections.FirstOrDefault(s => s.Id == id);
+
+            db.Sections.Remove(section);
+            db.SaveChanges();
+            
+            return new Response()
+            {
+                Status = true,
+                Type = "success",
+                Message = "OK"
+            };
+        }
+
         /// <inheritdoc/>
         public List<object> GetSections(string name, string sportobject)
         {
@@ -73,11 +88,47 @@ namespace ASUSport.Repositories
             foreach (var section in sections)
             {
                 result.Add(
-                    new {section.Id, section.Name, sportobject = section.SportObject.Name, section.Duration }    
+                    new {
+                        section.Id,
+                        section.Name,
+                        sportobject = section.SportObject.Name,
+                        section.Duration
+                    }    
                 );
             }
 
             return result;
+        }
+
+        /// <inheritdoc/>
+        public Response UpdateSection(SectionForUpdateDTO data)
+        {
+            var section = db.Sections.FirstOrDefault(s => s.Id == data.Id);
+
+            if (data.SportObject != null)
+            {
+                section.SportObjectId = (int) data.SportObject;
+            }
+
+            if (data.Name != null)
+            {
+                section.Name = data.Name;
+            }
+
+            if (data.Duration != null)
+            {
+                section.Duration = (int) data.Duration;
+            }
+
+            db.Sections.Update(section);
+            db.SaveChanges();
+
+            return new Response()
+            {
+                Status = true,
+                Type = "success",
+                Message = "OK"
+            };
         }
     }
 }

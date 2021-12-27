@@ -44,10 +44,10 @@ namespace ASUSport.Controllers.API
 
         }
 
-        [HttpPost("edit-user-data")]
-        public IActionResult EditUserData([FromBody] UserDataDTO data)
+        [HttpPut("update-user-data")]
+        public IActionResult UpdateUserData([FromBody] UserDataDTO data)
         {
-            var result = userRepository.EditUserData(data, User.Identity.Name);
+            var result = userRepository.UpdateUserData(data, User.Identity.Name);
 
             return Ok(result);
         }

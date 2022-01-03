@@ -1,29 +1,34 @@
 ﻿namespace ASUSport.DTO
 {
     /// <summary>
-    /// Форма для обновления существующего спортивного объекта
+    /// Форма для изменения данных абонемента
     /// </summary>
-    public class SportObjectForUpdateDTO
+    public class UpdateSubscriptionDTO
     {
         /// <summary>
-        /// Идентификатор объекта
+        /// Идентификатор абонемента
         /// </summary>
         public int Id { get; set; }
 
         /// <summary>
-        /// Название
+        /// Тип абонемента
+        /// </summary>
+        public string Type { get; set; }
+
+        /// <summary>
+        /// Название абонемента
         /// </summary>
         public string Name { get; set; }
 
         /// <summary>
-        /// Вместимость
+        /// Кол-во посещений
         /// </summary>
-        public int? Capacity { get; set; }
+        public int? NumOfVisits { get; set; }
 
         /// <summary>
-        /// Местоположение
+        /// Стоимость
         /// </summary>
-        public string Location { get; set; }
+        public int? Price { get; set; }
 
         /// <summary>
         /// Время открытия

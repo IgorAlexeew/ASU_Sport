@@ -12,7 +12,7 @@ namespace ASUSport.Repositories.Impl
         /// <summary>
         /// Регистрация пользователя на событие
         /// </summary>
-        /// <param name="data">Форма для ввода праметров события</param>
+        /// <param name="eventId">Идентификатор события</param>
         /// <param name="login">Логин пользователя</param>
         /// <returns>Ответ</returns>
         public Response SignUpForAnEvent(int eventId, string login);
@@ -42,7 +42,7 @@ namespace ASUSport.Repositories.Impl
         public List<EventModelDTO> GetEvents(int? section, int? trainer, string date, string time);
 
         /// <summary>
-        /// Получить идентификатор события по параметру
+        /// Получить идентификатор события по параметрам
         /// </summary>
         /// <param name="section">Идентификатор секции</param>
         /// <param name="trainer">Идентификатор тренера</param>
@@ -68,7 +68,34 @@ namespace ASUSport.Repositories.Impl
         /// <returns></returns>
         public Response SignUpForUnathorized(SignUpForUnathorizedDTO data);
 
+        /// <summary>
+        /// Отменить регистрацию на событие для пользователя
+        /// </summary>
+        /// <param name="id">Идентификатор события</param>
+        /// <param name="login">Логин пользователя</param>
+        /// <returns></returns>
         public Response UnsubscribeForTheEvent(int id, string login);
 
+        /// <summary>
+        /// Изменить параметры события
+        /// </summary>
+        /// <param name="data">Форма для изменения данных события</param>
+        /// <returns></returns>
+        public Response UpdateEvent(UpdateEventDTO data);
+
+        /// <summary>
+        /// Удалить событие по идентификатору
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public Response DeleteEvent(int id);
+
+        /// <summary>
+        /// Получить список событий с клиентами для даты и спортивного объекта
+        /// </summary>
+        /// <param name="date">Дата</param>
+        /// <param name="sportObject">Идентификатор спортивного объекта</param>
+        /// <returns></returns>
+        public EventsWithClientsDTO GetEventsWithClients(string date, int sportObject);
     }
 }

@@ -129,7 +129,7 @@ namespace ASUSport.Repositories
         }
 
         /// <inheritdoc/>
-        public Response UpdateSportObject(SportObjectForUpdateDTO data)
+        public Response UpdateSportObject(UpdateSportObjectDTO data)
         {
             var sportObject = db.SportObjects.FirstOrDefault(s => s.Id == data.Id);
 

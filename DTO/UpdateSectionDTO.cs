@@ -3,7 +3,7 @@
     /// <summary>
     /// Модель для изменения секции
     /// </summary>
-    public class SectionForUpdateDTO
+    public class UpdateSectionDTO
     {
         /// <summary>
         /// Идентификатор секции

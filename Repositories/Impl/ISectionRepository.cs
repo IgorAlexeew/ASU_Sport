@@ -26,7 +26,7 @@ namespace ASUSport.Repositories.Impl
         /// </summary>
         /// <param name="data">Данные из формы</param>
         /// <returns></returns>
-        public Response UpdateSection(SectionForUpdateDTO data);
+        public Response UpdateSection(UpdateSectionDTO data);
 
         /// <summary>
         /// Удаление секции

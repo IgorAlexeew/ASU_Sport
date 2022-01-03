@@ -33,7 +33,7 @@ namespace ASUSport.Controllers.API
         }
 
         [HttpPut("update-section")]
-        public IActionResult UpdateSection([FromBody] SectionForUpdateDTO data)
+        public IActionResult UpdateSection([FromBody] UpdateSectionDTO data)
         {
             var result = sectionRepository.UpdateSection(data);
 

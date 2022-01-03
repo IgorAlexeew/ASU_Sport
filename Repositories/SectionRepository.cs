@@ -101,7 +101,7 @@ namespace ASUSport.Repositories
         }
 
         /// <inheritdoc/>
-        public Response UpdateSection(SectionForUpdateDTO data)
+        public Response UpdateSection(UpdateSectionDTO data)
         {
             var section = db.Sections.FirstOrDefault(s => s.Id == data.Id);
 

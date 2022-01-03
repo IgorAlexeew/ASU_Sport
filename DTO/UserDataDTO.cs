@@ -1,9 +1,7 @@
-﻿using System;
-
-namespace ASUSport.DTO
+﻿namespace ASUSport.DTO
 {
     /// <summary>
-    /// Форма для ввода данных пользователя
+    /// Форма для ввода и отображения данных пользователя
     /// </summary>
     public class UserDataDTO
     {

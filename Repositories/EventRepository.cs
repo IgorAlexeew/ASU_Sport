@@ -4,6 +4,7 @@ using System.Linq;
 using ASUSport.Models;
 using ASUSport.Repositories.Impl;
 using ASUSport.DTO;
+using ASUSport.Helpers;
 
 namespace ASUSport.Repositories
 {
@@ -143,19 +144,13 @@ namespace ASUSport.Repositories
             List<Event> events = db.Events.Where(e => e.Time > DateTime.Now).Select(e => e).ToList();
 
             if (section != null)
-            {
                 events = events.Where(e => e.Section.Id == section).ToList();
-            }
 
             if (date != null)
-            {
                 events = events.Where(e => e.Time.Date == DateTime.Parse(date)).ToList();
-            }
 
             if (time != null)
-            {
                 events = events.Where(e => e.Time.ToString("HH:mm") == time).ToList();
-            }
 
             if (trainer != null)
             {
@@ -221,9 +216,7 @@ namespace ASUSport.Repositories
                 bool isSigned = false;
 
                 if (login != null)
-                {
                     isSigned = db.Users.First(u => u.Login == login).Events.Select(e => e.Id).Contains(ev.Id);
-                }
 
                 var model = new EventModelDTO()
                 {
@@ -262,9 +255,7 @@ namespace ASUSport.Repositories
                 trainerUser = GetTrainer((int)trainer);
 
                 if (trainer == null)
-                {
                     return 0;
-                }
             }
 
             var selectedEvent = db.Events.FirstOrDefault(
@@ -311,6 +302,7 @@ namespace ASUSport.Repositories
             };
         }
 
+        /// <inheritdoc/>
         public Response UnsubscribeForTheEvent(int id, string login)
         {
             var user = db.Users.FirstOrDefault(o => o.Login == login);
@@ -326,6 +318,122 @@ namespace ASUSport.Repositories
                 Type = "success",
                 Message = "OK"
             };
+        }
+
+        /// <inheritdoc/>
+        public Response UpdateEvent(UpdateEventDTO data)
+        {
+            var selectedEvent = db.Events.FirstOrDefault(s => s.Id == data.Id);
+
+            if (data.SectionId != null)
+            {
+                var newSection = db.Sections.FirstOrDefault(s => s.Id == data.SectionId);
+                selectedEvent.Section = newSection;
+            }
+
+            if (data.TrainerId != null)
+            {
+                var newTrainer = db.Users.FirstOrDefault(s => s.Id == data.TrainerId);
+                selectedEvent.Trainer = newTrainer;
+            }
+
+            if (data.Date != null)
+            {
+                var time = selectedEvent.Time.ToString("HH:mm");
+                selectedEvent.Time = DateTime.Parse(data.Date + " " + time);
+            }
+
+            if (data.Time != null)
+            {
+                var date = selectedEvent.Time.ToString("yyyy-MM-dd");
+                selectedEvent.Time = DateTime.Parse(date + " " + data.Time);
+            }
+
+            db.Events.Update(selectedEvent);
+            db.SaveChanges();
+
+            return new Response()
+            {
+                Status = true,
+                Type = "success",
+                Message = "OK"
+            };
+        }
+
+        /// <inheritdoc/>
+        public Response DeleteEvent(int id)
+        {
+            var selectedEvent = db.Events.FirstOrDefault(s => s.Id == id);
+
+            db.Events.Remove(selectedEvent);
+            db.SaveChanges();
+            
+            return new Response()
+            {
+                Status = true,
+                Type = "success",
+                Message = "OK"
+            };
+        }
+
+        /// <inheritdoc/>
+        public EventsWithClientsDTO GetEventsWithClients(string date, int sportObject)
+        {
+            var result = new EventsWithClientsDTO()
+            {
+                Date = date,
+                SportObject = db.SportObjects.FirstOrDefault(s => s.Id == sportObject).Name,
+                EventParticipants = new List<EventParticipantsDTO>()
+            };
+
+            var events = db.Events.Where(e => e.Time.Date == DateTime.Parse(date) && e.Section.SportObjectId == sportObject).ToList();
+
+            foreach (var ev in events)
+            {
+                var duration = ev.Section.Duration;
+
+                UserDataDTO trainerModel = null;
+
+                if (ev.Trainer != null)
+                {
+                    var trainer = db.UserData.First(u => u.UserId == ev.Trainer.Id);
+
+                    trainerModel = new UserDataDTO()
+                    {
+                        FirstName = trainer.FirstName,
+                        MiddleName = trainer.MiddleName,
+                        LastName = trainer.LastName
+                    };
+                }
+
+                var clientsAndTimestamps = new EventParticipantsDTO()
+                {
+                    Timestamp = ev.Time.ToString("HH:mm") + " - " + ev.Time.AddMinutes(duration).ToString("HH:mm"),
+                    Clients = new List<UserDataDTO>(),
+                    SectionName = ev.Section.Name,
+                    Trainer = trainerModel
+                };
+
+                foreach (int id in ev.Clients.Select(s => s.Id))
+                {
+                    var user = db.UserData.FirstOrDefault(s => s.UserId == id);
+
+                    var userInfo = new UserDataDTO()
+                    {
+                        FirstName = user.FirstName,
+                        LastName = user.LastName,
+                        MiddleName = user.MiddleName
+                    };
+
+                    clientsAndTimestamps.Clients.Add(userInfo);
+                }
+
+                result.EventParticipants.Add(clientsAndTimestamps);
+            }
+
+            ExcelHelper.GetEventsWithCLients(result);
+
+            return result;
         }
     }
 }

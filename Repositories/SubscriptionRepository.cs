@@ -18,11 +18,66 @@ namespace ASUSport.Repositories
             db = context;
         }
 
-        /// <summary>
-        /// Получить список всех абонементов для этого объекта
-        /// </summary>
-        /// <param name="objectId">Название спортивного объекта</param>
-        /// <returns>Список абонементов</returns>
+        /// <inheritdoc/>
+        public Response AddSubscription(SubscriptionDTO data)
+        {
+            var newSubscription = new Subscription()
+            {
+                Type = data.Type,
+                Name = data.Name,
+                SportObjectId = data.SportObjectId,
+                StartingTime = data.StartingTime,
+                ClosingTime = data.ClosingTime,
+                NumOfVisits = data.NumOfVisits,
+                Price = data.Price
+            };
+
+            db.Subscriptions.Add(newSubscription);
+            db.SaveChanges();
+            
+            return new Response()
+            {
+                Status = true,
+                Type = "success",
+                Message = "OK"
+            };
+        }
+
+        /// <inheritdoc/>
+        public Response UpdateSubscription(UpdateSubscriptionDTO data)
+        {
+            var subscription = db.Subscriptions.FirstOrDefault(s => s.Id == data.Id);
+
+            if (data.Type != null)
+                subscription.Type = data.Type;
+
+            if (data.Name != null)
+                subscription.Name = data.Name;
+
+            if (data.NumOfVisits != null)
+                subscription.NumOfVisits = (int)data.NumOfVisits;
+
+            if (data.Price != null)
+                subscription.Price = (int)data.Price;
+
+            if (data.StartingTime != null)
+                subscription.StartingTime = data.StartingTime;
+
+            if (data.ClosingTime != null)
+                subscription.ClosingTime = data.ClosingTime;
+
+            db.Subscriptions.Update(subscription);
+            db.SaveChanges();
+
+            return new Response()
+            {
+                Status = true,
+                Type = "success",
+                Message = "OK"
+            };
+        }
+
+        /// <inheritdoc/>
         public List<SubscriptionDTO> GetSubscriptions(int objectId)
         {
             var subscriptions = db.Subscriptions.Where(s => s.SportObject.Id == objectId).ToList();
@@ -51,6 +106,22 @@ namespace ASUSport.Repositories
             }
 
             return result;
+        }
+
+        /// <inheritdoc/>
+        public Response DeleteSubscription(int id)
+        {
+            var subscription = db.Subscriptions.FirstOrDefault(s => s.Id == id);
+
+            db.Subscriptions.Remove(subscription);
+            db.SaveChanges();
+            
+            return new Response()
+            {
+                Status = true,
+                Type = "success",
+                Message = "OK"
+            };
         }
     }
 }

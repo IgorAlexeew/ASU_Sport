@@ -81,5 +81,29 @@ namespace ASUSport.Controllers.API
 
             return Ok(result);
         }
+
+        [HttpPut("update-event")]
+        public IActionResult UpdateEvent(UpdateEventDTO data)
+        {
+            var result = eventRepository.UpdateEvent(data);
+
+            return Ok(result);
+        }
+
+        [HttpDelete("delete-event")]
+        public IActionResult DeleteEvent(int id)
+        {
+            var result = eventRepository.DeleteEvent(id);
+
+            return Ok(result);
+        }
+
+        [HttpGet("get-events-with-clients")]
+        public IActionResult GetEventsWithClients(string date, int sportObject)
+        {
+            var result = eventRepository.GetEventsWithClients(date, sportObject);
+
+            return Ok(result);
+        }
     }
 }

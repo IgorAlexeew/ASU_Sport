@@ -1,19 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace ASUSport.DTO
+﻿namespace ASUSport.DTO
 {
     /// <summary>
-    /// Модель для представления информации о абонементе
+    /// Модель для представления информации о абонементе и создания нового абонемента
     /// </summary>
     public class SubscriptionDTO
     {
         /// <summary>
-        /// название спротивного объекта
+        /// Название спротивного объекта
         /// </summary>
         public string SportObjectName { get; set; }
+
+        /// <summary>
+        /// Идентификатор спортивного объекта
+        /// </summary>
+        public int SportObjectId { get; set; }
 
         /// <summary>
         /// Тип абонемента

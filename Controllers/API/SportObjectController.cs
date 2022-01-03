@@ -40,7 +40,7 @@ namespace ASUSport.Controllers.API
         }
 
         [HttpPut("update-sport-object")]
-        public IActionResult UpdateSportObject([FromBody] SportObjectForUpdateDTO data)
+        public IActionResult UpdateSportObject([FromBody] UpdateSportObjectDTO data)
         {
             var result = objectsRepository.UpdateSportObject(data);
 

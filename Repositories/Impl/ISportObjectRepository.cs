@@ -40,7 +40,7 @@ namespace ASUSport.Repositories.Impl
         /// </summary>
         /// <param name="data">Свойства объекта</param>
         /// <returns></returns>
-        public Response UpdateSportObject(SportObjectForUpdateDTO data);
+        public Response UpdateSportObject(UpdateSportObjectDTO data);
 
         /// <summary>
         /// Удаление спортивного объекта по идентификатору

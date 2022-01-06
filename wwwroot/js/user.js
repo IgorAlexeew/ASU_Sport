@@ -9,10 +9,6 @@ String.prototype.hashCode = function() {
     return hash;
 };
 
-const BASE_URL = "https://asu-sport.azurewebsites.net"
-// const API_ROOT = BASE_URL + "/api"
-const API_ROOT = "/api"
-
 const app = Vue.createApp({
     data() {
         return {
@@ -41,7 +37,7 @@ const app = Vue.createApp({
     },
     beforeCreate() {
         axios
-            .get(API_ROOT + "/user/get-user-info")
+            .get("/api/user/get-user-info")
             .then(response => this.user = response.data)
             .catch(error => console.log(error))
     }

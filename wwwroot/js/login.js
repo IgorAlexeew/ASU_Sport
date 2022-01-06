@@ -1,9 +1,5 @@
 const app = Vue.createApp({})
 
-const BASE_URL = "https://asu-sport.azurewebsites.net"
-// const API_ROOT = BASE_URL + "/api"
-const API_ROOT = "/api"
-
 app.component("login-form",{
     data() {
         return {
@@ -24,7 +20,7 @@ app.component("login-form",{
     methods: {
         login() {
             axios
-                .post(API_ROOT + "/sign-in", this.form_data)
+                .post("/api/sign-in", this.form_data)
                 .then(response => {
                     if (response.data.type === "no_user")
                     {

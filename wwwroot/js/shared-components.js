@@ -1,7 +1,4 @@
 /* Default header */
-const BASE_URL = "https://asu-sport.azurewebsites.net"
-// const API_ROOT = BASE_URL + "/api"
-const API_ROOT = "/api"
 
 const header_component = {
     data() {
@@ -21,7 +18,7 @@ const header_component = {
     computed: {
         username() {
             axios
-                .get(API_ROOT + "/user/get-user-info")
+                .get("/api/user/get-user-info")
                 .then(response => {
                     if (response.data.type !== "not_authorized")
                         this._user = response.data.lastName + " " + response.data.firstName + " " + response.data.middleName

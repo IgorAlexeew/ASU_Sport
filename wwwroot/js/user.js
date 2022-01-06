@@ -9,8 +9,8 @@ String.prototype.hashCode = function() {
     return hash;
 };
 
-const ROOT = "https://asu-sport.azurewebsites.net"
-// const API_ROOT = ROOT + "/api"
+const BASE_URL = "https://asu-sport.azurewebsites.net"
+// const API_ROOT = BASE_URL + "/api"
 const API_ROOT = "/api"
 
 const app = Vue.createApp({

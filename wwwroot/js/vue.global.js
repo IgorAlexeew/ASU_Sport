@@ -10846,7 +10846,7 @@ var Vue = (function (exports) {
   };
   function createRoot(children, loc = locStub) {
       return {
-          type: 0 /* ROOT */,
+          type: 0 /* BASE_URL */,
           children,
           helpers: [],
           components: [],
@@ -12674,7 +12674,7 @@ var Vue = (function (exports) {
           case 10 /* IF_BRANCH */:
           case 11 /* FOR */:
           case 1 /* ELEMENT */:
-          case 0 /* ROOT */:
+          case 0 /* BASE_URL */:
               traverseChildren(node, context);
               break;
       }
@@ -14751,7 +14751,7 @@ var Vue = (function (exports) {
   // Merge adjacent text nodes and expressions into a single expression
   // e.g. <div>abc {{ d }} {{ e }}</div> should have a single expression node as child.
   const transformText = (node, context) => {
-      if (node.type === 0 /* ROOT */ ||
+      if (node.type === 0 /* BASE_URL */ ||
           node.type === 1 /* ELEMENT */ ||
           node.type === 11 /* FOR */ ||
           node.type === 10 /* IF_BRANCH */) {
@@ -14793,7 +14793,7 @@ var Vue = (function (exports) {
                   // setting textContent of the element.
                   // for component root it's always normalized anyway.
                   (children.length === 1 &&
-                      (node.type === 0 /* ROOT */ ||
+                      (node.type === 0 /* BASE_URL */ ||
                           (node.type === 1 /* ELEMENT */ &&
                               node.tagType === 0 /* ELEMENT */ &&
                               // #3756

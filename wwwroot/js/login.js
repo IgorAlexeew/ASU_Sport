@@ -1,7 +1,7 @@
 const app = Vue.createApp({})
 
-const ROOT = "https://asu-sport.azurewebsites.net"
-// const API_ROOT = ROOT + "/api"
+const BASE_URL = "https://asu-sport.azurewebsites.net"
+// const API_ROOT = BASE_URL + "/api"
 const API_ROOT = "/api"
 
 app.component("login-form",{
@@ -40,7 +40,7 @@ app.component("login-form",{
                     {
                         this.login_input_class.error = false
                         this.password_input_class.error = false
-                        window.location.href = ROOT + "/user"
+                        window.location.href = BASE_URL + "/user"
                     }
                     console.log(response.data.type === "wrong_password")
                 })

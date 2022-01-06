@@ -1,39 +1,40 @@
 const app = Vue.createApp({
     data() {
         return {
-            sportObjects: [],
-            short_form: true,
-            objects_count_to_show: 3
+            sportObjects: [], // список спортивных объектов
+            short_form: true, // флаг формата текущего отображения
+            objects_count_to_show: 3 // кол-во объектов для отображеня
         }
     },
     computed: {
+        // объекты для отображения на странице
         objects_to_show() {
-            console.log(this.objects_count_to_show)
-            return this.sportObjects.slice(0, this.objects_count_to_show);
-        }
-    },
-    methods: {
-        toggle_objects_view() {
-            this.short_form = !this.short_form
             if (!this.short_form) {
                 this.objects_count_to_show = this.sportObjects.length
-                console.log("changed " + this.objects_count_to_show)
             }
             else {
                 this.objects_count_to_show = 3
             }
+            return this.sportObjects.slice(0, this.objects_count_to_show);
         }
     },
-    components: {'default-header': header_component},
+    methods: {
+        // переключения вида
+        toggle_objects_view() {
+            this.short_form = !this.short_form
+        }
+    },
+    components: {'default-header': header_component}, // добавление header_component в приложение
     mounted() {
+        // получение списка спортивных объектов
         axios
             .get("https://localhost:5001/api/sport-object/get-info")
             .then(response => {this.sportObjects = response.data; })
             .catch(error => console.log(error));
-
     }
 })
 
+/* Компонент Блок с информацией о спортивном объекте */
 app.component("sport-object",
     {
         data() {
@@ -44,13 +45,8 @@ app.component("sport-object",
             }
         },
         props: ['sport_object'],
-        methods: {
-            toggle_objects_view() {
-                this.$emit("toggle_objects_view");
-            }
-        },
         template: `
-            <div @toggle_objects_view="this.toggle_objects_view" class="object">
+            <div class="object">
                 <a :href="'/events?id=' + sport_object.id" class="title">{{ sport_object.objectName }}</a>
                 <div class="time-range">{{ sport_object.workingHours }}</div>
                 <div class="point days">
@@ -71,9 +67,9 @@ app.component("sport-object",
     }
 )
 
-
+/* Область отображения спортивных объектов*/
 app.component("sport-objects-view",{
-    props: ['sport_objects'],
+    props: [],
     template: `
       <div id="sport-objects-view" class="objects" :class="{ wide: !this.$root.short_form }">
           <a v-show="!this.$root.short_form" href="#" class="more-objects" @click='this.$root.toggle_objects_view()'>
@@ -81,9 +77,9 @@ app.component("sport-objects-view",{
               <path d="M685.248 104.704a64 64 0 0 1 0 90.496L368.448 512l316.8 316.8a64 64 0 0 1-90.496 90.496L232.704 557.248a64 64 0 0 1 0-90.496l362.048-362.048a64 64 0 0 1 90.496 0z"/>
             </svg>
           </a>
-          <sport-object v-if="sport_objects.length > 0" v-for="sportObject in sport_objects" :sport_object="sportObject"></sport-object>
+          <sport-object v-if="this.$root.objects_to_show.length > 0" v-for="sportObject in this.$root.objects_to_show" :sport_object="sportObject"></sport-object>
           <p style="color: #fff" v-else>Загрузка...</p>
-          <a v-show="this.$root.short_form && sport_objects.length > 0" href="#" class="more-objects" @click='this.$root.toggle_objects_view()'>
+          <a v-show="this.$root.short_form && this.$root.objects_to_show.length > 0" href="#" class="more-objects" @click='this.$root.toggle_objects_view()'>
             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img"
                  width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 1024 1024">
               <path
@@ -94,6 +90,7 @@ app.component("sport-objects-view",{
     `
 })
 
+/* Компонент основной страницы */
 app.component('main-page', {
     props: [],
     template: `
@@ -111,9 +108,10 @@ app.component('main-page', {
     `
 })
 
-app.mount("#app")
+const root = app.mount("#app")
 
 
+/* Добавление горизонтальной прокрутки */
 let element = $("#sport-objects-view")
 console.log(element)
 element.on('wheel', (event) => {

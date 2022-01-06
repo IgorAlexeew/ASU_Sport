@@ -98,12 +98,12 @@ namespace ASUSport.Controllers.API
             return Ok(result);
         }
 
-        [HttpGet("get-events-with-clients")]
-        public IActionResult GetEventsWithClients(string date, int sportObject)
-        {
-            var result = eventRepository.GetEventsWithClients(date, sportObject);
+        //[HttpGet("get-events-with-clients")]
+        //public IActionResult GetEventsWithClients(string date, int sportObject)
+        //{
+        //    var result = eventRepository.GetEventsWithClients(date, sportObject);
 
-            return Ok(result);
-        }
+        //    return Ok(result);
+        //}
     }
 }

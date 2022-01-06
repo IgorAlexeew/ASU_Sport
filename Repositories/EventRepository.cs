@@ -376,64 +376,64 @@ namespace ASUSport.Repositories
             };
         }
 
-        /// <inheritdoc/>
-        public EventsWithClientsDTO GetEventsWithClients(string date, int sportObject)
-        {
-            var result = new EventsWithClientsDTO()
-            {
-                Date = date,
-                SportObject = db.SportObjects.FirstOrDefault(s => s.Id == sportObject).Name,
-                EventParticipants = new List<EventParticipantsDTO>()
-            };
+        ///// <inheritdoc/>
+        //public EventsWithClientsDTO GetEventsWithClients(string date, int sportObject)
+        //{
+        //    var result = new EventsWithClientsDTO()
+        //    {
+        //        Date = date,
+        //        SportObject = db.SportObjects.FirstOrDefault(s => s.Id == sportObject).Name,
+        //        EventParticipants = new List<EventParticipantsDTO>()
+        //    };
 
-            var events = db.Events.Where(e => e.Time.Date == DateTime.Parse(date) && e.Section.SportObjectId == sportObject).ToList();
+        //    var events = db.Events.Where(e => e.Time.Date == DateTime.Parse(date) && e.Section.SportObjectId == sportObject).ToList();
 
-            foreach (var ev in events)
-            {
-                var duration = ev.Section.Duration;
+        //    foreach (var ev in events)
+        //    {
+        //        var duration = ev.Section.Duration;
 
-                UserDataDTO trainerModel = null;
+        //        UserDataDTO trainerModel = null;
 
-                if (ev.Trainer != null)
-                {
-                    var trainer = db.UserData.First(u => u.UserId == ev.Trainer.Id);
+        //        if (ev.Trainer != null)
+        //        {
+        //            var trainer = db.UserData.First(u => u.UserId == ev.Trainer.Id);
 
-                    trainerModel = new UserDataDTO()
-                    {
-                        FirstName = trainer.FirstName,
-                        MiddleName = trainer.MiddleName,
-                        LastName = trainer.LastName
-                    };
-                }
+        //            trainerModel = new UserDataDTO()
+        //            {
+        //                FirstName = trainer.FirstName,
+        //                MiddleName = trainer.MiddleName,
+        //                LastName = trainer.LastName
+        //            };
+        //        }
 
-                var clientsAndTimestamps = new EventParticipantsDTO()
-                {
-                    Timestamp = ev.Time.ToString("HH:mm") + " - " + ev.Time.AddMinutes(duration).ToString("HH:mm"),
-                    Clients = new List<UserDataDTO>(),
-                    SectionName = ev.Section.Name,
-                    Trainer = trainerModel
-                };
+        //        var clientsAndTimestamps = new EventParticipantsDTO()
+        //        {
+        //            Timestamp = ev.Time.ToString("HH:mm") + " - " + ev.Time.AddMinutes(duration).ToString("HH:mm"),
+        //            Clients = new List<UserDataDTO>(),
+        //            SectionName = ev.Section.Name,
+        //            Trainer = trainerModel
+        //        };
 
-                foreach (int id in ev.Clients.Select(s => s.Id))
-                {
-                    var user = db.UserData.FirstOrDefault(s => s.UserId == id);
+        //        foreach (int id in ev.Clients.Select(s => s.Id))
+        //        {
+        //            var user = db.UserData.FirstOrDefault(s => s.UserId == id);
 
-                    var userInfo = new UserDataDTO()
-                    {
-                        FirstName = user.FirstName,
-                        LastName = user.LastName,
-                        MiddleName = user.MiddleName
-                    };
+        //            var userInfo = new UserDataDTO()
+        //            {
+        //                FirstName = user.FirstName,
+        //                LastName = user.LastName,
+        //                MiddleName = user.MiddleName
+        //            };
 
-                    clientsAndTimestamps.Clients.Add(userInfo);
-                }
+        //            clientsAndTimestamps.Clients.Add(userInfo);
+        //        }
 
-                result.EventParticipants.Add(clientsAndTimestamps);
-            }
+        //        result.EventParticipants.Add(clientsAndTimestamps);
+        //    }
 
-            ExcelHelper.GetEventsWithCLients(result);
+        //    ExcelHelper.GetEventsWithCLients(result);
 
-            return result;
-        }
+        //    return result;
+        //}
     }
 }

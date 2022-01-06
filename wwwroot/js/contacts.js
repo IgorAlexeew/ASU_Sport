@@ -1,7 +1,9 @@
+/* Vue приложения для страницы контактов */
 const app = Vue.createApp({
-    components: { 'default-header': header_component}
+    components: { 'default-header': header_component} // добавление header_component в приложение
 })
 
+/* Компонент карт */
 app.component("map-block",{
     template: `
         <div class="map">
@@ -10,6 +12,7 @@ app.component("map-block",{
     `
 })
 
+/* Основной компонент главной страницы */
 app.component("contacts-block", {
     template: `
         <div class="contacts-block" >
@@ -21,6 +24,7 @@ app.component("contacts-block", {
     `
 })
 
+/* Компонент с информацией о школе спорта АГУ */
 app.component("contacts-info", {
     template: `
         <div class="contacts-container">
@@ -30,4 +34,4 @@ app.component("contacts-info", {
     `
 })
 
-app.mount("#app")
+const root = app.mount("#app") // рут компонент приложения

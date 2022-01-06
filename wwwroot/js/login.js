@@ -1,8 +1,4 @@
-const app = Vue.createApp({
-
-})
-
-app.config.API_ROOT = ""
+const app = Vue.createApp({})
 
 app.component("login-form",{
     data() {
@@ -54,6 +50,25 @@ app.component("login-form",{
             <input type="password" :class="password_input_class" placeholder="Пароль" v-model="form_data.password"  readonly onfocus="this.removeAttribute('readonly')">
             <button class="login-button" type="submit">войти</button>
         </form>
+    `
+})
+
+app.component("logo-img", {
+    props: [],
+    template: `
+      <div class="logo">
+        <a href="/"><img src="/img/asu-clr.png" alt="Астраханский Государственный Университет" id="asu-logo"></a>
+      </div>
+    `
+})
+
+app.component("login-page", {
+    props: [],
+    template: `
+        <div class="content">
+            <logo-img></logo-img>
+            <login-form></login-form>
+        </div>
     `
 })
 app.mount("#app")

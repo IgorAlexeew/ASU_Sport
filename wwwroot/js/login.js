@@ -20,7 +20,7 @@ app.component("login-form",{
     methods: {
         login() {
             axios
-                .post("/api/sign-in", this.form_data)
+                .post("/api/auth/sign-in", this.form_data)
                 .then(response => {
                     if (response.data.type === "no_user")
                     {

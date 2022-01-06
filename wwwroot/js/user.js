@@ -54,7 +54,7 @@ app.component("user-info",{
     <!--            <p class="e-mail">dostoevskiy@poet.ru</p>-->
                 <p class="phone-number">Номер телефона: {{ user?.phoneNumber }}</p>
             </div>
-            <a href="https://localhost:5001/api/auth/logout" class="logout">
+            <a href="/api/auth/logout" class="logout">
                 <svg xmlns="http://www.w3.org/2000/svg" width="85" height="84" viewBox="0 0 85 84" fill="none">
                     <path d="M0 9.33333C0 4.2 4.2 0 9.33333 0H46.6667V9.33333H9.33333V74.6667H46.6667V84H9.33333C4.2 84 0 79.8 0 74.6667V9.33333ZM66.1547 37.3333L54.32 25.4987L60.9187 18.9L84.0187 42L60.9187 65.1L54.32 58.5013L66.1547 46.6667H35.42V37.3333H66.1547Z"/>
                 </svg>

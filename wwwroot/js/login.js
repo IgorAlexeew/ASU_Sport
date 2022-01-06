@@ -36,7 +36,7 @@ app.component("login-form",{
                     {
                         this.login_input_class.error = false
                         this.password_input_class.error = false
-                        window.location.href = BASE_URL + "/user"
+                        window.location.href = "/user"
                     }
                     console.log(response.data.type === "wrong_password")
                 })

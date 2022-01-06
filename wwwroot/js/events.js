@@ -1,4 +1,8 @@
 /* Приложение для страницы, выводящей занятия для объекта в заданные день */
+const ROOT = "https://asu-sport.azurewebsites.net"
+// const API_ROOT = ROOT + "/api"
+const API_ROOT = "/api"
+
 const app = Vue.createApp({
     components: { 'default-header': header_component }, // добавление header_component в приложение
     data() {
@@ -36,7 +40,7 @@ const app = Vue.createApp({
                 year: "numeric"
             }
             axios
-                .get("https://localhost:5001/api/event/get-events-by-date-sport-object?id=" + this.objectId + "&date=" + this.date_string)
+                .get(API_ROOT + "/event/get-events-by-date-sport-object?id=" + this.objectId + "&date=" + this.date_string)
                 .then(response => {
                     this.response = response.data;
                 })
@@ -126,7 +130,7 @@ app.component('event-block', {
             if (!this.signed)
             {
                 axios
-                    .post("https://localhost:5001/api/event/signup-for-an-event?eventid=" + event_id)
+                    .post(API_ROOT + "/event/signup-for-an-event?eventid=" + event_id)
                     .then(response => {
                         console.log(response)
                         if (response.data.type === "already_signed_up" || response.data.type === "success")
@@ -145,7 +149,7 @@ app.component('event-block', {
             if (this.signed)
             {
                 axios
-                    .delete("https://localhost:5001/api/event/unsubscribe-for-the-event?id=" + event_id)
+                    .delete(API_ROOT + "/event/unsubscribe-for-the-event?id=" + event_id)
                     .then(response => {
                         console.log(response)
                         if (response.data.type === "success")

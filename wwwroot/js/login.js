@@ -1,5 +1,9 @@
 const app = Vue.createApp({})
 
+const ROOT = "https://asu-sport.azurewebsites.net"
+// const API_ROOT = ROOT + "/api"
+const API_ROOT = "/api"
+
 app.component("login-form",{
     data() {
         return {
@@ -20,7 +24,7 @@ app.component("login-form",{
     methods: {
         login() {
             axios
-                .post("https://localhost:5001/api/auth/sign-in", this.form_data)
+                .post(API_ROOT + "/sign-in", this.form_data)
                 .then(response => {
                     if (response.data.type === "no_user")
                     {
@@ -36,7 +40,7 @@ app.component("login-form",{
                     {
                         this.login_input_class.error = false
                         this.password_input_class.error = false
-                        window.location.href = "https://localhost:5001/user"
+                        window.location.href = ROOT + "/user"
                     }
                     console.log(response.data.type === "wrong_password")
                 })

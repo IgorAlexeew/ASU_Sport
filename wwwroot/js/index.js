@@ -1,3 +1,7 @@
+const ROOT = "https://asu-sport.azurewebsites.net"
+// const API_ROOT = ROOT + "/api"
+const API_ROOT = "/api"
+
 const app = Vue.createApp({
     data() {
         return {
@@ -28,7 +32,7 @@ const app = Vue.createApp({
     mounted() {
         // получение списка спортивных объектов
         axios
-            .get("https://localhost:5001/api/sport-object/get-info")
+            .get(API_ROOT + "/sport-object/get-info")
             .then(response => {this.sportObjects = response.data; })
             .catch(error => console.log(error));
     }

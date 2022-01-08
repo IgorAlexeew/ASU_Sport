@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ASUSport.Repositories.Impl;
 using ASUSport.DTO;
+using System.Collections.Generic;
 
 namespace ASUSport.Controllers.API
 {
@@ -16,7 +17,7 @@ namespace ASUSport.Controllers.API
         }
 
         [HttpGet("get-subscriptions")]
-        public IActionResult GetSubscriptions(int objectId)
+        public IActionResult GetSubscriptions(int? objectId)
         {
             var result = subscriptionRepository.GetSubscriptions(objectId);
 
@@ -43,6 +44,22 @@ namespace ASUSport.Controllers.API
         public IActionResult DeleteSubscription(int id)
         {
             var result = subscriptionRepository.DeleteSubscription(id);
+
+            return Ok(result);
+        }
+
+        [HttpPost("update-table")]
+        public IActionResult Updatetable([FromBody] List<UpdateSubscriptionDTO> data)
+        {
+            var result = subscriptionRepository.UpdateTable(data);
+
+            return Ok(result);
+        }
+
+        [HttpGet("get-number-of-entities")]
+        public IActionResult GetNumberOfEntities()
+        {
+            var result = subscriptionRepository.GetNumberOfEntities();
 
             return Ok(result);
         }

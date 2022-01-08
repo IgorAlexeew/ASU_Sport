@@ -8,7 +8,7 @@
         /// <summary>
         /// Идентификатор обновляемого события
         /// </summary>
-        public int Id { get; set; }
+        public int? Id { get; set; }
 
         /// <summary>
         /// Идентификатор секции

@@ -6,6 +6,11 @@
     public class SubscriptionDTO
     {
         /// <summary>
+        /// Идентификатор абонемента
+        /// </summary>
+        public int Id { get; set; }
+
+        /// <summary>
         /// Название спротивного объекта
         /// </summary>
         public string SportObjectName { get; set; }

@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using ASUSport.Models;
 using ASUSport.Repositories.Impl;
-using ASUSport.Helpers;
 using ASUSport.DTO;
 
 namespace ASUSport.Repositories
@@ -41,7 +38,7 @@ namespace ASUSport.Repositories
             };
 
             db.Sections.Add(section);
-            db.SaveChanges();
+            //db.SaveChanges();
 
             return new Response()
             {
@@ -67,14 +64,12 @@ namespace ASUSport.Repositories
         }
 
         /// <inheritdoc/>
-        public List<object> GetSections(string name, string sportobject)
+        public List<SectionInfoDTO> GetSections(string name, string sportobject)
         {
             var sections = db.Sections.Select(s => s).ToList();
 
             if (name != null)
-            {
                 sections = sections.Where(s => s.Name == name).ToList();
-            }
 
             if (sportobject != null)
             {
@@ -83,18 +78,19 @@ namespace ASUSport.Repositories
                 sections = sections.Where(s => s.SportObject == obj).ToList();
             }
 
-            var result = new List<object>();
+            var result = new List<SectionInfoDTO>();
 
             foreach (var section in sections)
             {
-                result.Add(
-                    new {
-                        section.Id,
-                        section.Name,
-                        sportobject = section.SportObject.Name,
-                        section.Duration
-                    }    
-                );
+                var sect = new SectionInfoDTO()
+                {
+                    Id = section.Id,
+                    Name = section.Name,
+                    Duration = section.Duration,
+                    SportObjectId = section.SportObject.Id,
+                };
+                
+                result.Add(sect);
             }
 
             return result;
@@ -103,7 +99,7 @@ namespace ASUSport.Repositories
         /// <inheritdoc/>
         public Response UpdateSection(UpdateSectionDTO data)
         {
-            var section = db.Sections.FirstOrDefault(s => s.Id == data.Id);
+            var section = db.Sections.FirstOrDefault(s => s.Id == (int)data.Id);
 
             if (data.SportObject != null)
             {
@@ -121,6 +117,40 @@ namespace ASUSport.Repositories
             }
 
             db.Sections.Update(section);
+            //db.SaveChanges();
+
+            return new Response()
+            {
+                Status = true,
+                Type = "success",
+                Message = "OK"
+            };
+        }
+
+        /// <inheritdoc/>
+        public Response UpdateTable(List<UpdateSectionDTO> data)
+        {
+            foreach (var section in data)
+            {
+                if (section.Id != null)
+                    UpdateSection(section);
+
+                else
+                {
+                    var sportObject = db.SportObjects.FirstOrDefault(s => s.Id == (int)section.SportObject);
+                    
+                    var newSection = new Section()
+                    {
+                        Name = section.Name,
+                        SportObject = sportObject,
+                        SportObjectId = (int)section.SportObject,
+                        Duration = (int)section.Duration,
+                    };
+
+                    db.Sections.Add(newSection);
+                }
+            }
+
             db.SaveChanges();
 
             return new Response()
@@ -129,6 +159,12 @@ namespace ASUSport.Repositories
                 Type = "success",
                 Message = "OK"
             };
+        }
+
+        /// <inheritdoc/>
+        public int GetNumberOfEntities()
+        {
+            return db.Sections.Count();
         }
     }
 }

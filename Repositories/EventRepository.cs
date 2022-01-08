@@ -377,7 +377,7 @@ namespace ASUSport.Repositories
         }
 
         /// <inheritdoc/>
-        public EventsWithClientsDTO GetEventsWithClients(string date, int sportObject)
+        public byte[] GetEventsWithClients(string date, int sportObject)
         {
             var result = new EventsWithClientsDTO()
             {
@@ -431,9 +431,48 @@ namespace ASUSport.Repositories
                 result.EventParticipants.Add(clientsAndTimestamps);
             }
 
-            ExcelHelper.GetEventsWithCLients(result);
+            return ExcelHelper.GetEventsWithCLients(result);
+        }
 
-            return result;
+        /// <inheritdoc/>
+        public Response UpdateTable(List<UpdateEventDTO> data)
+        {
+            foreach (var ev in data)
+            {
+                if (ev.Id != null)
+                    UpdateEvent(ev);
+
+                else
+                {
+                    var trainer = db.Users.FirstOrDefault(u => u.Id == (int)ev.TrainerId);
+
+                    var section = db.Sections.FirstOrDefault(s => s.Id == (int)ev.SectionId);
+
+                    var newEvent = new Event()
+                    {
+                        Time = DateTime.Parse(ev.Date + " " + ev.Time),
+                        Trainer = trainer,
+                        Section = section
+                    };
+
+                    db.Events.Add(newEvent);
+                }
+            }
+
+            db.SaveChanges();
+            
+            return new Response()
+            {
+                Status = true,
+                Type = "success",
+                Message = "OK"
+            };
+        }
+
+        /// <inheritdoc/>
+        public int GetNumberOfEntities()
+        {
+            return db.Events.Count();
         }
     }
 }

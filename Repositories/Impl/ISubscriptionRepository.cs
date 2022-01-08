@@ -14,7 +14,7 @@ namespace ASUSport.Repositories.Impl
         /// </summary>
         /// <param name="objectId">Идентификатор ообъекта</param>
         /// <returns>Список абонементов</returns>
-        public List<SubscriptionDTO> GetSubscriptions(int objectId);
+        public List<SubscriptionDTO> GetSubscriptions(int? objectId);
 
         /// <summary>
         /// Добавление нового абонемента
@@ -36,5 +36,18 @@ namespace ASUSport.Repositories.Impl
         /// <param name="id">Идентифкатор абонемента</param>
         /// <returns></returns>
         public Response DeleteSubscription(int id);
+
+        /// <summary>
+        /// Обновление таблицы с абонементами
+        /// </summary>
+        /// <param name="data">Табличные данные</param>
+        /// <returns></returns>
+        public Response UpdateTable(List<UpdateSubscriptionDTO> data);
+
+        /// <summary>
+        /// Получить количестов строк в таблице
+        /// </summary>
+        /// <returns> Количество строк</returns>
+        public int GetNumberOfEntities();
     }
 }

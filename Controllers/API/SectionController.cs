@@ -2,6 +2,7 @@
 using ASUSport.Repositories.Impl;
 using ASUSport.DTO;
 using ASUSport.Models;
+using System.Collections.Generic;
 
 namespace ASUSport.Controllers.API
 {
@@ -44,6 +45,22 @@ namespace ASUSport.Controllers.API
         public IActionResult DeleteSection(int id)
         {
             var result = sectionRepository.DeleteSection(id);
+
+            return Ok(result);
+        }
+
+        [HttpPost("update-table")]
+        public IActionResult UpdateTable([FromBody] List<UpdateSectionDTO> data)
+        {
+            var result = sectionRepository.UpdateTable(data);
+
+            return Ok(result);
+        }
+
+        [HttpGet("get-number-of-entities")]
+        public IActionResult GetNumberOfEntities()
+        {
+            var result = sectionRepository.GetNumberOfEntities();
 
             return Ok(result);
         }

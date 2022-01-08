@@ -23,7 +23,12 @@ namespace ASUSport.Repositories
             if (login == null)
                 return null;
 
-            var user = db.UserData.First(u => u.User.Login == login);
+            var user = db.UserData.FirstOrDefault(u => u.User.Login == login);
+
+            if (user == null)
+                return null;
+
+            var role = user.User.Role.Name;
 
             List<EventForUserModelDTO> events = new();
 
@@ -67,7 +72,8 @@ namespace ASUSport.Repositories
                 LastName = user.LastName,
                 DateOfBirth = user.DateOfBirth.ToString("yyyy-MM-dd"),
                 PhoneNumber = user.PhoneNumber,
-                Events = events
+                Events = events,
+                Role = role
             };
 
             return userInfo;
@@ -109,7 +115,33 @@ namespace ASUSport.Repositories
         ///<inheritdoc/>
         public Response UpdateUserData(UserDataDTO data, string login)
         {
-            var user = db.UserData.First(u => u.User.Login == login);
+            var user = db.UserData.FirstOrDefault(u => u.User.Login == login);
+
+            if (user == null)
+            {
+                var u = db.Users.First(u => u.Login == login);
+
+                var userData = new UserData()
+                {
+                    FirstName = data.FirstName,
+                    MiddleName = data.MiddleName,
+                    LastName = data.LastName,
+                    PhoneNumber = data.PhoneNumber,
+                    DateOfBirth = DateTime.Parse(data.DateOfBirth),
+                    User = u,
+                    UserId = u.Id
+                };
+
+                db.UserData.Add(userData);
+                db.SaveChanges();
+                
+                return new Response()
+                {
+                    Status = true,
+                    Type = "success",
+                    Message = "OK"
+                };
+            }
 
             if (data.FirstName != null)
                 user.FirstName = data.FirstName;
@@ -117,11 +149,14 @@ namespace ASUSport.Repositories
             if (data.LastName != null)
                 user.LastName = data.LastName;
 
-            user.PhoneNumber = data.PhoneNumber;
+            if (data.PhoneNumber != null)
+                user.PhoneNumber = data.PhoneNumber;
 
-            user.MiddleName = data.MiddleName;
+            if (data.MiddleName != null)
+                user.MiddleName = data.MiddleName;
 
-            user.DateOfBirth = DateTime.Parse(data.DateOfBirth);
+            if (data.DateOfBirth != null)
+                user.DateOfBirth = DateTime.Parse(data.DateOfBirth);
 
             db.UserData.Update(user);
             db.SaveChanges();

@@ -96,6 +96,19 @@ namespace ASUSport.Repositories.Impl
         /// <param name="date">Дата</param>
         /// <param name="sportObject">Идентификатор спортивного объекта</param>
         /// <returns></returns>
-        public EventsWithClientsDTO GetEventsWithClients(string date, int sportObject);
+        public byte[] GetEventsWithClients(string date, int sportObject);
+
+        /// <summary>
+        /// Обновление таблицы событий
+        /// </summary>
+        /// <param name="data">Табличные данные</param>
+        /// <returns></returns>
+        public Response UpdateTable(List<UpdateEventDTO> data);
+
+        /// <summary>
+        /// Получить количестов строк в таблице
+        /// </summary>
+        /// <returns> Количество строк</returns>
+        public int GetNumberOfEntities();
     }
 }

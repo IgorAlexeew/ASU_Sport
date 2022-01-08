@@ -33,7 +33,7 @@ namespace ASUSport.Repositories
             };
 
             db.Subscriptions.Add(newSubscription);
-            db.SaveChanges();
+            //db.SaveChanges();
             
             return new Response()
             {
@@ -46,7 +46,7 @@ namespace ASUSport.Repositories
         /// <inheritdoc/>
         public Response UpdateSubscription(UpdateSubscriptionDTO data)
         {
-            var subscription = db.Subscriptions.FirstOrDefault(s => s.Id == data.Id);
+            var subscription = db.Subscriptions.FirstOrDefault(s => s.Id == (int)data.Id);
 
             if (data.Type != null)
                 subscription.Type = data.Type;
@@ -66,8 +66,15 @@ namespace ASUSport.Repositories
             if (data.ClosingTime != null)
                 subscription.ClosingTime = data.ClosingTime;
 
+            if (data.SportObjectId != null)
+            {
+                var sportObject = db.SportObjects.FirstOrDefault(s => s.Id == (int)data.SportObjectId);
+                subscription.SportObjectId = sportObject.Id;
+                subscription.SportObject = sportObject;
+            }
+
             db.Subscriptions.Update(subscription);
-            db.SaveChanges();
+            //db.SaveChanges();
 
             return new Response()
             {
@@ -78,9 +85,14 @@ namespace ASUSport.Repositories
         }
 
         /// <inheritdoc/>
-        public List<SubscriptionDTO> GetSubscriptions(int objectId)
+        public List<SubscriptionDTO> GetSubscriptions(int? objectId)
         {
-            var subscriptions = db.Subscriptions.Where(s => s.SportObject.Id == objectId).ToList();
+            var subscriptions = new List<Subscription>();
+
+            if (objectId != null)
+                subscriptions = db.Subscriptions.Where(s => s.SportObject.Id == objectId).ToList();
+            else
+                subscriptions = db.Subscriptions.Select(s => s).ToList();
 
             if (!subscriptions.Any())
             {
@@ -93,7 +105,9 @@ namespace ASUSport.Repositories
             {
                 var sub = new SubscriptionDTO()
                 {
+                    Id = s.Id,
                     SportObjectName = s.SportObject.Name,
+                    SportObjectId = s.SportObjectId,
                     Type = s.Type,
                     Name = s.Name,
                     NumOfVisits = s.NumOfVisits,
@@ -122,6 +136,50 @@ namespace ASUSport.Repositories
                 Type = "success",
                 Message = "OK"
             };
+        }
+
+        /// <inheritdoc/>
+        public Response UpdateTable(List<UpdateSubscriptionDTO> data)
+        {
+            foreach (var subscription in data)
+            {
+                if (subscription.Id != null)
+                    UpdateSubscription(subscription);
+
+                else
+                {
+                    var sportObject = db.SportObjects.FirstOrDefault(s => s.Id == (int)subscription.SportObjectId);
+                    
+                    var newSubscription = new Subscription()
+                    {
+                        Type = subscription.Type,
+                        Name = subscription.Name,
+                        StartingTime = subscription.StartingTime,
+                        ClosingTime = subscription.ClosingTime,
+                        NumOfVisits = (int)subscription.NumOfVisits,
+                        Price = (int)subscription.Price,
+                        SportObject = sportObject,
+                        SportObjectId = (int)subscription.SportObjectId
+                    };
+                    
+                    db.Subscriptions.Add(newSubscription);
+                }
+            }
+
+            db.SaveChanges();
+            
+            return new Response()
+            {
+                Status = true,
+                Type = "success",
+                Message = "OK"
+            };
+        }
+
+        /// <inheritdoc/>
+        public int GetNumberOfEntities()
+        {
+            return db.Subscriptions.Count();
         }
     }
 }

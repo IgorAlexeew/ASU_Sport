@@ -1,5 +1,6 @@
 ﻿using ASUSport.DTO;
-using Excel = Microsoft.Office.Interop.Excel;
+using ClosedXML.Excel;
+using System.IO;
 
 namespace ASUSport.Helpers
 {
@@ -9,72 +10,68 @@ namespace ASUSport.Helpers
         /// Создание Excel документа с информацией о событиях для заданных даты и спортивного объекта
         /// </summary>
         /// <param name="data"></param>
-        public static void GetEventsWithCLients(EventsWithClientsDTO data)
+        public static byte[] GetEventsWithCLients(EventsWithClientsDTO data)
         {
-            var excelApp = new Excel.Application();
-            excelApp.Visible = true;
-            excelApp.Workbooks.Add();
-            Excel._Worksheet workSheet = (Excel.Worksheet)excelApp.ActiveSheet;
+            var workbook = new XLWorkbook();
+            var workSheet = workbook.Worksheets.Add("EventsWithCLients");
 
-            workSheet.Cells[1, "A"] = "Название спортивного объекта";
-            workSheet.Cells[1, "A"].Font.Bold = true;
-            workSheet.Cells[1, "B"] = data.SportObject;
+            workSheet.Cell(1, "A").Value = "Название спортивного объекта";
+            workSheet.Cell(1, "A").Style.Font.Bold = true;
+            workSheet.Cell(1, "B").Value = data.SportObject;
 
-            workSheet.Cells[2, "A"] = "Дата";
-            workSheet.Cells[2, "A"].Font.Bold = true;
-            workSheet.Cells[2, "B"] = data.Date;
+            workSheet.Cell(2, "A").Value = "Дата";
+            workSheet.Cell(2, "A").Style.Font.Bold = true;
+            workSheet.Cell(2, "B").Value = data.Date;
 
             int currentRow = 2;
-            Excel.Range workSheet_range = null;
-            Excel.Range c1 = null;
-            Excel.Range c2 = null;
 
             foreach (var item in data.EventParticipants)
             {
                 currentRow += 2;
 
-                c1 = workSheet.Cells[currentRow, "A"];
-                c2 = workSheet.Cells[currentRow, "B"];
-                workSheet_range = workSheet.get_Range(c1, c2);
-                workSheet_range.Borders[Excel.XlBordersIndex.xlEdgeTop].LineStyle = Excel.XlLineStyle.xlContinuous;
+                var range = workSheet.Range("A" + currentRow.ToString() + ":B" + currentRow.ToString());
+                range.Style.Border.TopBorder = XLBorderStyleValues.Thin;
 
-                workSheet.Cells[currentRow, "A"] = "Время занятия";
-                workSheet.Cells[currentRow, "A"].Font.Bold = true;
-                workSheet.Cells[currentRow, "B"] = item.Timestamp;
+                workSheet.Cell(currentRow, "A").Value = "Время занятия";
+                workSheet.Cell(currentRow, "A").Style.Font.Bold = true;
+                workSheet.Cell(currentRow, "B").Value = item.Timestamp;
                 currentRow++;
 
-                workSheet.Cells[currentRow, "A"] = "Название секции";
-                workSheet.Cells[currentRow, "A"].Font.Bold = true;
-                workSheet.Cells[currentRow, "B"] = item.SectionName;
+                workSheet.Cell(currentRow, "A").Value = "Название секции";
+                workSheet.Cell(currentRow, "A").Style.Font.Bold = true;
+                workSheet.Cell(currentRow, "B").Value = item.SectionName;
                 currentRow++;
 
-                workSheet.Cells[currentRow, "A"] = "Тренер";
-                workSheet.Cells[currentRow, "A"].Font.Bold = true;
+                workSheet.Cell(currentRow, "A").Value = "Тренер";
+                workSheet.Cell(currentRow, "A").Style.Font.Bold = true;
                 if (item.Trainer != null)
                 {
                     string trainer = item.Trainer.FirstName + " " + item.Trainer.MiddleName + " " + item.Trainer.LastName;
-                    workSheet.Cells[currentRow, "B"] = trainer;
+                    workSheet.Cell(currentRow, "B").Value = trainer;
                 }
                 currentRow++;
 
-                workSheet.Cells[currentRow, "A"] = "Клиенты";
-                workSheet.Cells[currentRow, "A"].Font.Bold = true;
+                workSheet.Cell(currentRow, "A").Value = "Клиенты";
+                workSheet.Cell(currentRow, "A").Style.Font.Bold = true;
 
                 foreach (var client in item.Clients)
                 {
                     currentRow++;
                     string name = client.FirstName + " " + client.MiddleName + " " + client.LastName;
-                    workSheet.Cells[currentRow, "B"] = name;
+                    workSheet.Cell(currentRow, "B").Value = name;
                 }
-
-                /*c1 = workSheet.Cells[currentRow, "A"];
-                c2 = workSheet.Cells[currentRow, "B"];
-                workSheet_range = workSheet.get_Range(c1, c2);
-                workSheet_range.Borders[Excel.XlBordersIndex.xlEdgeBottom].LineStyle = Excel.XlLineStyle.xlContinuous;*/
             }
 
-            workSheet.Columns[1].AutoFit();
-            workSheet.Columns[2].AutoFit();
+            workSheet.Columns("A").AdjustToContents();
+            workSheet.Columns("B").AdjustToContents();
+
+            using (var stream = new MemoryStream())
+            {
+                workbook.SaveAs(stream);
+                var content = stream.ToArray();
+
+                return content;
+            }
         }
     }
 }

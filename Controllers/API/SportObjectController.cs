@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ASUSport.Repositories.Impl;
 using ASUSport.DTO;
+using System.Collections.Generic;
 
 namespace ASUSport.Controllers.API
 {
@@ -51,6 +52,22 @@ namespace ASUSport.Controllers.API
         public IActionResult DeleteSportObject(int id)
         {
             var result = objectsRepository.DeleteSportObject(id);
+
+            return Ok(result);
+        }
+
+        [HttpPost("update-table")]
+        public IActionResult UpdateTable([FromBody] List<UpdateSportObjectDTO> data)
+        {
+            var result = objectsRepository.UpdateTable(data);
+
+            return Ok(result);
+        }
+
+        [HttpGet("get-number-of-entities")]
+        public IActionResult GetNumberOfEntities()
+        {
+            var result = objectsRepository.GetNumberOfEntities();
 
             return Ok(result);
         }

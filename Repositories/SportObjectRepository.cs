@@ -29,7 +29,7 @@ namespace ASUSport.Repositories
             };
 
             db.SportObjects.Add(sportObject);
-            db.SaveChanges();
+            //db.SaveChanges();
             
             return new Response()
             {
@@ -98,15 +98,15 @@ namespace ASUSport.Repositories
         }
 
         /// <inheritdoc/>
-        public List<object> GetSportObjectIds()
+        public List<SportObject> GetSportObjectIds()
         {
             var objects = db.SportObjects.Select(s => s);
 
-            var result = new List<object>();
+            var result = new List<SportObject>();
 
             foreach (var obj in objects)
             {
-                result.Add(new { obj.Id, obj.Name });
+                result.Add(obj);
             }
 
             return result;
@@ -131,35 +131,25 @@ namespace ASUSport.Repositories
         /// <inheritdoc/>
         public Response UpdateSportObject(UpdateSportObjectDTO data)
         {
-            var sportObject = db.SportObjects.FirstOrDefault(s => s.Id == data.Id);
+            var sportObject = db.SportObjects.FirstOrDefault(s => s.Id == (int)data.Id);
 
             if (data.Name != null)
-            {
                 sportObject.Name = data.Name;
-            }
 
             if (data.Location != null)
-            {
                 sportObject.Location = data.Location;
-            }
 
             if (data.Capacity != null)
-            {
                 sportObject.Capacity = (int)data.Capacity;
-            }
 
             if (data.StartingTime != null)
-            {
                 sportObject.StartingTime = data.StartingTime;
-            }
 
             if (data.ClosingTime != null)
-            {
                 sportObject.ClosingTime = data.ClosingTime;
-            }
 
             db.SportObjects.Update(sportObject);
-            db.SaveChanges();
+            //db.SaveChanges();
 
             return new Response()
             {
@@ -167,6 +157,45 @@ namespace ASUSport.Repositories
                 Type = "success",
                 Message = "OK"
             };
+        }
+
+        /// <inheritdoc/>
+        public Response UpdateTable(List<UpdateSportObjectDTO> data)
+        {
+            foreach (var sportObject in data)
+            {
+                if (sportObject.Id != null)
+                    UpdateSportObject(sportObject);
+
+                else
+                {
+                    var newSportObject = new SportObjectDTO()
+                    {
+                        Name = sportObject.Name,
+                        Capacity = (int)sportObject.Capacity,
+                        StartingTime = sportObject.StartingTime,
+                        ClosingTime = sportObject.ClosingTime,
+                        Location = sportObject.Location
+                    };
+
+                    AddSportObject(newSportObject);
+                }
+            }
+
+            db.SaveChanges();
+            
+            return new Response()
+            {
+                Status = true,
+                Type = "success",
+                Message = "OK"
+            };
+        }
+
+        /// <inheritdoc/>
+        public int GetNumberOfEntities()
+        {
+            return db.SportObjects.Count();
         }
     }
 }

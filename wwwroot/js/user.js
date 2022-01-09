@@ -37,7 +37,7 @@ const app = Vue.createApp({
         this.entities = {
             sport_objects: {
             name: "Спортивные объекты",
-            href: "",
+            href: "/table/sport-objects",
             color: `hsl(${Math.random()*360},60%,60%)`,
             count: 0
             },
@@ -87,19 +87,19 @@ const app = Vue.createApp({
 
         /* Подсчет количество записей */
         axios
-            .get("https://localhost:5001/api/sport-object/get-number-of-entities")
+            .get("/api/sport-object/get-number-of-entities")
             .then(response => this.entities.sport_objects.count = response.data)
             .catch(error => console.log(error))
         axios
-            .get("https://localhost:5001/api/section/get-number-of-entities")
+            .get("/api/section/get-number-of-entities")
             .then(response => this.entities.sections.count = response.data)
             .catch(error => console.log(error))
         axios
-            .get("https://localhost:5001/api/event/get-number-of-entities")
+            .get("/api/event/get-number-of-entities")
             .then(response => this.entities.events.count = response.data)
             .catch(error => console.log(error))
         axios
-            .get("https://localhost:5001/api/subscription/get-number-of-entities")
+            .get("/api/subscription/get-number-of-entities")
             .then(response => this.entities.subscriptions.count = response.data)
             .catch(error => console.log(error))
     }

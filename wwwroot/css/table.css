@@ -40,6 +40,36 @@ h1.title {
     margin: 10px 20px 50px 0;
 }
 
+.table-controls .status {
+    align-self: center;
+    margin-right: auto;
+    margin-left: 20px;
+    font-size: 12px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+}
+
+.table-controls .status p {
+    margin: 0 5px;
+}
+
+.table-controls .status.editing p, .table-controls .status.editing svg {
+    color: #b6c1c4;
+    fill: #b6c1c4;
+}
+
+.table-controls .status.success p, .table-controls .status.success svg {
+    color: #6ec789;
+    fill: #6ec789;
+}
+
+.table-controls .status.failed p, .table-controls .status.failed svg {
+    color: #d3456b;
+    fill: #d3456b;
+}
+
+
 .table table {
     table-layout: auto;
     border-spacing: 4px 4px;

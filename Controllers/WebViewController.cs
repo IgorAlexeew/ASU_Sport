@@ -59,5 +59,11 @@ namespace ASUSport.Controllers.WebView
             System.Console.WriteLine(id);
             return View();
         }
+
+        [HttpGet("table/sport-objects")]
+        public IActionResult TableSportObjects()
+        {
+            return View();
+        }
     }
 }

@@ -12,84 +12,103 @@ String.prototype.hashCode = function() {
 const app = Vue.createApp({
     data() {
         return {
-            user: {
-                firstName: null,
-                middleName: null,
-                lastName: null,
-                phoneNumber: null,
-                dateOfBirth: null,
-                role: "",
-                events: [],
-                entities: []
-            }
+            user: null,
+            entities: []
         }
     },
     beforeCreate() {
-        /*axios
-            .get("/api/user/get-user-info")
-            .then(response => this.user = response.data)
-            .catch(error => console.log(error))*/
+
     },
     mounted() {
-        /*axios
+        axios
             .get("/api/user/get-user-info")
-            .then(response => this.user = response.data)
-            .catch(error => console.log(error))*/
-        this.user.firstName = "Иван"
+            .then(response => {
+                this.user = response.data
+                console.log(response.data)
+            })
+            .catch(error => console.log(error))
+        /*this.user.firstName = "Иван"
         this.user.middleName = "Иванович"
         this.user.lastName = "Иванов"
         this.user.phoneNumber = "89-98-00"
         this.user.dateOfBirth = "11.11.1911"
         this.user.role = "admin"
-        this.user.events = [] 
-        this.user.entities = [{
+        this.user.events = [] */
+        this.entities = {
+            sport_objects: {
             name: "Спортивные объекты",
             href: "",
             color: `hsl(${Math.random()*360},60%,60%)`,
-            count: 5
-        },{
-            name: "Занятия",
-            href: "",
-            color: `hsl(${Math.random()*360},60%,60%)`,
-            count: 120
-        },{
-            name: "Секции",
-            href: "",
-            color: `hsl(${Math.random()*360},60%,60%)`,
-            count: 10
-        },{
-            name: "Абонементы",
-            href: "",
-            color: `hsl(${Math.random()*360},60%,60%)`,
-            count: 90
-        },{
-            name: "Тренера",
-            href: "",
-            color: `hsl(${Math.random()*360},60%,60%)`,
-            count: 8
-        },{
-            name: "Клиенты",
-            href: "",
-            color: `hsl(${Math.random()*360},60%,60%)`,
-            count: 108
-        },{
-            name: "Администраторы",
-            href: "",
-            color: `hsl(${Math.random()*360},60%,60%)`,
-            count: 2
-        },{
-            name: "Новости",
-            href: "",
-            color: `hsl(${Math.random()*360},60%,60%)`,
             count: 0
-        }]
+            },
+            events: {
+                name: "Занятия",
+                href: "",
+                color: `hsl(${Math.random()*360},60%,60%)`,
+                count: 0
+            },
+            sections: {
+                name: "Секции",
+                    href: "",
+                    color: `hsl(${Math.random()*360},60%,60%)`,
+                    count: 0
+            },
+            subscriptions: {
+                name: "Абонементы",
+                    href: "",
+                    color: `hsl(${Math.random()*360},60%,60%)`,
+                    count: 0
+            },
+            trainers: {
+                name: "Тренера",
+                    href: "",
+                    color: `hsl(${Math.random()*360},60%,60%)`,
+                    count: 0
+            },
+            clients: {
+                name: "Клиенты",
+                    href: "",
+                    color: `hsl(${Math.random()*360},60%,60%)`,
+                    count: 0
+            },
+            admins: {
+                name: "Администраторы",
+                    href: "",
+                    color: `hsl(${Math.random()*360},60%,60%)`,
+                    count: 0
+            },
+            news: {
+                name: "Новости",
+                    href: "",
+                    color: `hsl(${Math.random()*360},60%,60%)`,
+                    count: 0
+            }
+        }
+
+        /* Подсчет количество записей */
+        axios
+            .get("https://localhost:5001/api/sport-object/get-number-of-entities")
+            .then(response => this.entities.sport_objects.count = response.data)
+            .catch(error => console.log(error))
+        axios
+            .get("https://localhost:5001/api/section/get-number-of-entities")
+            .then(response => this.entities.sections.count = response.data)
+            .catch(error => console.log(error))
+        axios
+            .get("https://localhost:5001/api/event/get-number-of-entities")
+            .then(response => this.entities.events.count = response.data)
+            .catch(error => console.log(error))
+        axios
+            .get("https://localhost:5001/api/subscription/get-number-of-entities")
+            .then(response => this.entities.subscriptions.count = response.data)
+            .catch(error => console.log(error))
     }
 });
 
 app.component("user-info",{
-    data() {
-        return {
-            user: this.$root.user
+    computed: {
+        user() {
+            return this.$root.user
         }
     },
     template: `
@@ -112,9 +131,9 @@ app.component("user-info",{
 )
 
 app.component("nearest-events",{
-    data() {
-        return {
-            user: this.$root.user
+    computed: {
+        user() {
+            return this.$root.user
         }
     },
     template: `
@@ -135,9 +154,9 @@ app.component("nearest-events",{
 })
 
 app.component("entities-block",{
-    data() {
-        return {
-            user: this.$root.user
+    computed: {
+        entities() {
+            return this.$root.entities
         }
     },
     props: [],
@@ -145,8 +164,8 @@ app.component("entities-block",{
         <div class="data-block entities-block">
             <div class="title">Таблицы:</div>
             <div class="objects-grid entities">
-                <template v-if="user.entities !== null && user.entities.length > 0">
-                    <a v-for="entity in user?.entities" :href="entity.href" class="object entity" :style="{background: entity.color}">
+                <template v-if="entities !== null && Object.keys(entities).length > 0">
+                    <a v-for="entity in entities" :href="entity.href" class="object entity" :style="{background: entity.color}">
                         <p class="name">{{ entity.name }}</p>
                         <p class="count">{{ entity.count }}</p>
                     </a>
@@ -158,15 +177,17 @@ app.component("entities-block",{
 })
 
 app.component("user-block", {
-    data() {
-        return {
-            user: this.$root.user
+    computed: {
+        user() {
+            return this.$root.user
         }
     },
     template: `
-      <user-info></user-info>
-      <entities-block v-if="user.role === 'admin'"></entities-block>
-      <nearest-events></nearest-events>
+      <template v-if="user">
+        <user-info></user-info>
+        <entities-block v-if="user.role === 'admin'"></entities-block>
+        <nearest-events></nearest-events>
+      </template>
     `
 })
 

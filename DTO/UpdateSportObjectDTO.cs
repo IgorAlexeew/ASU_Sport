@@ -8,7 +8,7 @@
         /// <summary>
         /// Идентификатор объекта
         /// </summary>
-        public int Id { get; set; }
+        public int? Id { get; set; }
 
         /// <summary>
         /// Название

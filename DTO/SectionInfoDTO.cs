@@ -1,14 +1,14 @@
 ﻿namespace ASUSport.DTO
 {
     /// <summary>
-    /// Модель для изменения секции
+    /// Форма для вывода информации о секции
     /// </summary>
-    public class UpdateSectionDTO
+    public class SectionInfoDTO
     {
         /// <summary>
         /// Идентификатор секции
         /// </summary>
-        public int? Id { get; set; }
+        public int Id { get; set; }
 
         /// <summary>
         /// Название секции
@@ -16,13 +16,13 @@
         public string Name { get; set; }
 
         /// <summary>
-        /// Спортивный объект
+        /// Идентификатор спортивного объекта
         /// </summary>
-        public int? SportObject { get; set; }
+        public int SportObjectId { get; set; }
 
         /// <summary>
-        /// Продолжительность
+        /// Продолжительность секции
         /// </summary>
-        public int? Duration { get; set; }
+        public int Duration { get; set; }
     }
 }

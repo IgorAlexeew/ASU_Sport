@@ -23,10 +23,10 @@ namespace ASUSport.Repositories.Impl
         public DateTime GetNearestDay(DateTime today, DayOfWeek day);
 
         /// <summary>
-        /// Поулчить список с идентификаторами и названиями объектов
+        /// Поулчить список со всеми атрибутами объектов
         /// </summary>
         /// <returns>Список объектов</returns>
-        public List<object> GetSportObjectIds();
+        public List<SportObject> GetSportObjectIds();
 
         /// <summary>
         /// Добавление нового спортивного объекта
@@ -48,5 +48,18 @@ namespace ASUSport.Repositories.Impl
         /// <param name="id">Идентификатор</param>
         /// <returns></returns>
         public Response DeleteSportObject(int id);
+
+        /// <summary>
+        /// Обновление всей таблицы
+        /// </summary>
+        /// <param name="data">Табличные данные</param>
+        /// <returns></returns>
+        public Response UpdateTable(List<UpdateSportObjectDTO> data);
+
+        /// <summary>
+        /// Получить количестов строк в таблице
+        /// </summary>
+        /// <returns> Количество строк</returns>
+        public int GetNumberOfEntities();
     }
 }

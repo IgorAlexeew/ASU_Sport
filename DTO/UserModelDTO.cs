@@ -35,6 +35,11 @@ namespace ASUSport.DTO
         public string DateOfBirth { get; set; }
 
         /// <summary>
+        /// Роль пользователя
+        /// </summary>
+        public string Role { get; set; }
+
+        /// <summary>
         /// Список событий
         /// </summary>
         public ICollection<EventForUserModelDTO> Events { get; set; }

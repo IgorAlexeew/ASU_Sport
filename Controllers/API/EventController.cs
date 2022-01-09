@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ASUSport.Repositories.Impl;
 using ASUSport.DTO;
+using System.Collections.Generic;
 
 namespace ASUSport.Controllers.API
 {
@@ -98,12 +99,32 @@ namespace ASUSport.Controllers.API
             return Ok(result);
         }
 
-        //[HttpGet("get-events-with-clients")]
-        //public IActionResult GetEventsWithClients(string date, int sportObject)
-        //{
-        //    var result = eventRepository.GetEventsWithClients(date, sportObject);
+        [HttpGet("get-events-with-clients")]
+        public IActionResult GetEventsWithClients(string date, int sportObject)
+        {
+            var result = eventRepository.GetEventsWithClients(date, sportObject);
 
-        //    return Ok(result);
-        //}
+            return File(
+                result,
+                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                "События и клиенты.xlsx");
+        }
+
+        [HttpPost("update-table")]
+        public IActionResult UpdateTable([FromBody] List<UpdateEventDTO> data)
+        {
+            var result = eventRepository.UpdateTable(data);
+
+            return Ok(result);
+        }
+
+        [HttpGet("get-number-of-entities")]
+        public IActionResult GetNumberOfEntities()
+        {
+            var result = eventRepository.GetNumberOfEntities();
+
+            return Ok(result);
+        }
+        
     }
 }

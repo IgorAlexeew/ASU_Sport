@@ -8,7 +8,7 @@
         /// <summary>
         /// Идентификатор абонемента
         /// </summary>
-        public int Id { get; set; }
+        public int? Id { get; set; }
 
         /// <summary>
         /// Тип абонемента
@@ -19,6 +19,11 @@
         /// Название абонемента
         /// </summary>
         public string Name { get; set; }
+
+        /// <summary>
+        /// Идентификатор спортивного объекта
+        /// </summary>
+        public int? SportObjectId { get; set; }
 
         /// <summary>
         /// Кол-во посещений

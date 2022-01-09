@@ -90,12 +90,25 @@ namespace ASUSport.Repositories.Impl
         /// <returns></returns>
         public Response DeleteEvent(int id);
 
-        ///// <summary>
-        ///// Получить список событий с клиентами для даты и спортивного объекта
-        ///// </summary>
-        ///// <param name="date">Дата</param>
-        ///// <param name="sportObject">Идентификатор спортивного объекта</param>
-        ///// <returns></returns>
-        //public EventsWithClientsDTO GetEventsWithClients(string date, int sportObject);
+        /// <summary>
+        /// Получить список событий с клиентами для даты и спортивного объекта
+        /// </summary>
+        /// <param name="date">Дата</param>
+        /// <param name="sportObject">Идентификатор спортивного объекта</param>
+        /// <returns></returns>
+        public byte[] GetEventsWithClients(string date, int sportObject);
+
+        /// <summary>
+        /// Обновление таблицы событий
+        /// </summary>
+        /// <param name="data">Табличные данные</param>
+        /// <returns></returns>
+        public Response UpdateTable(List<UpdateEventDTO> data);
+
+        /// <summary>
+        /// Получить количестов строк в таблице
+        /// </summary>
+        /// <returns> Количество строк</returns>
+        public int GetNumberOfEntities();
     }
 }

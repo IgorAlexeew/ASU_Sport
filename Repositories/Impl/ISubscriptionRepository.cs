@@ -42,7 +42,7 @@ namespace ASUSport.Repositories.Impl
         /// </summary>
         /// <param name="data">Табличные данные</param>
         /// <returns></returns>
-        public Response UpdateTable(List<UpdateSubscriptionDTO> data);
+        public Response UpdateSubscriptions(List<UpdateSubscriptionDTO> data);
 
         /// <summary>
         /// Получить количестов строк в таблице

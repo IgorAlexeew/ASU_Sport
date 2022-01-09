@@ -128,7 +128,7 @@ namespace ASUSport.Repositories
         }
 
         /// <inheritdoc/>
-        public Response UpdateTable(List<UpdateSectionDTO> data)
+        public Response UpdateSections(List<UpdateSectionDTO> data)
         {
             foreach (var section in data)
             {

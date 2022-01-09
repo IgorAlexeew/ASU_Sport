@@ -56,10 +56,10 @@ namespace ASUSport.Controllers.API
             return Ok(result);
         }
 
-        [HttpPost("update-table")]
-        public IActionResult UpdateTable([FromBody] List<UpdateSportObjectDTO> data)
+        [HttpPost("update-sport-objects")]
+        public IActionResult UpdateSportObjects([FromBody] List<UpdateSportObjectDTO> data)
         {
-            var result = objectsRepository.UpdateTable(data);
+            var result = objectsRepository.UpdateSportObjects(data);
 
             return Ok(result);
         }

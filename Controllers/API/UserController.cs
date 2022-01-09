@@ -2,6 +2,7 @@
 using ASUSport.Repositories.Impl;
 using ASUSport.DTO;
 using ASUSport.Models;
+using System.Collections.Generic;
 
 namespace ASUSport.Controllers.API
 {
@@ -26,9 +27,7 @@ namespace ASUSport.Controllers.API
         [HttpGet("get-user-info")]
         public IActionResult GetUserInfo()
         {
-            var result = userRepository.GetUserInfo(User.Identity.Name);
-
-            if (result == null)
+            if (User.Identity == null)
             {
                 return Ok(
                     new Response()
@@ -38,7 +37,9 @@ namespace ASUSport.Controllers.API
                         Message = "Пользователь не авторизован"
                     }
                 );
-            }    
+            }
+
+            var result = userRepository.GetUserInfo(User.Identity.Name);
 
             return Ok(result);
 
@@ -52,14 +53,10 @@ namespace ASUSport.Controllers.API
             return Ok(result);
         }
 
-        /// <summary>
-        /// Получить список всех тренеров
-        /// </summary>
-        /// <returns>Список всех тренеров</returns>
-        [HttpGet("get-trainers")]
-        public IActionResult GetTrainers()
+        [HttpGet("get-users")]
+        public IActionResult GetUsers(string role)
         {
-            var result = userRepository.GetTrainers();
+            var result = userRepository.GetUsers(role);
 
             return Ok(result);
         }
@@ -68,6 +65,14 @@ namespace ASUSport.Controllers.API
         public IActionResult ChangeRole([FromBody] ChangeRoleDTO data)
         {
             var result = userRepository.ChangeRole(data);
+
+            return Ok(result);
+        }
+
+        [HttpPost("update-users")]
+        public IActionResult UpdateUsers([FromBody] List<UserInfoDTO> data)
+        {
+            var result = userRepository.UpdateUsers(data);
 
             return Ok(result);
         }

@@ -110,10 +110,10 @@ namespace ASUSport.Controllers.API
                 "События и клиенты.xlsx");
         }
 
-        [HttpPost("update-table")]
-        public IActionResult UpdateTable([FromBody] List<UpdateEventDTO> data)
+        [HttpPost("update-events")]
+        public IActionResult UpdateEvents([FromBody] List<UpdateEventDTO> data)
         {
-            var result = eventRepository.UpdateTable(data);
+            var result = eventRepository.UpdateEvents(data);
 
             return Ok(result);
         }

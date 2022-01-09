@@ -160,7 +160,7 @@ namespace ASUSport.Repositories
         }
 
         /// <inheritdoc/>
-        public Response UpdateTable(List<UpdateSportObjectDTO> data)
+        public Response UpdateSportObjects(List<UpdateSportObjectDTO> data)
         {
             foreach (var sportObject in data)
             {

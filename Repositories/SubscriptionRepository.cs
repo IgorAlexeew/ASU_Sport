@@ -139,7 +139,7 @@ namespace ASUSport.Repositories
         }
 
         /// <inheritdoc/>
-        public Response UpdateTable(List<UpdateSubscriptionDTO> data)
+        public Response UpdateSubscriptions(List<UpdateSubscriptionDTO> data)
         {
             foreach (var subscription in data)
             {

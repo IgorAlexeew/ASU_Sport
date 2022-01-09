@@ -66,16 +66,23 @@ namespace ASUSport.Repositories.Impl
         public Response ChangeRole(ChangeRoleDTO data);
 
         /// <summary>
-        /// Получить список тренеров
+        /// Получить список всех пользователей или определенной роли
         /// </summary>
-        /// <returns>Список тренеров</returns>
-        public List<TrainerDTO> GetTrainers();
+        /// /// <param name="data">Роль пользователей</param>
+        /// <returns>Список пользователей</returns>
+        public List<UserInfoDTO> GetUsers(string role);
 
         /// <summary>
         /// Сохранение данных пользователя при регистрации
         /// </summary>
         /// <param name="data">Данные пользователя</param>
+        public void SaveUserData(UserData data);
+
+        /// <summary>
+        /// Обновление таблиц с данными пользователей
+        /// </summary>
+        /// <param name="data">Табличные данные</param>
         /// <returns></returns>
-        public Response SaveUserData(UserData data);
+        public Response UpdateUsers(List<UserInfoDTO> data);
     }
 }

@@ -103,7 +103,7 @@ namespace ASUSport.Repositories.Impl
         /// </summary>
         /// <param name="data">Табличные данные</param>
         /// <returns></returns>
-        public Response UpdateTable(List<UpdateEventDTO> data);
+        public Response UpdateEvents(List<UpdateEventDTO> data);
 
         /// <summary>
         /// Получить количестов строк в таблице

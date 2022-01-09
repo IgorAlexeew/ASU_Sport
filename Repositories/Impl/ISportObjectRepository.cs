@@ -54,7 +54,7 @@ namespace ASUSport.Repositories.Impl
         /// </summary>
         /// <param name="data">Табличные данные</param>
         /// <returns></returns>
-        public Response UpdateTable(List<UpdateSportObjectDTO> data);
+        public Response UpdateSportObjects(List<UpdateSportObjectDTO> data);
 
         /// <summary>
         /// Получить количестов строк в таблице

@@ -128,12 +128,12 @@ namespace ASUSport.Repositories
         /// <inheritdoc/>
         public User GetTrainer(int id)
         {
-            var trainer = db.UserData.FirstOrDefault(u => u.User.Id == id);
+            var trainer = db.Users.FirstOrDefault(u => u.Id == id);
 
             if (trainer == null)
                 return null;
 
-            return trainer.User;
+            return trainer;
         }
 
         /// <inheritdoc/>
@@ -435,7 +435,7 @@ namespace ASUSport.Repositories
         }
 
         /// <inheritdoc/>
-        public Response UpdateTable(List<UpdateEventDTO> data)
+        public Response UpdateEvents(List<UpdateEventDTO> data)
         {
             foreach (var ev in data)
             {

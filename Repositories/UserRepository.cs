@@ -20,13 +20,10 @@ namespace ASUSport.Repositories
         ///<inheritdoc/>
         public UserModelDTO GetUserInfo(string login)
         {
-            if (login == null)
-                return null;
-
             var user = db.UserData.FirstOrDefault(u => u.User.Login == login);
 
             if (user == null)
-                return null;
+                return new UserModelDTO();
 
             var role = user.User.Role.Name;
 
@@ -209,36 +206,96 @@ namespace ASUSport.Repositories
         }
 
         ///<inheritdoc/>
-        public List<TrainerDTO> GetTrainers()
+        public List<UserInfoDTO> GetUsers(string role)
         {
-            var result = new List<TrainerDTO>();
+            var result = new List<UserInfoDTO>();
 
-            var trainers = db.Users.Where(u => u.Role.Name == "trainer").ToList();
+            List<User> users = null;
 
-            foreach (var trainer in trainers)
+            if (role != null)
+                users = db.Users.Where(u => u.Role.Name == role).ToList();
+            else
+                users = db.Users.Select(s => s).ToList();
+
+            foreach (var user in users)
             {
-                var trainerData = db.UserData.First(u => u.User == trainer);
+                var userData = db.UserData.First(u => u.User == user);
 
-                var trainerDTO = new TrainerDTO()
+                var userInfoDTO = new UserInfoDTO()
                 {
-                    Id = trainer.Id,
-                    FirstName = trainerData.FirstName,
-                    MiddleName = trainerData.MiddleName,
-                    LastName = trainerData.LastName
+                    Id = user.Id,
+                    Login = user.Login,
+                    HashPassword = user.HashPassword,
+                    RoleId = user.RoleId,
+                    FirstName = userData.FirstName,
+                    MiddleName = userData.MiddleName,
+                    LastName = userData.LastName,
+                    DateOfBirth = userData.DateOfBirth.ToString("yyyy-MM-dd"),
+                    PhoneNumber = userData.PhoneNumber
                 };
 
-                result.Add(trainerDTO);
+                result.Add(userInfoDTO);
             }
 
             return result;
         }
 
         ///<inheritdoc/>
-        public Response SaveUserData(UserData data)
+        public void SaveUserData(UserData data)
         {
             db.UserData.Add(data);
             db.SaveChanges();
+        }
 
+        ///<inheritdoc/>
+        public Response UpdateUsers(List<UserInfoDTO> data)
+        {
+            foreach (var user in data)
+            {
+                if (user.Id != null)
+                {
+                    var selectedUser = db.Users.FirstOrDefault(u => u.Id == (int)user.Id);
+                    var selectedUserData = db.UserData.FirstOrDefault(u => u.Id == (int)user.Id);
+
+                    selectedUser.Login = user.Login;
+                    selectedUser.HashPassword = user.HashPassword;
+                    selectedUser.RoleId = user.RoleId;
+
+                    selectedUserData.FirstName = user.FirstName;
+                    selectedUserData.MiddleName = user.MiddleName;
+                    selectedUserData.LastName = user.LastName;
+                    selectedUserData.DateOfBirth = DateTime.Parse(user.DateOfBirth);
+                    selectedUserData.PhoneNumber = user.PhoneNumber;
+
+                    db.Users.Update(selectedUser);
+                    db.UserData.Update(selectedUserData);
+                }
+
+                else
+                {
+                    var newUser = new User()
+                    {
+                        Login = user.Login,
+                        HashPassword = user.HashPassword,
+                        RoleId = user.RoleId
+                    };
+
+                    var newUserData = new UserData()
+                    {
+                        FirstName = user.FirstName,
+                        MiddleName = user.MiddleName,
+                        LastName = user.LastName,
+                        PhoneNumber = user.PhoneNumber,
+                        DateOfBirth = DateTime.Parse(user.DateOfBirth)
+                    };
+
+                    db.Users.Add(newUser);
+                    db.UserData.Add(newUserData);
+                }
+            }
+
+            db.SaveChanges();
+            
             return new Response()
             {
                 Status = true,

@@ -5,6 +5,150 @@
     padding: 0;
     box-sizing: border-box;
 }
+
 body {
     font-family: Roboto, sans-serif;
+}
+
+.container {
+    background: linear-gradient(180deg, #F5F8F9 0%, #EAF0F2 100%);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+h1.title {
+    text-align: center;
+    margin: 10px 0;
+    padding: 20px;
+    background: #151515;
+    color: #fff;
+    font-size: 25px;
+    border-radius: 20px;
+    box-shadow: 0 -15px 11px #ffffff, 0 15px 10px -15px #00000047;
+}
+
+.table {
+    display: flex;
+    flex-direction: column;
+}
+
+.table-controls {
+    display: flex;
+    justify-content: flex-end;
+    margin: 10px 20px 50px 0;
+}
+
+.table table {
+    table-layout: auto;
+    border-spacing: 4px 4px;
+}
+
+.table input {
+    outline: none;
+    border: none;
+    background: rgba(255, 255, 255, 0.2);
+    color: #3f3f3f;
+    font-family: Roboto, sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    text-align: center;
+    padding: 5px;
+    border-radius: 5px;
+    transition: background .3s ease-out;
+}
+
+.table input::selection {
+    background: #5e6869;
+    color: #fff;
+}
+
+.table input:focus {
+    background: #ffffff;
+}
+
+.table select {
+    background: none;
+    outline: none;
+    border: 0;
+    padding: 5px;
+    border-radius: 5px;
+    text-align: center;
+    font-family: Roboto, sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    color: #3f3f3f;
+}
+/*
+.table select::selection {
+    background: #5e6869;
+    color: #fff;
+}*/
+
+.table th {
+    font-size: 12px;
+    color: #2f2f2f;
+}
+
+.table tr:hover input, .table tr:hover select {
+    background: rgba(255, 255, 255, 0.7);
+}
+
+.table tr input:hover, .table select:hover {
+    background: rgba(255, 255, 255, 1);
+}
+
+.table button.delete {
+    outline: none;
+    border: none;
+    background: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.table button.delete svg {
+    fill: rgba(0,0,0,0);
+    width: 20px;
+    transition: fill .3s ease-out;
+}
+
+.table tr:hover button.delete svg {
+    fill: rgba(100,0,0,.5);
+}
+
+.table tr button.delete:hover svg {
+    fill: rgba(200,0,0,.9);
+}
+
+.bottom-button {
+    outline: none;
+    border: none;
+    background: none;
+    color: #7e898d;
+    font-family: Roboto, sans-serif;
+    font-weight: 500;
+    transition: color .3s ease-out;
+    cursor: pointer;
+    padding: 0 10px;
+    margin: 5px 0;
+    border-right: 2px solid #d0d0d0;
+}
+
+.bottom-button:last-child {
+    border-right: none;
+}
+
+.bottom-button:hover {
+    color: #495052;
+}
+
+.bottom-button.submit {
+    color: #678a70;
+}
+
+.bottom-button.submit:hover {
+    color: #4a9a63;
 }

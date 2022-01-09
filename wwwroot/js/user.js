@@ -18,38 +18,85 @@ const app = Vue.createApp({
                 lastName: null,
                 phoneNumber: null,
                 dateOfBirth: null,
-                events: [
-                    {
-                        section: {
-                            sectionName: null,
-                            duration: null
-                        },
-                        trainer: {
-                            firstName: null,
-                            middleName: null,
-                            lastName: null
-                        },
-                        time: null
-                    }
-                ]
+                role: "",
+                events: [],
+                entities: []
             }
         }
     },
     beforeCreate() {
-        axios
+        /*axios
             .get("/api/user/get-user-info")
             .then(response => this.user = response.data)
-            .catch(error => console.log(error))
+            .catch(error => console.log(error))*/
+    },
+    mounted() {
+        /*axios
+            .get("/api/user/get-user-info")
+            .then(response => this.user = response.data)
+            .catch(error => console.log(error))*/
+        this.user.firstName = "Иван"
+        this.user.middleName = "Иванович"
+        this.user.lastName = "Иванов"
+        this.user.phoneNumber = "89-98-00"
+        this.user.dateOfBirth = "11.11.1911"
+        this.user.role = "admin"
+        this.user.events = [] 
+        this.user.entities = [{
+            name: "Спортивные объекты",
+            href: "",
+            color: `hsl(${Math.random()*360},60%,60%)`,
+            count: 5
+        },{
+            name: "Занятия",
+            href: "",
+            color: `hsl(${Math.random()*360},60%,60%)`,
+            count: 120
+        },{
+            name: "Секции",
+            href: "",
+            color: `hsl(${Math.random()*360},60%,60%)`,
+            count: 10
+        },{
+            name: "Абонементы",
+            href: "",
+            color: `hsl(${Math.random()*360},60%,60%)`,
+            count: 90
+        },{
+            name: "Тренера",
+            href: "",
+            color: `hsl(${Math.random()*360},60%,60%)`,
+            count: 8
+        },{
+            name: "Клиенты",
+            href: "",
+            color: `hsl(${Math.random()*360},60%,60%)`,
+            count: 108
+        },{
+            name: "Администраторы",
+            href: "",
+            color: `hsl(${Math.random()*360},60%,60%)`,
+            count: 2
+        },{
+            name: "Новости",
+            href: "",
+            color: `hsl(${Math.random()*360},60%,60%)`,
+            count: 0
+        }]
     }
 });
 
 app.component("user-info",{
-    props: ['user'],
+    data() {
+        return {
+            user: this.$root.user
+        }
+    },
     template: `
         <div class="user">
             <img src="/img/users/user.svg" class="photo" alt=""/>
             <div class="data">
-                <p class="full-name">{{ user?.lastName }} {{ user?.firstName }} {{ user?.middleName }}</p>
+                <p class="full-name">{{ user?.lastName }} {{ user?.firstName }} {{ user?.middleName }} <span v-if="user.role === 'admin'" class="admin">админстратор</span></p>
                 <p class="birth-date">Дата рождения: {{ (new Date(user?.dateOfBirth)).toLocaleDateString("ru", {day:"2-digit",month:"2-digit",year:"numeric"}) }}</p>
     <!--            <p class="e-mail">dostoevskiy@poet.ru</p>-->
                 <p class="phone-number">Номер телефона: {{ user?.phoneNumber }}</p>
@@ -65,21 +112,62 @@ app.component("user-info",{
 )
 
 app.component("nearest-events",{
-    props: ['user'],
+    data() {
+        return {
+            user: this.$root.user
+        }
+    },
     template: `
-        <div class="nearest-events">
-            <div class="title">Предстоящие занятия:</div>
-            <div class="events">
-                <template v-if="user.events !== null && user.events.length > 0">
-                    <a v-for="event in user?.events" href="#" class="event">
-                        <p class="name">{{ event?.section?.sectionName }}</p>
-                        <p class="date">{{ (new Date(event?.date)).toLocaleDateString("ru", {day:"2-digit",month:"2-digit",year:"numeric"}) }}</p>
-                        <p class="time">{{ event?.time }}</p>
+        <div class="data-block nearest-events">
+        <div class="title">Предстоящие занятия:</div>
+        <div class="objects-grid events">
+          <template v-if="user.events !== null && user.events.length > 0">
+            <a v-for="event in user?.events" href="#" class="object event">
+              <p class="name">{{ event?.section?.sectionName }}</p>
+              <p class="date">{{ (new Date(event?.date)).toLocaleDateString("ru", {day:"2-digit",month:"2-digit",year:"numeric"}) }}</p>
+              <p class="time">{{ event?.time }}</p>
+            </a>
+          </template>
+          <p class="empty" v-else>Нет предстоящих событий</p>
+        </div>
+        </div>
+  `
+})
+
+app.component("entities-block",{
+    data() {
+        return {
+            user: this.$root.user
+        }
+    },
+    props: [],
+    template: `
+        <div class="data-block entities-block">
+            <div class="title">Таблицы:</div>
+            <div class="objects-grid entities">
+                <template v-if="user.entities !== null && user.entities.length > 0">
+                    <a v-for="entity in user?.entities" :href="entity.href" class="object entity" :style="{background: entity.color}">
+                        <p class="name">{{ entity.name }}</p>
+                        <p class="count">{{ entity.count }}</p>
                     </a>
                 </template>
-              <p class="empty" v-else>Нет предстоящих событий</p>
+              <p class="empty" v-else>Нет данных</p>
             </div>
         </div>
   `
 })
+
+app.component("user-block", {
+    data() {
+        return {
+            user: this.$root.user
+        }
+    },
+    template: `
+      <user-info></user-info>
+      <entities-block v-if="user.role === 'admin'"></entities-block>
+      <nearest-events></nearest-events>
+    `
+})
+
 app.mount("#app")

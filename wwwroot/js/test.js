@@ -1,83 +1,83 @@
-const app = Vue.createApp({
+const app = Vue.createApp({})
+
+app.component("test-table", {
     data() {
         return {
-            values: [
-                {
-                    Header1: "Value1",
-                    Header2: "Value2",
-                    Header3: "Value3",
-                    Header4: 0
-                },
-                {
-                    Header1: "Value1",
-                    Header2: "Value2",
-                    Header3: "Value3",
-                    Header4: 0
-                },
-                {
-                    Header1: "Value1",
-                    Header2: "Value2",
-                    Header3: "Value3",
-                    Header4: 0
-                }
-            ],
-            Header4: ["HValue1", "HValue2", "HValue3"]
-        }
-    },
-    methods: {
-        make_value() {
-            return {
-                Header1: "",
-                Header2: "",
-                Header3: "",
-                Header4: null
-            }
+            values: [],
+            copy: "",
+            headers: {
+                LastName: "Фамилия",
+                FirstName: "Имя",
+                FatherName: "Отчество",
+                Gender: "Пол",
+                Phone: "Телефон",
+                Login: "Логин",
+                Password: "Пароль"
+            },
+            gender_values: {"Мужчина":"Мужчина", "Женщина":"Женщина"}
         }
     },
     mounted() {
-        console.log(this.values[0])
-        axios.get("https://api.randomdatatools.ru/?count=10&params=LastName,FirstName,FatherName,Phone,Login,Password,Email")
-            .then(resp => this.values = resp.data)
+        axios.get("https://api.randomdatatools.ru/?count=10&params=LastName,FirstName,FatherName,Gender,Phone,Login,Password,Email")
+            .then(resp => {
+                this.values = resp.data
+                this.copy = JSON.stringify(resp.data)
+            })
             .catch(error => console.log(error))
-    }
-})
-
-app.component("test-table", {
+        console.log(this.copy)
+    },
     props: [],
     methods: {
-        click() {
-            console.log(this.$root.values)
+        make_value() {
+            let value = {}
+            for (let key in this.values[0]) {
+                value[key] = null
+            }
+            return value
+        },
+        submit() {
+            console.log(this.values)
+            this.copy = JSON.stringify(this.values)
         },
         add_row() {
-            this.$root.values.push(this.$root.make_value())
+            this.values.push(this.make_value())
         },
         delete(id) {
-            this.$root.values.splice(id, 1)
+            this.values.splice(id, 1)
+        },
+        stash() {
+            console.log(this.copy)
+            this.values = JSON.parse(this.copy)
         }
     },
     template: `
-          <div class="table">
-              <p class="title">Table</p>
-              <table>
-                <tr>
-                  <th v-for="(value, name) in this.$root.values[0]">{{name}}</th>
-                </tr>
-                <tr v-for="(row, index) in this.$root.values">
-                  <td v-for="(item, name) in this.$root.values[index]">
-                    <input v-if="name !== 'Header4'" type="text" v-model="this.$root.values[index][name]" :key="name">
-                    <select v-if="name === 'Header4'" type="text" v-model="this.$root.values[index][name]" :key="name">
-                      <option disabled value="">Выберите один из вариантов</option>
-                      <option v-for="(h_name, h_index) in this.$root.Header4"  :value="h_index">{{h_name}}</option>
-                    </select>
-                  </td>
-                  <td>
-                    <button type="button" @click="this.delete(index)">Delete</button>
-                  </td>
-                </tr>
-              </table>
-              <button type="submit" @click="click">Submit</button>
-              <button type="button" @click="add_row">Add row</button>
-          </div>
+      <div class="table">
+      <h1 class="title">Table</h1>
+      <table>
+        <tr>
+          <th v-for="(value, name) in this.values[0]">{{ this.headers[name] ?? name }}</th>
+        </tr>
+        <tr v-for="(row, index) in this.values">
+          <td v-for="(item, name) in this.values[index]">
+            <input v-if="name !== 'Gender'" type="text" v-model="this.values[index][name]" :key="name">
+            <select v-if="name === 'Gender'" type="text" v-model="this.values[index][name]" :key="name">
+<!--              <option disabled value="">Выберите</option>-->
+              <option v-for="(h_name, h_key) in this.gender_values"  :value="h_key">{{h_name}}</option>
+            </select>
+          </td>
+          <td>
+            <button class="delete" type="button" @click="this.delete(index)">
+              <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><path d="M21.5 6a1 1 0 0 1-.883.993L20.5 7h-.845l-1.231 12.52A2.75 2.75 0 0 1 15.687 22H8.313a2.75 2.75 0 0 1-2.737-2.48L4.345 7H3.5a1 1 0 0 1 0-2h5a3.5 3.5 0 1 1 7 0h5a1 1 0 0 1 1 1zm-7.25 3.25a.75.75 0 0 0-.743.648L13.5 10v7l.007.102a.75.75 0 0 0 1.486 0L15 17v-7l-.007-.102a.75.75 0 0 0-.743-.648zm-4.5 0a.75.75 0 0 0-.743.648L9 10v7l.007.102a.75.75 0 0 0 1.486 0L10.5 17v-7l-.007-.102a.75.75 0 0 0-.743-.648zM12 3.5A1.5 1.5 0 0 0 10.5 5h3A1.5 1.5 0 0 0 12 3.5z"/></svg>
+            </button>
+          </td>
+        </tr>
+      </table>
+      <div class="table-controls">
+        <button class="bottom-button add-row" type="button" @click="add_row">Добавить</button>
+        <button class="bottom-button stash" type="button" @click="stash">Отменить изменения</button>
+        <button class="bottom-button submit" type="submit" @click="submit">Сохранить</button>
+      </div>
+      </div>
     `
 })
 

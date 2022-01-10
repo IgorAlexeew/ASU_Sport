@@ -74,7 +74,7 @@ const app = Vue.createApp({
                     count: 0
             },
             trainers: {
-                name: "Тренера",
+                name: "Тренеры",
                     href: "",
                     color: `hsl(${Math.random()*360},60%,60%)`,
                     count: 0
@@ -115,6 +115,18 @@ const app = Vue.createApp({
         axios
             .get("/api/subscription/get-number-of-entities")
             .then(response => this.entities.subscriptions.count = response.data)
+            .catch(error => console.log(error))
+        axios
+            .get("/api/user/get-number-of-trainers")
+            .then(response => this.entities.trainers.count = response.data)
+            .catch(error => console.log(error))
+        axios
+            .get("/api/user/get-number-of-clients")
+            .then(response => this.entities.clients.count = response.data)
+            .catch(error => console.log(error))
+        axios
+            .get("/api/user/get-number-of-admins")
+            .then(response => this.entities.admins.count = response.data)
             .catch(error => console.log(error))
     }
 });

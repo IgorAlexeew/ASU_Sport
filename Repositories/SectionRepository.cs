@@ -53,7 +53,7 @@ namespace ASUSport.Repositories
             var section = db.Sections.FirstOrDefault(s => s.Id == id);
 
             db.Sections.Remove(section);
-            db.SaveChanges();
+            //db.SaveChanges();
             
             return new Response()
             {
@@ -150,6 +150,12 @@ namespace ASUSport.Repositories
                     db.Sections.Add(newSection);
                 }
             }
+
+            var indexes = db.Sections.Select(s => s.Id).ToList()
+                .Except(data.Where(s => s.Id != null).Select(s => (int)s.Id).ToList());
+
+            foreach (var index in indexes)
+                DeleteSection(index);
 
             db.SaveChanges();
 

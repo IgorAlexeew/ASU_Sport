@@ -29,13 +29,13 @@ namespace ASUSport.DTO
         public List<string> Days { get; set; }
 
         /// <summary>
-        /// название услуги
+        /// Название услуги
         /// </summary>
         public string ServiceName { get; set; }
 
         /// <summary>
         /// Цена за данную услугу
         /// </summary>
-        public int Price { get; set; }
+        public int? Price { get; set; }
     }
 }

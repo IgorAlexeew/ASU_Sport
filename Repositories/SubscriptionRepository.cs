@@ -106,7 +106,6 @@ namespace ASUSport.Repositories
                 var sub = new SubscriptionDTO()
                 {
                     Id = s.Id,
-                    SportObjectName = s.SportObject.Name,
                     SportObjectId = s.SportObjectId,
                     Type = s.Type,
                     Name = s.Name,

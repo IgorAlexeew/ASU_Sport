@@ -18,7 +18,7 @@
         /// <summary>
         /// Спортивный объект
         /// </summary>
-        public int? SportObject { get; set; }
+        public int? SportObjectId { get; set; }
 
         /// <summary>
         /// Продолжительность

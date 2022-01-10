@@ -125,6 +125,14 @@ namespace ASUSport.Controllers.API
 
             return Ok(result);
         }
-        
+
+        [HttpGet("get-table-data")]
+        public IActionResult GetTableData()
+        {
+            var result = eventRepository.GetTableData();
+
+            return Ok(result);
+        }
+
     }
 }

@@ -250,6 +250,8 @@ namespace ASUSport.Repositories
         ///<inheritdoc/>
         public Response UpdateUsers(List<UserInfoDTO> data)
         {
+            var roles = new HashSet<int>();
+            
             foreach (var user in data)
             {
                 if (user.Id != null)
@@ -269,6 +271,8 @@ namespace ASUSport.Repositories
 
                     db.Users.Update(selectedUser);
                     db.UserData.Update(selectedUserData);
+
+                    roles.Add(selectedUser.RoleId);
                 }
 
                 else
@@ -294,7 +298,7 @@ namespace ASUSport.Repositories
                 }
             }
 
-            var indexes = db.Users.Select(s => s.Id).ToList()
+            var indexes = db.Users.Where(u => roles.Contains(u.RoleId)).Select(s => s.Id).ToList()
                 .Except(data.Where(s => s.Id != null).Select(s => (int)s.Id).ToList());
 
             foreach (var index in indexes)

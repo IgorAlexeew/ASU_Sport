@@ -76,5 +76,29 @@ namespace ASUSport.Controllers.API
 
             return Ok(result);
         }
+
+        [HttpGet("get-number-of-admins")]
+        public IActionResult GetNumberOfAdmins()
+        {
+            var result = userRepository.GetNumberOfAdmins();
+
+            return Ok(result);
+        }
+
+        [HttpGet("get-number-of-clients")]
+        public IActionResult GetNumberOfClients()
+        {
+            var result = userRepository.GetNumberOfClients();
+
+            return Ok(result);
+        }
+
+        [HttpGet("get-number-of-trainers")]
+        public IActionResult GetNumberOfTrainers()
+        {
+            var result = userRepository.GetNumberOfTrainers();
+
+            return Ok(result);
+        }
     }
 }

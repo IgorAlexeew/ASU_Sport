@@ -84,5 +84,23 @@ namespace ASUSport.Repositories.Impl
         /// <param name="data">Табличные данные</param>
         /// <returns></returns>
         public Response UpdateUsers(List<UserInfoDTO> data);
+
+        /// <summary>
+        /// Получить количество админов
+        /// </summary>
+        /// <returns>Количество админов</returns>
+        public int GetNumberOfAdmins();
+
+        /// <summary>
+        /// Получить количество клиентов
+        /// </summary>
+        /// <returns>Количество клиентов</returns>
+        public int GetNumberOfClients();
+
+        /// <summary>
+        /// Получить количество тренеров
+        /// </summary>
+        /// <returns>Количество тренеров</returns>
+        public int GetNumberOfTrainers();
     }
 }

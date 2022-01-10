@@ -366,7 +366,7 @@ namespace ASUSport.Repositories
             var selectedEvent = db.Events.FirstOrDefault(s => s.Id == id);
 
             db.Events.Remove(selectedEvent);
-            db.SaveChanges();
+            //db.SaveChanges();
             
             return new Response()
             {
@@ -458,6 +458,12 @@ namespace ASUSport.Repositories
                     db.Events.Add(newEvent);
                 }
             }
+
+            var indexes = db.Events.Select(s => s.Id).ToList()
+                .Except(data.Where(s => s.Id != null).Select(s => (int)s.Id).ToList());
+
+            foreach (var index in indexes)
+                DeleteEvent(index);
 
             db.SaveChanges();
             

@@ -294,6 +294,18 @@ namespace ASUSport.Repositories
                 }
             }
 
+            var indexes = db.Users.Select(s => s.Id).ToList()
+                .Except(data.Where(s => s.Id != null).Select(s => (int)s.Id).ToList());
+
+            foreach (var index in indexes)
+            {
+                var selectedUser = db.Users.FirstOrDefault(u => u.Id == index);
+                var selectedUserData = db.UserData.FirstOrDefault(u => u.Id == index);
+
+                db.Users.Remove(selectedUser);
+                db.UserData.Remove(selectedUserData);
+            }
+
             db.SaveChanges();
             
             return new Response()
@@ -302,6 +314,24 @@ namespace ASUSport.Repositories
                 Type = "success",
                 Message = "OK"
             };
+        }
+
+        ///<inheritdoc/>
+        public int GetNumberOfAdmins()
+        {
+            return db.Users.Where(u => u.Role.Name == "admin").Count();
+        }
+
+        ///<inheritdoc/>
+        public int GetNumberOfClients()
+        {
+            return db.Users.Where(u => u.Role.Name == "client").Count();
+        }
+
+        ///<inheritdoc/>
+        public int GetNumberOfTrainers()
+        {
+            return db.Users.Where(u => u.Role.Name == "trainer").Count();
         }
     }
 }

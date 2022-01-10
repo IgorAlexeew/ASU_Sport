@@ -61,15 +61,15 @@ namespace ASUSport.Repositories
                 var events = db.Events.Where(e => e.Section.SportObject.Id == obj.Id
                     && e.Time > today && e.Time < nearestSaturday).ToList();
 
-                var subscription = db.Subscriptions.First(s => s.SportObject.Id == obj.Id && s.Type == "Разовое занятие");
+                var subscription = db.Subscriptions.FirstOrDefault(s => s.SportObject.Id == obj.Id && s.Type == "Разовое занятие");
 
                 var info = new SportObjectForMainDTO()
                 {
                     Id = obj.Id,
                     ObjectName = obj.Name,
-                    ServiceName = subscription.Type,
-                    WorkingHours = subscription.StartingTime != null ? subscription.StartingTime + " - " + subscription.ClosingTime : null,
-                    Price = subscription.Price
+                    ServiceName = subscription?.Type,
+                    WorkingHours = subscription != null ? subscription.StartingTime + " - " + subscription.ClosingTime : null,
+                    Price = subscription?.Price
                 };
 
                 if (events.Any())
@@ -118,7 +118,7 @@ namespace ASUSport.Repositories
             var sportObject = db.SportObjects.FirstOrDefault(s => s.Id == id);
 
             db.SportObjects.Remove(sportObject);
-            db.SaveChanges();
+            //db.SaveChanges();
             
             return new Response()
             {
@@ -181,6 +181,12 @@ namespace ASUSport.Repositories
                     AddSportObject(newSportObject);
                 }
             }
+
+            var indexes = db.SportObjects.Select(s => s.Id).ToList()
+                .Except(data.Where(s => s.Id != null).Select(s => (int)s.Id).ToList());
+
+            foreach (var index in indexes)
+                DeleteSportObject(index);
 
             db.SaveChanges();
             

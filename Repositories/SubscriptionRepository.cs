@@ -128,7 +128,7 @@ namespace ASUSport.Repositories
             var subscription = db.Subscriptions.FirstOrDefault(s => s.Id == id);
 
             db.Subscriptions.Remove(subscription);
-            db.SaveChanges();
+            //db.SaveChanges();
             
             return new Response()
             {
@@ -165,6 +165,12 @@ namespace ASUSport.Repositories
                     db.Subscriptions.Add(newSubscription);
                 }
             }
+
+            var indexes = db.Subscriptions.Select(s => s.Id).ToList()
+                .Except(data.Where(s => s.Id != null).Select(s => (int)s.Id).ToList());
+
+            foreach (var index in indexes)
+                DeleteSubscription(index);
 
             db.SaveChanges();
             

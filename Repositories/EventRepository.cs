@@ -141,7 +141,9 @@ namespace ASUSport.Repositories
         {
             var result = new List<EventModelDTO>();
 
-            List<Event> events = db.Events.Where(e => e.Time > DateTime.Now).Select(e => e).ToList();
+            //.Where(e => e.Time > DateTime.Now)
+
+            List<Event> events = db.Events.Select(e => e).ToList();
 
             if (section != null)
                 events = events.Where(e => e.Section.Id == section).ToList();
@@ -337,17 +339,8 @@ namespace ASUSport.Repositories
                 selectedEvent.Trainer = newTrainer;
             }
 
-            if (data.Date != null)
-            {
-                var time = selectedEvent.Time.ToString("HH:mm");
-                selectedEvent.Time = DateTime.Parse(data.Date + " " + time);
-            }
-
             if (data.Time != null)
-            {
-                var date = selectedEvent.Time.ToString("yyyy-MM-dd");
-                selectedEvent.Time = DateTime.Parse(date + " " + data.Time);
-            }
+                selectedEvent.Time = DateTime.Parse(data.Time);
 
             db.Events.Update(selectedEvent);
             db.SaveChanges();
@@ -450,7 +443,7 @@ namespace ASUSport.Repositories
 
                     var newEvent = new Event()
                     {
-                        Time = DateTime.Parse(ev.Date + " " + ev.Time),
+                        Time = DateTime.Parse(ev.Time),
                         Trainer = trainer,
                         Section = section
                     };
@@ -479,6 +472,29 @@ namespace ASUSport.Repositories
         public int GetNumberOfEntities()
         {
             return db.Events.Count();
+        }
+
+        /// <inheritdoc/>
+        public List<UpdateEventDTO> GetTableData()
+        {
+            var events = db.Events.Select(s => s).ToList();
+
+            var result = new List<UpdateEventDTO>();
+
+            foreach (var ev in events)
+            {
+                var e = new UpdateEventDTO()
+                {
+                    Id = ev.Id,
+                    TrainerId = ev.Trainer?.Id,
+                    SectionId = ev.Section?.Id,
+                    Time = ev.Time.ToString("yyyy-MM-dd HH:mm")
+                };
+
+                result.Add(e);
+            }
+
+            return result;
         }
     }
 }

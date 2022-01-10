@@ -21,13 +21,8 @@
         public int? TrainerId { get; set; }
 
         /// <summary>
-        /// Время начала события
+        /// Дата и время начала события
         /// </summary>
         public string Time { get; set; }
-
-        /// <summary>
-        /// Дата начала события
-        /// </summary>
-        public string Date { get; set; }
     }
 }

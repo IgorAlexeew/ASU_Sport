@@ -101,9 +101,9 @@ namespace ASUSport.Repositories
         {
             var section = db.Sections.FirstOrDefault(s => s.Id == (int)data.Id);
 
-            if (data.SportObject != null)
+            if (data.SportObjectId != null)
             {
-                section.SportObjectId = (int) data.SportObject;
+                section.SportObjectId = (int) data.SportObjectId;
             }
 
             if (data.Name != null)
@@ -137,13 +137,13 @@ namespace ASUSport.Repositories
 
                 else
                 {
-                    var sportObject = db.SportObjects.FirstOrDefault(s => s.Id == (int)section.SportObject);
+                    var sportObject = db.SportObjects.FirstOrDefault(s => s.Id == (int)section.SportObjectId);
                     
                     var newSection = new Section()
                     {
                         Name = section.Name,
                         SportObject = sportObject,
-                        SportObjectId = (int)section.SportObject,
+                        SportObjectId = (int)section.SportObjectId,
                         Duration = (int)section.Duration,
                     };
 

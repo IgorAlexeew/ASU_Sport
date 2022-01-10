@@ -110,5 +110,11 @@ namespace ASUSport.Repositories.Impl
         /// </summary>
         /// <returns> Количество строк</returns>
         public int GetNumberOfEntities();
+
+        /// <summary>
+        /// Получить список всех событий, как они хранятся в БД
+        /// </summary>
+        /// <returns></returns>
+        public List<UpdateEventDTO> GetTableData();
     }
 }

@@ -42,6 +42,43 @@ body {
     font-size: 35px;
 }
 
+.user .data input {
+    font-family: Roboto, sans-serif;
+    background: #f0f6f6;
+    color: #363d3d;
+    padding: 4px;
+    border-radius: 5px;
+    font-size: 16px;
+    outline: none;
+    border: none;
+}
+
+.user .data input::placeholder {
+    color: #aeb9b9;
+}
+
+.user .data input:disabled {
+    margin-right: 0;
+    background: none;
+    color: #000;
+    border-radius: 10px;
+    padding: 0 10px 0 0;
+    outline: none;
+}
+
+.user .data input:focus {
+    background: #f7fafa;
+}
+
+.user .data .full-name input {
+    font-weight: 700;
+    font-size: 35px;
+    width: 200px;
+    margin: 5px 10px 5px 0;
+    border-radius: 10px;
+    padding: 0 10px;
+}
+
 .user .data .full-name .admin {
     color: #7e7e7e;
     font-size: 28px;
@@ -52,9 +89,66 @@ body {
     margin: 2px;
 }
 
-.user .logout {
+.user:hover .controls {
+    opacity: 100%;
+}
+
+.user .controls {
+    opacity: 0;
     align-self: center;
     margin-left: auto;
+    /*height: 33%;
+    margin-bottom: 4px;*/
+    height: 40%;
+    transition: opacity .3s ease-out;
+    display: flex;
+    align-items: stretch;
+    justify-content: flex-end;
+}
+
+.user .controls div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.user .controls .edit svg {
+    cursor: pointer;
+    height: 100%;
+    fill: #c9d7d7;
+    transition: fill .3s ease-out;
+}
+
+.user .controls .edit:hover svg {
+    fill: #d1dadc;
+}
+
+.user .controls .save svg {
+    cursor: pointer;
+    height: 70%;
+    fill: #74c289;
+    transition: fill .3s ease-out;
+}
+
+.user .controls .save:hover svg {
+    fill: #9ad9ac;
+}
+
+.user .controls .discard svg {
+    cursor: pointer;
+    height: 70%;
+    fill: #cc5569;
+    transition: fill .3s ease-out;
+}
+
+.user .controls .discard:hover svg {
+    fill: #da7988;
+}
+
+.user .logout {
+    align-self: center;
+    margin: 0 10px;
+    /*margin-left: auto;*/
     height: 30%;
 }
 
@@ -76,6 +170,59 @@ body {
 .user img.photo {
     height: 100%;
     border-radius: 30px;
+}
+
+.user .data .birth-date {
+    display: flex;
+    align-items: center;
+}
+
+.datepicker-toggle {
+    display: inline-block;
+    position: relative;
+    height: 16px;
+    aspect-ratio: 1;
+    margin-left: 5px;
+}
+
+.datepicker-toggle-button {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    padding: 5px;
+    background-color: #000;
+    -webkit-mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" width="31.622px" height="31.621px" viewBox="0 0 31.622 31.621" style="enable-background:new 0 0 31.622 31.621;" xml:space="preserve"> <g> <path d="M31.43,4.945c0-1.194-0.968-2.162-2.162-2.162h-3.656V0.882C25.612,0.395,25.217,0,24.73,0h-1.905    c-0.485,0-0.883,0.395-0.883,0.882v1.902H9.802V0.882C9.802,0.395,9.407,0,8.92,0H7.142C6.655,0,6.26,0.395,6.26,0.882v1.902H2.35    c-1.194,0-2.162,0.968-2.162,2.162v7.704h1.139v16.749c0,1.229,0.995,2.223,2.223,2.223h24.394c1.229,0,2.223-0.994,2.223-2.223    v-16.75h1.267L31.43,4.945L31.43,4.945z M26.624,25.73c0,1.229-0.994,2.223-2.223,2.223H7.218c-1.228,0-2.223-0.994-2.223-2.223    V12.649h21.628V25.73L26.624,25.73z"/> <rect x="8.031" y="15.051" width="3.541" height="3.669"/> <rect x="14.102" y="15.051" width="3.541" height="3.669"/> <rect x="20.172" y="15.051" width="3.542" height="3.669"/> <rect x="8.031" y="21.502" width="3.541" height="3.668"/> <rect x="14.102" y="21.502" width="3.541" height="3.668"/> <rect x="20.172" y="21.502" width="3.542" height="3.668"/> </g> </svg>') 50% 50% no-repeat;
+    -webkit-mask-size: 80%;
+    mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" width="31.622px" height="31.621px" viewBox="0 0 31.622 31.621" style="enable-background:new 0 0 31.622 31.621;" xml:space="preserve"> <g> <path d="M31.43,4.945c0-1.194-0.968-2.162-2.162-2.162h-3.656V0.882C25.612,0.395,25.217,0,24.73,0h-1.905    c-0.485,0-0.883,0.395-0.883,0.882v1.902H9.802V0.882C9.802,0.395,9.407,0,8.92,0H7.142C6.655,0,6.26,0.395,6.26,0.882v1.902H2.35    c-1.194,0-2.162,0.968-2.162,2.162v7.704h1.139v16.749c0,1.229,0.995,2.223,2.223,2.223h24.394c1.229,0,2.223-0.994,2.223-2.223    v-16.75h1.267L31.43,4.945L31.43,4.945z M26.624,25.73c0,1.229-0.994,2.223-2.223,2.223H7.218c-1.228,0-2.223-0.994-2.223-2.223    V12.649h21.628V25.73L26.624,25.73z"/> <rect x="8.031" y="15.051" width="3.541" height="3.669"/> <rect x="14.102" y="15.051" width="3.541" height="3.669"/> <rect x="20.172" y="15.051" width="3.542" height="3.669"/> <rect x="8.031" y="21.502" width="3.541" height="3.668"/> <rect x="14.102" y="21.502" width="3.541" height="3.668"/> <rect x="20.172" y="21.502" width="3.542" height="3.668"/> </g> </svg>') 50% 50% no-repeat;
+    mask-size: 80%;
+    transition: background-color .3s ease-out;
+}
+
+.datepicker-toggle:hover .datepicker-toggle-button{
+    background-color: #2d3436;
+}
+
+.datepicker-input {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+.datepicker-input::-webkit-calendar-picker-indicator {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    cursor: pointer;
 }
 
 .data-block .title {
@@ -191,3 +338,4 @@ body {
     font-weight: 500;
     color: rgba(255,255,255, .4);
 }
+

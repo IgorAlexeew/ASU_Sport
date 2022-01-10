@@ -63,11 +63,19 @@ app.component("sport-objects-table", {
         stash() {
             console.log(this.copy)
             this.values = JSON.parse(this.copy)
+        },
+        back() {
+            history.back()
         }
     },
     template: `
       <div class="table">
-      <h1 class="title">Спортивные объекты</h1>
+      <div class="header">
+        <div class="back" @click="this.back">
+          <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><path d="M16.88 2.88a1.25 1.25 0 0 0-1.77 0L6.7 11.29a.996.996 0 0 0 0 1.41l8.41 8.41c.49.49 1.28.49 1.77 0s.49-1.28 0-1.77L9.54 12l7.35-7.35c.48-.49.48-1.28-.01-1.77z"/></svg>
+        </div>
+        <div class="title">Спортивные объекты</div>
+      </div>
       <table>
         <tr>
           <th v-for="(value, name) in this.values[0]">{{ this.headers[name] ?? name }}</th>
@@ -75,10 +83,6 @@ app.component("sport-objects-table", {
         <tr v-for="(row, index) in this.values">
           <td v-for="(item, name) in this.values[index]">
             <input type="text" v-model="this.values[index][name]" :key="name">
-<!--            <select v-if="name === 'Gender'" type="text" v-model="this.values[index][name]" :key="name">
-&lt;!&ndash;              <option disabled value="">Выберите</option>&ndash;&gt;
-              <option v-for="(h_name, h_key) in this.gender_values"  :value="h_key">{{h_name}}</option>
-            </select>-->
           </td>
           <td>
             <button class="delete" type="button" @click="this.delete(index)">

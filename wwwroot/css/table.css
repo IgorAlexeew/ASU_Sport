@@ -18,15 +18,38 @@ body {
     align-items: center;
 }
 
-h1.title {
-    text-align: center;
+.header {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
     margin: 10px 0;
     padding: 20px;
     background: #151515;
     color: #fff;
     font-size: 25px;
+    font-weight: 600;
     border-radius: 20px;
     box-shadow: 0 -15px 11px #ffffff, 0 15px 10px -15px #00000047;
+}
+
+.header .back {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    fill: #fff;
+    cursor: pointer;
+    transition: fill .3s ease-out;
+    margin-right: auto;
+}
+
+.header .back:hover {
+    fill: #d7d7d7;
+}
+
+.header .title {
+    margin-right: auto;
 }
 
 .table {

@@ -27,7 +27,7 @@ namespace ASUSport.Controllers.API
         [HttpGet("get-user-info")]
         public IActionResult GetUserInfo()
         {
-            if (User.Identity == null)
+            if (User.Identity.Name == null)
             {
                 return Ok(
                     new Response()

@@ -2,16 +2,19 @@
 
 const app = Vue.createApp({
     components: { 'default-header': header_component }, // добавление header_component в приложение
-    data() {
-        let params = new URLSearchParams(window.location.search) // GET параметры запроса
-        let date = new Date() // дата по умолчанию
-        // объявление рут компонента
+    data() { // объявление рут компонента
         return {
-            search_params: params,
+            search_params: new URLSearchParams(window.location.search), // GET параметры запроса
             // строка даты (если в строке запроса есть дата, то взять её, в противном случае - дату по умолчанию
-            date_string: params.get("date") ?? date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate(),
-            response: null // ответ на запрос к серверу - объект данных представления (инфо об объекте и массив занятий)
+            date_string: "",
+            response: null, // ответ на запрос к серверу - объект данных представления (инфо об объекте и массив занятий)
+            view_data: null
         }
+    },
+    mounted() {
+        let date = new Date() // дата по умолчанию
+        this.date_string = this.search_params.get("date") ??
+            date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate()
     },
     computed: {
         objectId() {
@@ -29,7 +32,7 @@ const app = Vue.createApp({
         date() {
             return new Date(this.date_string); // дата
         },
-        view_data() {
+/*        view_data() {
             let date = new Date(this.date_string)
             let options = {
                 day: "numeric",
@@ -45,6 +48,24 @@ const app = Vue.createApp({
             history.pushState(null, '', "events?id=" + this.objectId + "&date=" + this.date_string)
             document.title = (this.response?.objectName ?? "Загрузка...") + " - " + date.toLocaleDateString("ru", options)
             return this.response; // объект данных представления (инфо об объекте и массив занятий)
+        }*/
+    },
+    watch: {
+        date_string(val) {
+            let date = new Date(val)
+            let options = {
+                day: "numeric",
+                month: "long",
+                year: "numeric"
+            }
+            axios
+                .get("/api/event/get-events-by-date-sport-object?id=" + this.objectId + "&date=" + this.date_string)
+                .then(response => {
+                    this.view_data = response.data;
+                })
+                .catch(error => console.log(error));
+            history.pushState(null, '', "events?id=" + this.objectId + "&date=" + this.date_string)
+            document.title = (this.response?.objectName ?? "Загрузка...") + " - " + date.toLocaleDateString("ru", options)
         }
     },
     methods: {

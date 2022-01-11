@@ -204,6 +204,15 @@ namespace ASUSport.Repositories
             int capacity = selectedObject.Capacity;
             string name = selectedObject.Name;
 
+            var subscriptions = db.Subscriptions.Where(s => s.SportObject.Id == id).ToList();
+
+            int price;
+            if (subscriptions.Any())
+                price = subscriptions.First(s => s.Price == subscriptions.Min(p => p.Price)).Price;
+
+            else
+                price = 0;
+
             foreach (var ev in events)
             {
                 string trainerName = string.Empty;
@@ -227,6 +236,7 @@ namespace ASUSport.Repositories
                     Time = ev.Time.ToString("HH:mm") + " - " + ev.Time.AddMinutes(ev.Section.Duration).ToString("HH:mm"),
                     Duration = ev.Section.Duration,
                     FreeSpaces = capacity - ev.Clients.Count,
+                    Price = price,
                     TrainerName = trainerName
                 };
 

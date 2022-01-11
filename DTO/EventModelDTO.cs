@@ -36,6 +36,11 @@
         public int Duration { get; set; }
 
         /// <summary>
+        /// Цена самого дешевого абонемента
+        /// </summary>
+        public int Price { get; set; }
+
+        /// <summary>
         /// Свободные места
         /// </summary>
         public int FreeSpaces { get; set; }

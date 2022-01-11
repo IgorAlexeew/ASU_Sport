@@ -577,6 +577,11 @@ a.more-objects svg {
 }
 
 .sign-up-for-an-event {
+    user-select: none;
+    -ms-user-select: none;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
     margin-left: auto;
     margin-right: 10px;
     text-decoration: none;
@@ -605,6 +610,16 @@ a.more-objects svg {
 
 .sign-up-for-an-event.signed:hover {
     background: #d16969;
+}
+
+.sign-up-for-an-event.disabled {
+    background: #c5ccce;
+    font-size: 18px;
+    color: #ffffff;
+}
+
+.sign-up-for-an-event.disabled:hover {
+    background: #c5ccce;
 }
 
 .sport-object-name {

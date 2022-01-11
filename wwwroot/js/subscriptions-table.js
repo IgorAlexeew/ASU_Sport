@@ -1,3 +1,4 @@
+/*
 const app = Vue.createApp({})
 
 app.component("data-table", {
@@ -111,6 +112,60 @@ app.component("data-table", {
         <button class="bottom-button submit" type="submit" @click="submit">Сохранить</button>
       </div>
       </div>
+    `
+})
+
+app.mount("#app")*/
+
+import {data_table} from "./table.js";
+
+const app = Vue.createApp({
+    data() {
+        return {
+            values: [],
+            headers: {
+                "id": { name: "ID", type: "text" },
+                "sportObjectId": { name: "Спортивный объект", type: "select" },
+                "type": { name: "Тип", type: "select" },
+                "name": { name: "Название", type: "text" },
+                "numOfVisits": { name: "Количество визитов", type: "text" },
+                "price": { name: "Цена", type: "text" },
+                "startingTime": { name: "Время начала", type: "time" },
+                "closingTime": { name: "Время окончания", type: "time" }
+            },
+            sport_objects: {},
+            select_data: {},
+            update_url: "/api/subscription/update-subscriptions"
+        }
+    },
+    mounted() {
+
+        document.title = "Секции - АГУ СПОРТ"
+        axios
+            .get("/api/subscription/get-subscriptions")
+            .then(resp => {
+                this.values = resp.data
+            })
+            .catch(error => console.log(error))
+        axios
+            .get("/api/sport-object/get-objects-with-ids")
+            .then(resp => {
+                resp.data.forEach(el => this.sport_objects[el.id] = el.name)
+                this.select_data.sportObjectId = this.sport_objects
+                console.log(this.select_data)
+            })
+    }
+})
+
+app.component("subscriptions-table-page", {
+    components: {
+        "data-table": data_table,
+    },
+    props: [],
+    template: `
+        <div class="container">
+            <data-table title="Абонементы" :select_data="this.$root.select_data" :values="this.$root.values" :headers="this.$root.headers" :update_url="this.$root.update_url"></data-table>
+        </div>
     `
 })
 

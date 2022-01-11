@@ -158,6 +158,11 @@ app.component('event-block', {
                     })
                     .catch(error => console.log(error));
             }
+        },
+        compare_time(time) {
+            let time_parts = time?.split(" - ")[0]?.split(":")
+            let event_time = new Date(this.$root.date.getFullYear(), this.$root.date.getMonth(), this.$root.date.getDate(), time_parts[0], time_parts[1], 0, 0)
+            return event_time > new Date()
         }
     },
     template: `
@@ -183,8 +188,9 @@ app.component('event-block', {
           </div>
         </div>
       </div>
-      <a v-if="!this.signed" href="#" class="sign-up-for-an-event" @click="this.sign_up_for_the_event(event.id)">Записаться</a>
-      <a v-else href="#" class="sign-up-for-an-event signed" @click="this.unsubscribe_for_the_event(event.id)">Отписаться</a>
+      <a v-if="!compare_time(event.time)" class="sign-up-for-an-event disabled">Запись окончена</a>
+      <a v-else-if="!this.signed" class="sign-up-for-an-event" @click="this.sign_up_for_the_event(event.id)">Записаться</a>
+      <a v-else class="sign-up-for-an-event signed" @click="this.unsubscribe_for_the_event(event.id)">Отписаться</a>
       </div>
     `
 });

@@ -1,3 +1,5 @@
+import {loader} from "./shared-components.js"
+
 String.prototype.hashCode = function() {
     var hash = 0, i, chr;
     if (this.length === 0) return hash;
@@ -21,6 +23,7 @@ const app = Vue.createApp({
                 role:"",
                 events: []
             },
+            isLoaded: false,
             entities: [],
             isEditing: false,
             copy: ""
@@ -39,6 +42,7 @@ const app = Vue.createApp({
                 this.user.events = response.data.events
                 this.copy = JSON.stringify(this.$root.user)
                 console.log(response.data)
+                this.isLoaded = true
                 if (this.user.role === 'admin') {
                     this.entities = {
                         sport_objects: {
@@ -255,17 +259,23 @@ app.component("entities-block",{
 })
 
 app.component("user-block", {
+    components: {
+        loader: loader
+    },
     computed: {
         user() {
             return this.$root.user
         }
     },
     template: `
-      <template v-if="user">
+      <template v-if="user && this.$root.isLoaded">
         <user-info></user-info>
         <entities-block v-if="user.role === 'admin'"></entities-block>
         <nearest-events></nearest-events>
       </template>
+      <div class="lds-wrapper" v-else>
+         <loader background="#59ccf4"></loader>
+      </div>
     `
 })
 

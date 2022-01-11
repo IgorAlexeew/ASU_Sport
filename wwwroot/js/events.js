@@ -1,4 +1,5 @@
 /* Приложение для страницы, выводящей занятия для объекта в заданные день */
+import {loader, header_component} from "./shared-components.js"
 
 const app = Vue.createApp({
     components: { 'default-header': header_component }, // добавление header_component в приложение
@@ -8,7 +9,8 @@ const app = Vue.createApp({
             // строка даты (если в строке запроса есть дата, то взять её, в противном случае - дату по умолчанию
             date_string: "",
             response: null, // ответ на запрос к серверу - объект данных представления (инфо об объекте и массив занятий)
-            view_data: null
+            view_data: null,
+            isLoaded: false
         }
     },
     mounted() {
@@ -31,27 +33,11 @@ const app = Vue.createApp({
         },
         date() {
             return new Date(this.date_string); // дата
-        },
-/*        view_data() {
-            let date = new Date(this.date_string)
-            let options = {
-                day: "numeric",
-                month: "long",
-                year: "numeric"
-            }
-            axios
-                .get("/api/event/get-events-by-date-sport-object?id=" + this.objectId + "&date=" + this.date_string)
-                .then(response => {
-                    this.response = response.data;
-                })
-                .catch(error => console.log(error));
-            history.pushState(null, '', "events?id=" + this.objectId + "&date=" + this.date_string)
-            document.title = (this.response?.objectName ?? "Загрузка...") + " - " + date.toLocaleDateString("ru", options)
-            return this.response; // объект данных представления (инфо об объекте и массив занятий)
-        }*/
+        }
     },
     watch: {
         date_string(val) {
+            this.isLoaded = false
             let date = new Date(val)
             let options = {
                 day: "numeric",
@@ -62,10 +48,11 @@ const app = Vue.createApp({
                 .get("/api/event/get-events-by-date-sport-object?id=" + this.objectId + "&date=" + this.date_string)
                 .then(response => {
                     this.view_data = response.data;
+                    this.isLoaded = true
+                    history.pushState(null, '', "events?id=" + this.objectId + "&date=" + this.date_string)
+                    document.title = (this.view_data?.objectName ?? "Загрузка...") + " - " + date.toLocaleDateString("ru", options)
                 })
                 .catch(error => console.log(error));
-            history.pushState(null, '', "events?id=" + this.objectId + "&date=" + this.date_string)
-            document.title = (this.response?.objectName ?? "Загрузка...") + " - " + date.toLocaleDateString("ru", options)
         }
     },
     methods: {
@@ -218,16 +205,20 @@ app.component('event-block', {
 
 /* Список занятий */
 app.component('events-block', {
+    components: {
+        loader: loader,
+    },
     props: [],
     template: `
-        <div class="day-events-container">
-            <page-info :object_name="this.$root.objectName" :date="this.$root.date_string"></page-info>
-            <div class="events" v-if="this.$root.events.length > 0">
-              <event-block v-for="event in this.$root.events" :event="event" :capacity="this.$root.capacity"></event-block>
-            </div>
-            <p style="margin-top: 50px; font-weight: 500; font-size: 20px;" v-else>Нет событий</p>
-            <div class="subscription-info"></div>
-        </div>
+      <div class="day-events-container">
+      <page-info :object_name="this.$root.objectName" :date="this.$root.date_string"></page-info>
+      <div class="events" v-if="this.$root.events.length > 0">
+        <event-block v-for="event in this.$root.events" :event="event" :capacity="this.$root.capacity"></event-block>
+      </div>
+      <p style="margin-top: 50px; font-weight: 500; font-size: 20px;" v-else-if="this.$root.isLoaded">Нет событий</p>
+      <loader background="#da93a4" style="margin-top: 20px" v-else></loader> <!-- #93c7da -->
+      <div class="subscription-info"></div>
+      </div>
     `
 })
 

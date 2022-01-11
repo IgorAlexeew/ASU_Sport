@@ -1,6 +1,6 @@
 /* Default header */
 
-const header_component = {
+export const header_component = {
     data() {
         return {
             nav_links: {
@@ -59,4 +59,21 @@ const header_component = {
             </div>
         </div>
     `
+}
+
+export const loader = {
+    props: ['background'],
+    template: `
+    <div class="lds-grid">
+        <div :style="{background: this.background}"></div>
+        <div :style="{background: this.background}"></div>
+        <div :style="{background: this.background}"></div>
+        <div :style="{background: this.background}"></div>
+        <div :style="{background: this.background}"></div>
+        <div :style="{background: this.background}"></div>
+        <div :style="{background: this.background}"></div>
+        <div :style="{background: this.background}"></div>
+        <div :style="{background: this.background}"></div>
+    </div>
+`
 }

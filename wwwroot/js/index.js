@@ -1,3 +1,5 @@
+import {loader, header_component} from "./shared-components.js"
+
 const app = Vue.createApp({
     data() {
         return {
@@ -48,7 +50,7 @@ app.component("sport-object",
         template: `
             <div class="object">
                 <a :href="'/events?id=' + sport_object.id" class="title">{{ sport_object.objectName }}</a>
-                <div class="time-range">{{ sport_object.workingHours }}</div>
+                <div class="time-range">{{ (sport_object.workingHours.trim() != "-") ? sport_object.workingHours : "" }}</div>
                 <div class="point days">
                     <div class="label">Наименее загруженные дни:</div>
                     <div v-if="sport_object.days" v-for="day in sport_object?.days" class="days-list">
@@ -69,6 +71,7 @@ app.component("sport-object",
 
 /* Область отображения спортивных объектов*/
 app.component("sport-objects-view",{
+    components: {loader: loader},
     props: [],
     template: `
       <div id="sport-objects-view" class="objects" :class="{ wide: !this.$root.short_form }">
@@ -78,7 +81,8 @@ app.component("sport-objects-view",{
             </svg>
           </a>
           <sport-object v-if="this.$root.objects_to_show.length > 0" v-for="sportObject in this.$root.objects_to_show" :sport_object="sportObject"></sport-object>
-          <p style="color: #fff" v-else>Загрузка...</p>
+<!--          <p style="color: #fff" v-else>Загрузка...</p>-->
+          <loader v-else></loader>
           <a v-show="this.$root.short_form && this.$root.objects_to_show.length > 0" href="#" class="more-objects" @click='this.$root.toggle_objects_view()'>
             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img"
                  width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 1024 1024">

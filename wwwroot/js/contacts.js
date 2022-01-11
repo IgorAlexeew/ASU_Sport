@@ -1,4 +1,6 @@
 /* Vue приложения для страницы контактов */
+import {loader, header_component} from "./shared-components.js"
+
 const app = Vue.createApp({
     components: { 'default-header': header_component} // добавление header_component в приложение
 })

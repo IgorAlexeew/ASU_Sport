@@ -63,7 +63,71 @@ namespace ASUSport.Controllers.WebView
         [HttpGet("table/sport-objects")]
         public IActionResult TableSportObjects()
         {
-            return View();
+            if (User.Identity.IsAuthenticated)
+            {
+                return View();
+            }
+            return RedirectToAction("Login", "WebView");
+        }
+
+        [HttpGet("table/events")]
+        public IActionResult TableEvents()
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                return View();
+            }
+            return RedirectToAction("Login", "WebView");
+        }
+
+        [HttpGet("table/sections")]
+        public IActionResult TableSections()
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                return View();
+            }
+            return RedirectToAction("Login", "WebView");
+        }
+
+        [HttpGet("table/subscriptions")]
+        public IActionResult TableSubscriptions()
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                return View();
+            }
+            return RedirectToAction("Login", "WebView");
+        }
+
+        [HttpGet("table/trainers")]
+        public IActionResult TableTrainers()
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                return View();
+            }
+            return RedirectToAction("Login", "WebView");
+        }
+
+        [HttpGet("table/admins")]
+        public IActionResult TableAdmins()
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                return View();
+            }
+            return RedirectToAction("Login", "WebView");
+        }
+
+        [HttpGet("table/clients")]
+        public IActionResult TableClients()
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                return View();
+            }
+            return RedirectToAction("Login", "WebView");
         }
     }
 }

@@ -29,7 +29,7 @@ namespace ASUSport.Repositories
 
             List<EventForUserModelDTO> events = new();
 
-            foreach (var e in user.User.Events)
+            foreach (var e in user.User.Events.Where(e => e.Time > DateTime.Now).ToList())
             {
                 TrainerDTO trainerData = null;
 

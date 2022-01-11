@@ -61,7 +61,9 @@ namespace ASUSport.Repositories
                 var events = db.Events.Where(e => e.Section.SportObject.Id == obj.Id
                     && e.Time > today && e.Time < nearestSaturday).ToList();
 
-                var subscription = db.Subscriptions.FirstOrDefault(s => s.SportObject.Id == obj.Id && s.Type == "Разовое занятие");
+                var subscriptions = db.Subscriptions.Where(s => s.SportObject.Id == obj.Id).ToList();
+
+                var subscription = subscriptions.FirstOrDefault(s => s.Price == subscriptions.Min(p => p.Price));
 
                 var info = new SportObjectForMainDTO()
                 {

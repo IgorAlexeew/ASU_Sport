@@ -76,7 +76,7 @@ body {
     width: 200px;
     margin: 5px 10px 5px 0;
     border-radius: 10px;
-    padding: 0 10px;
+    padding: 2px 10px;
 }
 
 .user .data .full-name .admin {

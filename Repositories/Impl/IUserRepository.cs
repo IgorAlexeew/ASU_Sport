@@ -82,8 +82,9 @@ namespace ASUSport.Repositories.Impl
         /// Обновление таблиц с данными пользователей
         /// </summary>
         /// <param name="data">Табличные данные</param>
+        /// <param name="role">Роль пользователей</param>
         /// <returns></returns>
-        public Response UpdateUsers(List<UserInfoDTO> data);
+        public Response UpdateUsers(List<UserInfoDTO> data, string role);
 
         /// <summary>
         /// Получить количество админов

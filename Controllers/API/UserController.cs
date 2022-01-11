@@ -72,7 +72,31 @@ namespace ASUSport.Controllers.API
         [HttpPost("update-users")]
         public IActionResult UpdateUsers([FromBody] List<UserInfoDTO> data)
         {
-            var result = userRepository.UpdateUsers(data);
+            var result = userRepository.UpdateUsers(data, "");
+
+            return Ok(result);
+        }
+
+        [HttpPost("update-clients")]
+        public IActionResult UpdateClients([FromBody] List<UserInfoDTO> data)
+        {
+            var result = userRepository.UpdateUsers(data, "client");
+
+            return Ok(result);
+        }
+
+        [HttpPost("update-admins")]
+        public IActionResult UpdateAdmins([FromBody] List<UserInfoDTO> data)
+        {
+            var result = userRepository.UpdateUsers(data, "admin");
+
+            return Ok(result);
+        }
+
+        [HttpPost("update-trainers")]
+        public IActionResult UpdateTrainers([FromBody] List<UserInfoDTO> data)
+        {
+            var result = userRepository.UpdateUsers(data, "trainer");
 
             return Ok(result);
         }

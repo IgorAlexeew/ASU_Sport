@@ -14,29 +14,13 @@
     <link rel="stylesheet" href="~/css/registration.css">
 </head>
 <body>
-    <header>
-        <img id="asu_logo" src="~/img/asu-clr.png" alt="Астраханский Государственный Университет">
-        <div class="header_text">
-            <div class="logo">АГУ<br>СПОРТ</div>
-            <div class="title">Быстрее Выше Сильнее</div>
-        </div>
-    </header>
-    <form>
-        <p class="form_title">Регистрация</p>
-        <label for="login">Логин:</label>
-        <input type="text" name="login" id="login" readonly onfocus="this.removeAttribute('readonly')">
-        <p class="message hidden" id="login_match">Введите логин</p>
-        <label for="password">Пароль:</label>
-        <input type="password" name="password" id="password" readonly onfocus="this.removeAttribute('readonly')">
-        <label for="confirm_password">Подтвердите пароль:</label>
-        <input type="password" name="confirm_password" id="confirm_password">
-        <p class="message hidden" id="password_match">Пароли не совпадают</p>
-        @*<label for="access_code">Код доступа:</label>
-        <input type="text" name="access_code" id="access_code" value=@ViewBag.AccessCode disabled=@ViewBag.InputAccessCodeStatus>*@
-        <!--<?php if(isset($_GET['access_code'])) echo 'disabled="disabled"'; ?> value="<?= $_GET['access_code'] ?>">-->
-        <button type="submit" class="confirm-btn">Подтвердить</button>
-    </form>
+    <div id="app">
+        <registration-page></registration-page>
+    </div>
     <script src="~/js/jquery-3.6.0.min.js"></script>
+    <script src="~/js/jquery.maskedinput.js"></script>
+    <script src="~/js/vue.global.js"></script>
+    <script src="~/js/axios.min.js"></script>
     <script src="~/js/authentication.js" type="module"></script>
 </body>
 </html>

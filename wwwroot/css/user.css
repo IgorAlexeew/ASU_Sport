@@ -38,6 +38,8 @@ body {
 }
 
 .user .data .full-name {
+    display: flex;
+    justify-content: space-between;
     font-weight: 700;
     font-size: 35px;
 }
@@ -58,7 +60,6 @@ body {
 }
 
 .user .data input:disabled {
-    margin-right: 0;
     background: none;
     color: #000;
     border-radius: 10px;
@@ -74,9 +75,13 @@ body {
     font-weight: 700;
     font-size: 35px;
     width: 200px;
-    margin: 5px 10px 5px 0;
+    margin-right: 4px;
     border-radius: 10px;
     padding: 2px 10px;
+}
+
+.user .data .full-name input:last-child {
+    margin-right: 0;
 }
 
 .user .data .full-name .admin {
@@ -175,6 +180,19 @@ body {
 .user .data .birth-date {
     display: flex;
     align-items: center;
+}
+
+.user .data .birth-date.editing {
+    justify-content: space-between;
+}
+
+.user .data .phone-number {
+    display: flex;
+    align-items: center;
+}
+
+.user .data .phone-number.editing {
+    justify-content: space-between;
 }
 
 .datepicker-toggle {

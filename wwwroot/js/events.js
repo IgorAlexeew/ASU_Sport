@@ -137,12 +137,13 @@ app.component('event-block', {
                 axios
                     .post("/api/event/signup-for-an-event?eventid=" + event_id)
                     .then(response => {
-                        console.log(response)
                         if (response.data.type === "already_signed_up" || response.data.type === "success")
                         {
                             this.event.isSigned = true
                             this.event.freeSpaces -= 1
                             console.log(this.signed)
+                        } else if (response.data.type === "not_authorized") {
+                            document.location.href = "/login?last=" + window.location.pathname+window.location.search
                         }
                     })
                     .catch(error => console.log(error));

@@ -36,7 +36,8 @@ app.component("login-form",{
                     {
                         this.login_input_class.error = false
                         this.password_input_class.error = false
-                        window.location.href = "/user"
+                        let url = (new URLSearchParams(window.location.search)).get("last")
+                        window.location.href = url ?? "/user"
                     }
                     console.log(response.data.type === "wrong_password")
                 })

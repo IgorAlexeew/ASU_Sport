@@ -596,6 +596,7 @@ a.more-objects svg {
     border-radius: 20px;
     font-size: 20px;
     transition: background .3s ease-out;
+    cursor: pointer;
 }
 
 .sign-up-for-an-event:hover {
@@ -616,6 +617,7 @@ a.more-objects svg {
     background: #c5ccce;
     font-size: 18px;
     color: #ffffff;
+    cursor: none;
 }
 
 .sign-up-for-an-event.disabled:hover {

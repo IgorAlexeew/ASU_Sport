@@ -118,6 +118,9 @@ import {loader} from "./shared-components.js";
 const app = Vue.createApp({})
 
 app.component("sign-up-form", {
+    components: {
+        loader: loader
+    },
     data() {
         return {
             form: {
@@ -205,6 +208,7 @@ app.component("sign-up-form", {
         },
         submit() {
             let error = false
+
             if (this.form.login === '') {
                 this.login_classes = ['error']
                 error = true
@@ -221,20 +225,18 @@ app.component("sign-up-form", {
                 this.first_name_classes = ['error']
                 error = true
             }
-            if (this.form.middleName === '') {
+/*            if (this.form.middleName === '') {
                 this.middle_name_classes = ['error']
                 error = true
-            }
-            if (this.form.dateOfBirth === '') {
+            }*/
+/*            if (this.form.dateOfBirth === '') {
                 this.date_of_birth_classes = ['error']
                 error = true
             }
             if (this.form.phoneNumber === '') {
                 this.phone_number_classes = ['error']
                 error = true
-                console.log("HI")
-            }
-
+            }*/
             if (!error) {
                 this.isLoading = true
                 axios
@@ -262,21 +264,21 @@ app.component("sign-up-form", {
     template: `
     <form>
         <p class="form_title">Регистрация</p>
-        <label for="login">Логин:</label>
+        <label for="login" title="Обязательно для заполнения">Логин(<span style="color: #ff8990">*</span>):</label>
         <input :class="this.login_classes" type="text" name="login" id="login" v-model="this.form.login" readonly onfocus="this.removeAttribute('readonly')">
         <p class="message" :class="this.login_message_classes" id="login_match">{{this.login_message}}</p>
         
-        <label for="password">Пароль:</label>
+        <label for="password" title="Обязательно для заполнения">Пароль(<span style="color: #ff8990">*</span>):</label>
         <input :class="this.password_classes" type="password" name="password" id="password" v-model="this.form.password" readonly onfocus="this.removeAttribute('readonly')">
         
-        <label for="confirm_password">Подтвердите пароль:</label>
+        <label for="confirm_password" title="Обязательно для заполнения">Подтвердите пароль(<span style="color: #ff8990">*</span>):</label>
         <input :class="this.password_classes" type="password" name="confirm_password" id="confirm_password" v-model="this.confirm_password">
         <p class="message" :class="this.password_message_classes" id="password_match">{{this.password_message}}</p>
 
-        <label for="login">Фамилия:</label>
+        <label for="login" title="Обязательно для заполнения">Фамилия(<span style="color: #ff8990">*</span>):</label>
         <input :class="this.last_name_classes" type="text" name="last_name" id="last_name" v-model="this.form.lastName" readonly onfocus="this.removeAttribute('readonly')">
 
-        <label for="login">Имя:</label>
+        <label for="login" title="Обязательно для заполнения">Имя(<span style="color: #ff8990">*</span>):</label>
         <input :class="this.first_name_classes" type="text" name="first_name" id="first_name" v-model="this.form.firstName" readonly onfocus="this.removeAttribute('readonly')">
 
         <label for="login">Отчество:</label>
@@ -289,7 +291,7 @@ app.component("sign-up-form", {
         <input :class="this.phone_number_classes" type="tel" pattern="[+]{1}[0-9]{11,14}" name="phone_number" id="phone_number" v-model="this.form.phoneNumber" readonly onfocus="this.removeAttribute('readonly')" placeholder="+7 (999) 999-99-99">
 
 
-        <button type="submit" class="confirm-btn" @click.prevent="submit">Подтвердить</button>
+        <button class="confirm-btn" @click.prevent="submit">Подтвердить</button>
     </form>
     <div v-if="this.isLoading" class="loader-wrap">
         <loader></loader>
@@ -310,9 +312,6 @@ app.component("asu-header", {
 })
 
 app.component("registration-page", {
-    components: {
-        loader: loader
-    },
     props: [],
     template: `
     <asu-header></asu-header>

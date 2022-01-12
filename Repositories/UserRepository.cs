@@ -219,7 +219,7 @@ namespace ASUSport.Repositories
 
             foreach (var user in users)
             {
-                var userData = db.UserData.First(u => u.User == user);
+                var userData = db.UserData.FirstOrDefault(u => u.User == user);
 
                 var userInfoDTO = new UserInfoDTO()
                 {
@@ -227,11 +227,11 @@ namespace ASUSport.Repositories
                     Login = user.Login,
                     HashPassword = user.HashPassword,
                     RoleId = user.RoleId,
-                    FirstName = userData.FirstName,
-                    MiddleName = userData.MiddleName,
-                    LastName = userData.LastName,
-                    DateOfBirth = userData.DateOfBirth.ToString("yyyy-MM-dd"),
-                    PhoneNumber = userData.PhoneNumber
+                    FirstName = userData?.FirstName,
+                    MiddleName = userData?.MiddleName,
+                    LastName = userData?.LastName,
+                    DateOfBirth = userData?.DateOfBirth.ToString("yyyy-MM-dd"),
+                    PhoneNumber = userData?.PhoneNumber
                 };
 
                 result.Add(userInfoDTO);

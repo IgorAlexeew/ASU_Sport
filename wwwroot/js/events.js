@@ -10,13 +10,21 @@ const app = Vue.createApp({
             date_string: "",
             response: null, // ответ на запрос к серверу - объект данных представления (инфо об объекте и массив занятий)
             view_data: null,
-            isLoaded: false
+            isLoaded: false,
+            user_role: 'client'
         }
     },
     mounted() {
         let date = new Date() // дата по умолчанию
         this.date_string = this.search_params.get("date") ??
             date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate()
+            axios
+                .get("/api/user/get-user-info")
+                .then(response => {
+                    if (response.data.type !== "not_authorized") {
+                        this.user_role = response.data.role
+                    }
+                })
     },
     computed: {
         objectId() {
@@ -104,11 +112,17 @@ app.component('date-picker', {
 /* Компонент текущих данных (инфо об объекте + выбор даты) */
 app.component('page-info', {
     props: ['object_name', 'date'],
+    computed: {
+        report_url() {
+            return '/api/event/get-events-with-clients?date=' + this.$root.date_string + '&sportObject=' + this.$root.objectId
+        }
+    },
     template: `
         <div class="date-block">
             <div class="wrapper">
                 <p class="sport-object-name">{{ object_name }}</p>
                 <date-picker :date="date"></date-picker>
+                <a v-if="this.$root.user_role === 'admin'" :href="report_url" class="make-report">Получить отчет</a>
             </div>
         </div>
     `
@@ -218,7 +232,9 @@ app.component('events-block', {
       </div>
       <p style="margin-top: 50px; font-weight: 500; font-size: 20px;" v-else-if="this.$root.isLoaded">Нет событий</p>
       <loader background="#da93a4" style="margin-top: 20px" v-else></loader> <!-- #93c7da -->
-      <div class="subscription-info"></div>
+      <div class="subscription-info">
+        
+      </div>
       </div>
     `
 })

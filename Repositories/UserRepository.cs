@@ -260,15 +260,30 @@ namespace ASUSport.Repositories
                     selectedUser.Login = user.Login;
                     selectedUser.HashPassword = user.HashPassword;
                     selectedUser.RoleId = user.RoleId;
-
-                    selectedUserData.FirstName = user.FirstName;
-                    selectedUserData.MiddleName = user.MiddleName;
-                    selectedUserData.LastName = user.LastName;
-                    selectedUserData.DateOfBirth = DateTime.Parse(user.DateOfBirth);
-                    selectedUserData.PhoneNumber = user.PhoneNumber;
-
                     db.Users.Update(selectedUser);
-                    db.UserData.Update(selectedUserData);
+
+                    if (selectedUserData != null)
+                    {
+                        selectedUserData.FirstName = user.FirstName;
+                        selectedUserData.MiddleName = user.MiddleName;
+                        selectedUserData.LastName = user.LastName;
+                        selectedUserData.DateOfBirth = DateTime.Parse(user.DateOfBirth);
+                        selectedUserData.PhoneNumber = user.PhoneNumber;
+                        db.UserData.Update(selectedUserData);
+                    }
+
+                    else
+                    {
+                        var newUserData = new UserData()
+                        {
+                            FirstName = user.FirstName,
+                            MiddleName = user.MiddleName,
+                            LastName = user.LastName,
+                            PhoneNumber = user.PhoneNumber,
+                            DateOfBirth = DateTime.Parse(user.DateOfBirth)
+                        };
+                        db.UserData.Add(newUserData);
+                    }
                 }
 
                 else
@@ -276,7 +291,7 @@ namespace ASUSport.Repositories
                     var newUser = new User()
                     {
                         Login = user.Login,
-                        HashPassword = user.HashPassword,
+                        HashPassword = PasswordHasherHelper.HashString(user.HashPassword),
                         RoleId = user.RoleId
                     };
 

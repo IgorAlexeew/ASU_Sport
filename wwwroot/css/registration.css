@@ -29,11 +29,12 @@ header {
     flex-direction: row;
 }
 
-div.header_text {
+.header_text {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    text-decoration: none;
 }
 
 div.logo {

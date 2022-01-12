@@ -303,11 +303,11 @@ app.component("asu-header", {
     props: [],
     template: `
     <header>
-        <img id="asu_logo" src="/img/asu-clr.png" alt="Астраханский Государственный Университет">
-        <div class="header_text">
+        <a href="/"><img id="asu_logo" src="/img/asu-clr.png" alt="Астраханский Государственный Университет"></a>
+        <a href="/" class="header_text">
             <div class="logo">АГУ<br>СПОРТ</div>
             <div class="title">Быстрее Выше Сильнее</div>
-        </div>
+        </a>
     </header>`
 })
 

@@ -224,7 +224,7 @@ app.component("nearest-events",{
         <div class="title">Предстоящие занятия:</div>
         <div class="objects-grid events">
           <template v-if="user.events !== null && user.events.length > 0">
-            <a v-for="event in user?.events" href="#" class="object event">
+            <a v-for="event in user?.events" href="" class="object event">
               <p class="name">{{ event?.section?.sectionName }}</p>
               <p class="date">{{ (new Date(event?.date)).toLocaleDateString("ru", {day:"2-digit",month:"2-digit",year:"numeric"}) }}</p>
               <p class="time">{{ event?.time }}</p>

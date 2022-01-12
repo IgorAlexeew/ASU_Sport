@@ -219,7 +219,7 @@ namespace ASUSport.Repositories
 
             foreach (var user in users)
             {
-                var userData = db.UserData.First(u => u.User == user);
+                var userData = db.UserData.FirstOrDefault(u => u.User == user);
 
                 var userInfoDTO = new UserInfoDTO()
                 {
@@ -227,11 +227,11 @@ namespace ASUSport.Repositories
                     Login = user.Login,
                     HashPassword = user.HashPassword,
                     RoleId = user.RoleId,
-                    FirstName = userData.FirstName,
-                    MiddleName = userData.MiddleName,
-                    LastName = userData.LastName,
-                    DateOfBirth = userData.DateOfBirth.ToString("yyyy-MM-dd"),
-                    PhoneNumber = userData.PhoneNumber
+                    FirstName = userData?.FirstName,
+                    MiddleName = userData?.MiddleName,
+                    LastName = userData?.LastName,
+                    DateOfBirth = userData?.DateOfBirth.ToString("yyyy-MM-dd"),
+                    PhoneNumber = userData?.PhoneNumber
                 };
 
                 result.Add(userInfoDTO);
@@ -260,15 +260,30 @@ namespace ASUSport.Repositories
                     selectedUser.Login = user.Login;
                     selectedUser.HashPassword = user.HashPassword;
                     selectedUser.RoleId = user.RoleId;
-
-                    selectedUserData.FirstName = user.FirstName;
-                    selectedUserData.MiddleName = user.MiddleName;
-                    selectedUserData.LastName = user.LastName;
-                    selectedUserData.DateOfBirth = DateTime.Parse(user.DateOfBirth);
-                    selectedUserData.PhoneNumber = user.PhoneNumber;
-
                     db.Users.Update(selectedUser);
-                    db.UserData.Update(selectedUserData);
+
+                    if (selectedUserData != null)
+                    {
+                        selectedUserData.FirstName = user.FirstName;
+                        selectedUserData.MiddleName = user.MiddleName;
+                        selectedUserData.LastName = user.LastName;
+                        selectedUserData.DateOfBirth = DateTime.Parse(user.DateOfBirth);
+                        selectedUserData.PhoneNumber = user.PhoneNumber;
+                        db.UserData.Update(selectedUserData);
+                    }
+
+                    else
+                    {
+                        var newUserData = new UserData()
+                        {
+                            FirstName = user.FirstName,
+                            MiddleName = user.MiddleName,
+                            LastName = user.LastName,
+                            PhoneNumber = user.PhoneNumber,
+                            DateOfBirth = DateTime.Parse(user.DateOfBirth)
+                        };
+                        db.UserData.Add(newUserData);
+                    }
                 }
 
                 else
@@ -276,7 +291,7 @@ namespace ASUSport.Repositories
                     var newUser = new User()
                     {
                         Login = user.Login,
-                        HashPassword = user.HashPassword,
+                        HashPassword = PasswordHasherHelper.HashString(user.HashPassword),
                         RoleId = user.RoleId
                     };
 

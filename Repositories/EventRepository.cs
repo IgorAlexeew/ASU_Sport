@@ -447,7 +447,9 @@ namespace ASUSport.Repositories
 
                 else
                 {
-                    var trainer = db.Users.FirstOrDefault(u => u.Id == (int)ev.TrainerId);
+                    User trainer = null;
+                    if (ev.TrainerId != null)
+                        trainer = db.Users.First(u => u.Id == (int)ev.TrainerId);
 
                     var section = db.Sections.FirstOrDefault(s => s.Id == (int)ev.SectionId);
 

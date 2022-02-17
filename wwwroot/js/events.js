@@ -197,7 +197,7 @@ app.component('event-block', {
           </div>
         </div>
       </div>
-      <a v-if="!compare_time(event.time)" class="sign-up-for-an-event disabled">Запись окончена</a>
+      <a v-if="!compare_time(event.time) || event.freeSpaces <= 0" class="sign-up-for-an-event disabled">Запись окончена</a>
       <a v-else-if="!this.signed" class="sign-up-for-an-event" @click="this.sign_up_for_the_event(event.id)">Записаться</a>
       <a v-else class="sign-up-for-an-event signed" @click="this.unsubscribe_for_the_event(event.id)">Отписаться</a>
       </div>

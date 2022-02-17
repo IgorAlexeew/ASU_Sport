@@ -50,8 +50,8 @@ export const header_component = {
                 </ul>
             </div>
             <div v-if="this.username === null" class="auth">
-                <a :href="this.auth_links.sign_in_url" id="sign-in">войти</a>
-                <a :href="this.auth_links.sign_up_url" id="sign-up">зарегистрироваться</a>
+                <a :href="this.auth_links.sign_in_url" id="sign-in">Войти</a>
+                <a :href="this.auth_links.sign_up_url" id="sign-up">Зарегистрироваться</a>
             </div>
             <div class="user" v-else>
                 <a href="/user" class="username">{{ username }}</a>

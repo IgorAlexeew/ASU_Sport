@@ -617,7 +617,7 @@ a.more-objects svg {
     background: #c5ccce;
     font-size: 18px;
     color: #ffffff;
-    cursor: none;
+    cursor: default;
 }
 
 .sign-up-for-an-event.disabled:hover {

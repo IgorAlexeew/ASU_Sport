@@ -157,7 +157,8 @@ app.component('event-block', {
                             this.event.freeSpaces -= 1
                             console.log(this.signed)
                         } else if (response.data.type === "not_authorized") {
-                            document.location.href = "/login?last=" + window.location.pathname+window.location.search
+                            // document.location.href = "/login?last=" + window.location.pathname+window.location.search
+                            document.location.href = "/login"
                         }
                     })
                     .catch(error => console.log(error));

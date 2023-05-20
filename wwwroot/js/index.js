@@ -5,19 +5,33 @@ const app = Vue.createApp({
         return {
             sportObjects: [], // список спортивных объектов
             short_form: true, // флаг формата текущего отображения
-            objects_count_to_show: 3 // кол-во объектов для отображеня
+            objects_count_to_show: 3, // кол-во объектов для отображеня
+            windowWidth: window.innerWidth
         }
+    },
+    created() {
+        window.addEventListener('resize', () => {
+            this.windowWidth = window.innerWidth
+        });
     },
     computed: {
         // объекты для отображения на странице
         objects_to_show() {
-            if (!this.short_form) {
+            if (!this.short_form || this.isMobile) {
                 this.objects_count_to_show = this.sportObjects.length
             }
             else {
                 this.objects_count_to_show = 3
             }
             return this.sportObjects.slice(0, this.objects_count_to_show);
+        },
+        //isMobile() {
+        //    console.log(window.innerWidth);
+        //    console.log(window.innerWidth <= 800);
+        //    return window.innerWidth <= 800;
+        //}
+        isMobile() {
+            return this.windowWidth <= 800
         }
     },
     methods: {
@@ -71,11 +85,11 @@ app.component("sport-object",
 
 /* Область отображения спортивных объектов*/
 app.component("sport-objects-view",{
-    components: {loader: loader},
+    components: { loader: loader },
     props: [],
     template: `
       <div id="sport-objects-view" class="objects" :class="{ wide: !this.$root.short_form }">
-          <a v-show="!this.$root.short_form" href="#" class="more-objects" @click='this.$root.toggle_objects_view()'>
+          <a v-show="!this.$root.short_form && !this.$root.isMobile" href="#" class="more-objects" @click='this.$root.toggle_objects_view()'>
             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 1024 1024">
               <path d="M685.248 104.704a64 64 0 0 1 0 90.496L368.448 512l316.8 316.8a64 64 0 0 1-90.496 90.496L232.704 557.248a64 64 0 0 1 0-90.496l362.048-362.048a64 64 0 0 1 90.496 0z"/>
             </svg>
@@ -83,7 +97,7 @@ app.component("sport-objects-view",{
           <sport-object v-if="this.$root.objects_to_show.length > 0" v-for="sportObject in this.$root.objects_to_show" :sport_object="sportObject"></sport-object>
 <!--          <p style="color: #fff" v-else>Загрузка...</p>-->
           <loader v-else></loader>
-          <a v-show="this.$root.short_form && this.$root.objects_to_show.length > 0" href="#" class="more-objects" @click='this.$root.toggle_objects_view()'>
+          <a v-show="this.$root.short_form && this.$root.objects_to_show.length > 0 && !this.$root.isMobile" href="#" class="more-objects" @click='this.$root.toggle_objects_view()'>
             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img"
                  width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 1024 1024">
               <path
@@ -119,8 +133,10 @@ const root = app.mount("#app")
 let element = $("#sport-objects-view")
 console.log(element)
 element.on('wheel', (event) => {
-    event.preventDefault();
-    let delta = Math.max(-1, Math.min(1, (event.originalEvent.wheelDelta || -event.originalEvent.detail)));
+    if (window.innerWidth > 800) {
+        event.preventDefault();
+        let delta = Math.max(-1, Math.min(1, (event.originalEvent.wheelDelta || -event.originalEvent.detail)));
 
-    element.scrollLeft( element.scrollLeft() - ( delta * 40 ) );
+        element.scrollLeft(element.scrollLeft() - (delta * 40));
+    }
 });

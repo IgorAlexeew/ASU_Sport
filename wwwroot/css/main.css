@@ -497,19 +497,23 @@ a.more-objects svg {
 
 /* EVENTS FOR THE DAY */
 .day-events-container {
-    width: 100%;
+    width: 94%;
     display: flex;
     justify-content: space-evenly;
     margin-top: 2%;
+    margin-left: 3%;
+    margin-right: 3%;
 }
 
 .events {
     display: flex;
     flex-direction: column;
+    flex-grow: 1;
+    max-width: 700px;
+    margin-left: 20px;
 }
 
 .event {
-    width: 600px;
     background: #EFF6F6;
     border-radius: 25px;
     padding: 20px;
@@ -733,4 +737,95 @@ a.more-objects svg {
     font-weight: 600;
     text-align: center;
     margin-top: 8px;    
+}
+
+@media (max-width: 1000px) {
+    .red-line-background {
+        background-size: 0%;
+    }
+
+    .main-page-block {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .brief {
+        margin-bottom: 0;
+        width: 75%;
+        box-sizing: border-box;
+    }
+
+    .brief .title {
+        font-size: 100px;
+    }
+
+    .brief .description {
+        font-size: 20px;
+        color: #000;
+    }
+}
+
+@media (max-width:800px) {
+    .objects {
+        flex-direction: column;
+        width: 60%;
+    }
+
+    .object {
+        margin-bottom: 20px;
+        width: 100%;
+    }
+
+    .content {
+        padding-top: 150px;
+        align-items: center;
+    }
+
+    .header {
+        height: 150px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding-bottom: 10px;
+    }
+
+    .day-events-container {
+        margin-top: 0;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .events {
+        margin-top: 20px;
+        margin-left: 0;
+        width: 100%;
+    }
+
+    .date-block {
+        width: 100%;
+    }
+
+    .date-block .wrapper {
+        background: rgba(255, 255, 255, 0.66);
+        backdrop-filter: blur(10px);
+    }
+
+    .contacts-container {
+        flex-direction: column;
+        width: 90%;
+        align-items: center;
+    }
+
+    .contacts-block {
+        width: 85%;
+    }
+
+    .map {
+        width: 100%;
+    }
+
+    .map:hover {
+        width: 100%;
+    }
 }

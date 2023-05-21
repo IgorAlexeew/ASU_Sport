@@ -258,7 +258,7 @@ namespace ASUSport.Repositories
                     var selectedUserData = db.UserData.FirstOrDefault(u => u.Id == (int)user.Id);
 
                     selectedUser.Login = user.Login;
-                    selectedUser.HashPassword = user.HashPassword;
+                    selectedUser.HashPassword = PasswordHasherHelper.HashString(user.HashPassword);
                     selectedUser.RoleId = user.RoleId;
                     db.Users.Update(selectedUser);
 

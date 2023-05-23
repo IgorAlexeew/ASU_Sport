@@ -77,3 +77,56 @@ export const loader = {
     </div>
 `
 }
+
+export const modal = {
+    props: ['show'],
+    data() {
+        return {
+            overlayStyle: {
+                position: 'relative',
+                background: '#00000094',
+                zIndex: 205,
+                width: '100%',
+                height: '100%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                backdropFilter: 'blur(10px)',
+            },
+            modalWrapper: {
+                width: '400px',
+                background: '#fff',
+                borderRadius: '20px',
+            },
+            modalContent: {
+                margin: '30px',
+            }
+        }
+    },
+    computed: {
+        modalStyle() {
+            return {
+                position: 'fixed',
+                top: 0,
+                right: 0,
+                bottom: 0,
+                left: 0,
+                width: '100vw',
+                height: '100vh',
+                zIndex: 20,
+                display: this.show ? 'inherit' : 'none'
+            }
+        }
+    },
+    template: `
+    <div class="modal" :style="modalStyle" @click="$emit('close')">
+        <div class="overlay" :style="overlayStyle">
+            <div class="modal-wrapper" :style="modalWrapper" @click.stop="">
+                <div class="modal-content" :style="modalContent">
+                    <slot></slot>
+                </div>
+            </div>
+        </div>
+    </div>
+`,
+}

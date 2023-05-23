@@ -175,7 +175,6 @@ a:hover {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
-    z-index: 1;
     padding-top: 120px;
 }
 
@@ -689,6 +688,8 @@ a.more-objects svg {
 }
 
 .info-button {
+    outline: none;
+    border:none;
     color: #3e626a;
     background: #dbe7eb;
 }
@@ -696,6 +697,13 @@ a.more-objects svg {
 .info-button:hover {
     background: #CCDEE4;
 }
+
+.info-button:disabled {
+    color: #76949B;
+    background: #DAE6E9;
+    cursor: not-allowed;
+}
+
 
 .graph-info .price {
     background: #dbe7eb;
@@ -713,7 +721,6 @@ a.more-objects svg {
 .sport-object-name {
     font-size: 50px;
     font-weight: 700;
-    padding: 0 0 0 20px;
 }
 
 .current-date {
@@ -753,7 +760,6 @@ a.more-objects svg {
 .date-picker-block {
     display: flex;
     align-items: center;
-    padding: 0 0 20px 20px;
 }
 
 .datepicker-toggle {
@@ -823,6 +829,150 @@ a.more-objects svg {
     background: black;
     color: #fff;
 }
+
+.make-report:hover {
+    color: rgba(255, 255, 255, 0.75);
+}
+
+.multiselect__tags {
+    border: 2px solid #e8e8e8 !important;
+    border-radius: 10px !important;
+}
+
+.error .multiselect__tags {
+    border-color: #d94b4b !important;
+}
+
+.multiselect__content-wrapper {
+    border-radius: 10px !important;
+}
+
+.multiselect__content-wrapper::-webkit-scrollbar {
+    width: 10px;
+}
+ 
+.multiselect__content-wrapper::-webkit-scrollbar-track {
+    background: none;
+}
+ 
+.multiselect__content-wrapper::-webkit-scrollbar-thumb {
+    background-color: #b3bdc345;
+    border-radius: 10px;
+}
+
+.multiselect__element {
+    display: block;
+    border-radius: 10px !important;
+    overflow: hidden;
+    height: 40px;
+}
+
+.event-form .field {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin: 10px;
+    font-weight: 500;
+}
+
+.event-form .field span {
+    margin-bottom: 4px;
+}
+
+.event-form .field > input,
+.event-form .field .input-measurement input {
+    padding: 8px;
+    border: 2px solid #e8e8e8;
+    border-radius: 10px;
+    font-family: Roboto;
+    font-size: 16px;
+    outline: none;
+    width: 100%;
+    font-weight: 500;
+}
+
+.event-form input.error {
+    border-color: #d94b4b !important;
+    color: #d94b4b;
+}
+
+.event-form .field input[type=datetime-local] {
+    text-align: center;
+}
+
+.event-form .field input[type=number] {
+    text-align: right;
+}
+
+.event-form .field .input-measurement {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    width: 100%;
+}
+
+.event-form .field .input-measurement input {
+    flex-grow: 1;
+}
+
+
+.event-form .field .input-measurement span {
+    padding: 4px;
+}
+
+.event-submit {
+    user-select: none;
+    -ms-user-select: none;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    margin-left: auto;
+    text-decoration: none;
+    font-weight: 600;
+    height: auto;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    border-radius: 12px;
+    padding: 10px;
+    font-size: 16px;
+    transition: background .3s ease-out;
+    cursor: pointer;
+    color: #fff;
+    background: #41B883;
+    margin-top: 15px;
+    outline: none;
+}
+
+.event-submit:hover {
+    background: #247A54;
+}
+
+.event-submit:disabled {
+    background: #8F9B96;
+    cursor: not-allowed;
+}
+
+.event-submit.error {
+    background: #d94b4b;
+}
+
+.event-form .errors {
+    font-weight: 500;
+    color: #d94b4b;
+    font-size: 14px;
+    margin: 15px;
+    margin-left: 30px;
+}
+
+.event-form .errors li:not(:first-child) {
+    margin-top: 12px;
+}
+
+
 
 @media (max-width: 1000px) {
     .red-line-background {
@@ -915,5 +1065,13 @@ a.more-objects svg {
 
     .map:hover {
         width: 100%;
+    }
+
+    .sport-object-name {
+        padding: 0 0 0 20px;
+    }
+
+    .date-picker-block {
+        padding: 0 0 20px 20px;
     }
 }

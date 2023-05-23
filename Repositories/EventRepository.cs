@@ -5,6 +5,7 @@ using ASUSport.Models;
 using ASUSport.Repositories.Impl;
 using ASUSport.DTO;
 using ASUSport.Helpers;
+using Microsoft.EntityFrameworkCore;
 
 namespace ASUSport.Repositories
 {
@@ -195,7 +196,9 @@ namespace ASUSport.Repositories
         /// <inheritdoc/>
         public EventsForSportobjectDTO GetEventByDateSportObject(int id, string date, string login)
         {
-            var events = db.Events.Where(e => e.Section.SportObject.Id == id && e.Time.Date == DateTime.Parse(date)).ToList();
+            var events = db.Events
+                .Include(ev => ev.Clients)
+                .Where(e => e.Section.SportObject.Id == id && e.Time.Date == DateTime.Parse(date)).ToList();
 
             var eventsList = new List<EventModelDTO>();
 
@@ -216,28 +219,65 @@ namespace ASUSport.Repositories
             foreach (var ev in events)
             {
                 string trainerName = string.Empty;
+                UserShortDTO trainer = null;
 
                 if (ev.Trainer != null)
                 {
-                    var trainer = db.UserData.First(u => u.User.Id == ev.Trainer.Id);
+                    var trainerData = db.UserData.First(u => u.User.Id == ev.Trainer.Id);
 
-                    trainerName = trainer.FirstName + " " + trainer.MiddleName + " " + trainer.LastName;
+                    trainerName = trainerData.FirstName + " " + trainerData.MiddleName + " " + trainerData.LastName;
+
+                    trainer = new UserShortDTO() { 
+                        Id = ev.Trainer.Id,
+                        FirstName = trainerData.FirstName,
+                        MiddleName = trainerData.MiddleName,
+                        LastName = trainerData.LastName,
+                    };
                 }
 
                 bool isSigned = false;
 
                 if (login != null)
                     isSigned = db.Users.First(u => u.Login == login).Events.Select(e => e.Id).Contains(ev.Id);
+                
+                var clients = ev.Clients;
+                List<UserShortDTO> clientsWithData = new List<UserShortDTO>();
+
+                foreach(var client in clients)
+            {
+                    var userData = db.UserData.FirstOrDefault(u => u.User == client);
+
+                    var userInfoDTO = new UserShortDTO()
+                    {
+                        Id = client.Id,
+                        FirstName = userData?.FirstName,
+                        MiddleName = userData?.MiddleName,
+                        LastName = userData?.LastName
+                    };
+
+                    clientsWithData.Add(userInfoDTO);
+                }
+
 
                 var model = new EventModelDTO()
                 {
                     Id = ev.Id,
+                    Date = ev.Time.ToString("yyyy-MM-dd HH:mm"),
                     SectionName = ev.Section.Name,
+                    Section = new SectionInfoDTO()
+                    {
+                        Id = ev.Section.Id,
+                        Name = ev.Section.Name,
+                        Duration = ev.Section.Duration,
+                        SportObjectId = ev.Section.SportObjectId,
+                    },
                     Time = ev.Time.ToString("HH:mm") + " - " + ev.Time.AddMinutes(ev.Section.Duration).ToString("HH:mm"),
                     Duration = ev.Section.Duration,
                     FreeSpaces = capacity - ev.Clients.Count,
                     Price = price,
-                    TrainerName = trainerName
+                    TrainerName = trainerName,
+                    Trainer = trainer,
+                    Clients = clientsWithData.ToArray(),
                 };
 
                 if (login != null)
@@ -336,7 +376,7 @@ namespace ASUSport.Repositories
         public Response UpdateEvent(UpdateEventDTO data)
         {
             var selectedEvent = db.Events.FirstOrDefault(s => s.Id == data.Id);
-
+            
             if (data.SectionId != null)
             {
                 var newSection = db.Sections.FirstOrDefault(s => s.Id == data.SectionId);
@@ -351,6 +391,16 @@ namespace ASUSport.Repositories
 
             if (data.Time != null)
                 selectedEvent.Time = DateTime.Parse(data.Time);
+
+            if (data.ClientIds.Length > 0)
+            {
+                selectedEvent.Clients.Clear();
+                var clients = db.Users.Where(user => data.ClientIds.Contains(user.Id)).ToArray();
+                foreach (var client in clients)
+                {
+                    selectedEvent.Clients.Add(client);
+                }
+            }
 
             db.Events.Update(selectedEvent);
             db.SaveChanges();

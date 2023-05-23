@@ -24,5 +24,10 @@
         /// Дата и время начала события
         /// </summary>
         public string Time { get; set; }
+
+        /// <summary>
+        /// Список клиентов
+        /// </summary>
+        public int[] ClientIds { get; set; }
     }
 }

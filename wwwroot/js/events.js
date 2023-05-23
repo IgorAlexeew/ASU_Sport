@@ -1,5 +1,160 @@
 /* Приложение для страницы, выводящей занятия для объекта в заданные день */
-import {loader, header_component} from "./shared-components.js"
+import { loader, header_component, modal } from "./shared-components.js"
+
+const eventForm = {
+    props: ['event', 'trainer-edit'],
+    components: {
+        multiselect: window['vue-multiselect'].default,
+        loader: loader,
+    },
+    data() {
+        console.log('trainerEdit', this.trainerEdit);
+        console.log('event.duration', this.event.duration);
+        return {
+            sectionId: 0,
+            trainerId: 0,
+            datetime: this.event.date,
+            duration: this.event.duration,
+            selectedClients: [...this.event.clients],
+            selectedTrainer: this.event.tariner ?? null,
+            selectedSection: this.event.section ?? null,
+            clients: [],
+            trainers: [],
+            sections: [],
+            errors: {},
+            errorMessages: [],
+            isLoading: false,
+            requestError: false
+        }
+    },
+    methods: {
+        fullName({ firstName, middleName, lastName }) {
+            return `${lastName} ${firstName[0]}.${middleName ? `${middleName[0]}.` : ''}`
+        },
+        submit() {
+            this.errorMessages = []
+            Object.keys(this.errors).forEach(key => this.errors[key] = false)
+            const event = {
+                id: this.event.id,
+                time: this.datetime,
+                duration: this.duration,
+                sectionId: this.selectedSection?.id,
+                trainerId: this.selectedTrainer?.id,
+                clientIds: this.selectedClients && this.selectedClients?.map(client => client.id)
+            };
+            console.log('event', event)
+            if (new Date(this.datetime) < new Date()) {
+                this.errors.date = true
+                this.errorMessages.push('Нельзя назначить занятие на прошедшее время')
+            }
+            if (!this.duration) {
+                this.errors.duration = true
+                this.errorMessages.push('Продолжительность должна быть отличной от 0')
+            }
+            if (!this.selectedSection) {
+                this.errors.section = true
+                this.errorMessages.push('Необходимо выбрать секцию')
+            }
+            if (!this.errorMessages?.length) {
+                this.isLoading = true
+                axios
+                    .put("/api/event/update-event", event)
+                    .then(response => {
+                        this.isLoading = false
+                        window.location.reload()
+                    })
+                    .catch(error => {
+                        console.log(error)
+                        this.isLoading = false
+                        this.requestError = false
+                    })
+            }
+        }
+    },
+    async mounted() {
+        const clients = await axios
+            .get("/api/user/get-users", {
+                params: { role: 'client' }
+            })
+        console.log('clients', clients.data);
+        this.clients = clients.data;
+
+        const trainers = await axios
+            .get("/api/user/get-users", {
+                params: { role: 'trainer' }
+            })
+        console.log('trainers', trainers.data);
+        this.trainers = trainers.data;
+        const sections = await axios
+            .get("/api/section/get-sections");
+        this.sections = sections.data;
+    },
+    template: `
+    <form class="event-form">
+        <div class="field">
+            <span>Дата и время: </span>
+            <input class="custom-input" :class="{error:errors.date}" type="datetime-local" v-model="datetime"/>
+        </div>
+        <div class="field">
+            <span>Продолжительность: </span>
+            <div class="input-measurement">
+                <input class="custom-input" :class="{error:errors.duration}" type="number" min="0" v-model="duration"/>
+                <span>мин.</span>
+            </div>
+        </div>
+        <div class="field">
+            <span>Секция: </span>
+            <multiselect
+                :class="{error:errors.section}"
+                v-model="selectedSection"
+                :options="sections"
+                label="name"
+                track-by="id"
+                placeholder="Выберите секцию"
+                select-label="Выбрать"
+                selected-label="Выбрано"
+                deselect-label="Убрать"
+            />
+        </div>
+        <template v-if="!trainerEdit">
+            <div class="field">
+                <span>Тренер: </span>
+                <multiselect
+                    v-model="selectedTrainer"
+                    :options="trainers"
+                    :custom-label="fullName"
+                    track-by="id"
+                    placeholder="Выберите тренера"
+                    select-label="Выбрать"
+                    selected-label="Выбрано"
+                    deselect-label="Убрать"
+                />
+            </div>
+            <div class="field">
+                <span>Клиенты: </span>
+                <multiselect
+                    v-model="selectedClients"
+                    :options="clients"
+                    :custom-label="fullName"
+                    track-by="id"
+                    :multiple="true"
+                    :close-on-select="false"
+                    placeholder="Выберите клиентов"
+                    select-label="Выбрать"
+                    selected-label="Выбрано"
+                    deselect-label="Убрать"
+                />
+            </div>
+        </template>
+        <ul class="errors">
+            <li v-for="error in errorMessages">{{error}}</li>
+        </ul>
+        <button class="event-submit" :class="{error:requestError}" @click.prevent="submit" :disabled="isLoading">{{ requestError ? "Что-то пошло не так" : "Подтвердить" }}</button>
+    </form>
+`,
+}
+
+/*<loader v-if="isLoading" style="margin-top: 20px"></loader>*/
 
 const app = Vue.createApp({
     components: { 'default-header': header_component }, // добавление header_component в приложение
@@ -11,7 +166,8 @@ const app = Vue.createApp({
             response: null, // ответ на запрос к серверу - объект данных представления (инфо об объекте и массив занятий)
             view_data: null,
             isLoaded: false,
-            user_role: 'client'
+            user_role: 'client',
+            user_id: 0,
         }
     },
     mounted() {
@@ -23,6 +179,7 @@ const app = Vue.createApp({
             .then(response => {
                 if (response.data.type !== "not_authorized") {
                     this.user_role = response.data.role
+                    this.user_id = response.data.id
                 }
             })
     },
@@ -45,6 +202,7 @@ const app = Vue.createApp({
     },
     watch: {
         date_string(val) {
+            this.view_data = null
             this.isLoaded = false
             let date = new Date(val)
             let options = {
@@ -128,12 +286,26 @@ app.component('page-info', {
     `
 });
 
+console.log('window.VueMultiselect', window['vue-multiselect'].default);
+
 /* Компонент Элемент списка занятий */
 app.component('event-block', {
+    components: {
+        modal: modal,
+        'event-form': eventForm,
+    },
     props: ['event', 'capacity'],
     data() {
         return {
-            showData: false
+            showData: false,
+            showModal: false,
+            options: ['Option 1', 'Option 2', 'Option 3', 'Option 4'],
+            value: null,
+        }
+    },
+    watch: {
+        value(newValue, oldValue) {
+            console.log(newValue);
         }
     },
     computed: {
@@ -200,6 +372,13 @@ app.component('event-block', {
     },
     template: `
 <div class="event-wrapper">
+    <modal :show="showModal" @close="showModal = false">
+        <event-form
+            v-if="showModal"
+            :event="event"
+            :trainer-edit="this.$root.user_role === 'trainer' && event.trainer?.id === this.$root?.user_id"
+        />
+    </modal>
     <div class="event">
         <div class="capacity-line">
         <div class="value" :style="{ height: value_height, background: value_background}"></div>
@@ -225,10 +404,20 @@ app.component('event-block', {
             </div>
         </div>
         <div class="buttons">
-            <a v-if="!compare_time(event.time) || event.freeSpaces <= 0" class="button sign-up-for-an-event disabled">Запись окончена</a>
-            <a v-else-if="!this.signed" class=" button sign-up-for-an-event" @click="this.sign_up_for_the_event(event.id)">Записаться</a>
-            <a v-else class=" button sign-up-for-an-event signed" @click="this.unsubscribe_for_the_event(event.id)">Отписаться</a>
-            <div class="button  info-button" @click.stop="showDescription">Подробно</div>
+            <template v-if="this.$root.user_role === 'client'">
+                <a v-if="!compare_time(event.time) || event.freeSpaces <= 0" class="button sign-up-for-an-event disabled">Запись окончена</a>
+                <a v-else-if="!this.signed" class=" button sign-up-for-an-event" @click="this.sign_up_for_the_event(event.id)">Записаться</a>
+                <a v-else class=" button sign-up-for-an-event signed" @click="this.unsubscribe_for_the_event(event.id)">Отписаться</a>
+            </template>
+            <button
+                v-if="this.$root.user_role === 'admin' || this.$root.user_role === 'trainer'"
+                class="button info-button"
+                @click="showModal = true"
+                :disabled="this.$root.user_role === 'trainer' && event.trainer?.id !== this.$root?.user_id"
+            >
+                Редактировать
+            </button>
+            <div class="button  info-button" @click="showDescription">Подробно</div>
         </div>
     </div>
     <div :class="{ show: showData, description: true }">
@@ -242,33 +431,6 @@ app.component('event-block', {
 </div>
 `
 });
-
-/*
-<div class="modal" style="
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: 20;
-"><div class="overlay" style="
-    position: relative;
-    background: #00000094;
-    z-index: 205;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    backdrop-filter: blur(10px);
-    ">
-    <div class="modal-content" style="min-width: 320px;min-height: 320px;background: #fff;border-radius: 20px;">
-
-    </div>
-</div></div>
- */
 
 /* Список занятий */
 app.component('events-block', {

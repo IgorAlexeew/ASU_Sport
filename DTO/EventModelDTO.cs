@@ -16,9 +16,19 @@
         public string SectionName { get; set; }
 
         /// <summary>
+        /// Секция
+        /// </summary>
+        public SectionInfoDTO Section { get; set; }
+
+        /// <summary>
         /// ФИО тренера
         /// </summary>
         public string TrainerName { get; set; }
+
+        /// <summary>
+        /// ФИО тренера
+        /// </summary>
+        public UserShortDTO Trainer { get; set; }
 
         /// <summary>
         /// Дата начала события
@@ -54,5 +64,10 @@
         /// Флаг, показывающий, записан ли пользователь на это событие
         /// </summary>
         public bool IsSigned { get; set; }
+
+        /// <summary>
+        /// Клиенты
+        /// </summary>
+        public UserShortDTO[] Clients { get; set; }
     }
 }

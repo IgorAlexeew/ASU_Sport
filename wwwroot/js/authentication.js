@@ -321,7 +321,3 @@ app.component("registration-page", {
 
 app.mount("#app")
 
-$(function(){
-    //2. Получить элемент, к которому необходимо добавить маску
-    $("#phone_number").mask("+7 (999) 999-99-99");
-});

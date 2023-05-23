@@ -423,7 +423,7 @@ app.component('event-block', {
     <div :class="{ show: showData, description: true }">
         <div class="description-wrapper">
             <p class="field"><span class="name">Занятие:</span> <span class="value">{{ event.sectionName }}</span></p>
-            <p class="field"><span class="name">Тренер:</span> <span class="value">{{ event.trainerName }}</span></p>
+            <p class="field" v-if="event.trainerName"><span class="name">Тренер:</span> <span class="value">{{ event.trainerName }}</span></p>
             <p class="field"><span class="name">Продолжительность:</span> <span class="value">{{ event.duration }}</span></p>
             <p class="field"><span class="name">Минимальная стоимость:</span> <span class="value">{{ event.price }}₽</span></p>
         </div>

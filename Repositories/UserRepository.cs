@@ -64,6 +64,7 @@ namespace ASUSport.Repositories
 
             var userInfo = new UserModelDTO()
             {
+                Id = user.UserId,
                 FirstName = user.FirstName,
                 MiddleName = user.MiddleName,
                 LastName = user.LastName,
@@ -258,7 +259,10 @@ namespace ASUSport.Repositories
                     var selectedUserData = db.UserData.FirstOrDefault(u => u.Id == (int)user.Id);
 
                     selectedUser.Login = user.Login;
-                    selectedUser.HashPassword = PasswordHasherHelper.HashString(user.HashPassword);
+                    if (selectedUser.HashPassword != user.HashPassword)
+                    {
+                        selectedUser.HashPassword = PasswordHasherHelper.HashString(user.HashPassword);
+                    }
                     selectedUser.RoleId = user.RoleId;
                     db.Users.Update(selectedUser);
 

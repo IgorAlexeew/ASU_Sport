@@ -111,7 +111,7 @@ namespace ASUSport.Controllers.API
         }
 
         [HttpPost("update-events")]
-        public IActionResult UpdateEvents([FromBody] List<UpdateEventDTO> data)
+        public IActionResult UpdateEvents([FromBody] List<UpdateEventTableDTO> data)
         {
             var result = eventRepository.UpdateEvents(data);
 

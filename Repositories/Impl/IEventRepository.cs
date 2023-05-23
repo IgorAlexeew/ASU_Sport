@@ -103,7 +103,7 @@ namespace ASUSport.Repositories.Impl
         /// </summary>
         /// <param name="data">Табличные данные</param>
         /// <returns></returns>
-        public Response UpdateEvents(List<UpdateEventDTO> data);
+        public Response UpdateEvents(List<UpdateEventTableDTO> data);
 
         /// <summary>
         /// Получить количестов строк в таблице
@@ -115,6 +115,6 @@ namespace ASUSport.Repositories.Impl
         /// Получить список всех событий, как они хранятся в БД
         /// </summary>
         /// <returns></returns>
-        public List<UpdateEventDTO> GetTableData();
+        public List<UpdateEventTableDTO> GetTableData();
     }
 }

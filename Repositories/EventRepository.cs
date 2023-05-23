@@ -488,12 +488,18 @@ namespace ASUSport.Repositories
         }
 
         /// <inheritdoc/>
-        public Response UpdateEvents(List<UpdateEventDTO> data)
+        public Response UpdateEvents(List<UpdateEventTableDTO> data)
         {
             foreach (var ev in data)
             {
                 if (ev.Id != null)
-                    UpdateEvent(ev);
+                    UpdateEvent(new UpdateEventDTO()
+                    {
+                        Id = ev.Id,
+                        Time = ev.Time,
+                        SectionId = ev.SectionId,
+                        TrainerId = ev.TrainerId
+                    });
 
                 else
                 {
@@ -537,15 +543,15 @@ namespace ASUSport.Repositories
         }
 
         /// <inheritdoc/>
-        public List<UpdateEventDTO> GetTableData()
+        public List<UpdateEventTableDTO> GetTableData()
         {
             var events = db.Events.Select(s => s).ToList();
 
-            var result = new List<UpdateEventDTO>();
+            var result = new List<UpdateEventTableDTO>();
 
             foreach (var ev in events)
             {
-                var e = new UpdateEventDTO()
+                var e = new UpdateEventTableDTO()
                 {
                     Id = ev.Id,
                     TrainerId = ev.Trainer?.Id,

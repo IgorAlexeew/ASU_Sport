@@ -10,6 +10,11 @@ namespace ASUSport.DTO
     public class UserModelDTO
     {
         /// <summary>
+        /// ID пользователя
+        /// </summary>
+        public int Id { get; set; }
+
+        /// <summary>
         /// Фамилия
         /// </summary>
         public string FirstName { get; set; }

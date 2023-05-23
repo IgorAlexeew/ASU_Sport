@@ -48,7 +48,7 @@ namespace ASUSport.Controllers.API
             return Ok(result);
         }
 
-        [HttpPost("update-subscription")]
+        [HttpPost("update-subscriptions")]
         public IActionResult UpdateSubscriptions([FromBody] List<UpdateSubscriptionDTO> data)
         {
             var result = subscriptionRepository.UpdateSubscriptions(data);

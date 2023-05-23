@@ -1,4 +1,12 @@
-import {loader} from "./shared-components.js";
+import { loader } from "./shared-components.js";
+
+const filter = (obj, keys) => {
+    const result = {};
+    for (key of keys) {
+        result[key] = obj[key]
+    }
+    return result
+}
 
 export const data_table = {
     components: {
@@ -53,6 +61,11 @@ export const data_table = {
             history.back()
         }
     },
+    computed: {
+        filteredValues() {
+            return this.values.map((value) => filter(value, Object.keys(this.headers)))
+        }
+    },
     template: `
       <div class="table" v-if="this.values.length > 0">
       <div class="header">
@@ -63,12 +76,12 @@ export const data_table = {
       </div>
       <table>
         <tr>
-          <th v-for="(value, name) in this.values[0]">{{ this.headers[name].name ?? name }}</th>
+          <th v-for="(value, name) in this.headers">{{ this.headers[name].name }}</th>
         </tr>
-        <tr v-for="(row, index) in this.values">
-          <td v-for="(item, name) in this.values[index]">
-            <input v-if="!(name in (this['select_data'] ?? {}))" :type="this.headers[name].type" v-model="this.values[index][name]" :key="name">
-            <select v-if="name in (this['select_data'] ?? {})" v-model="this.values[index][name]" :key="name">
+        <tr v-for="(row, index) in this.filteredValues">
+          <td v-for="(item, name) in this.filteredValues[index]">
+            <input v-if="!(name in (this['select_data'] ?? {}))" :type="this.headers[name].type" v-model="this.filteredValues[index][name]" :key="name">
+            <select v-if="name in (this['select_data'] ?? {})" v-model="this.filteredValues[index][name]" :key="name">
               <option v-for="(h_name, h_key) in (this['select_data'] ?? {})[name]"  :value="h_key">{{h_name}}</option>
             </select>
           </td>

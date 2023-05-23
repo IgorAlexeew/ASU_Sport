@@ -392,7 +392,7 @@ namespace ASUSport.Repositories
             if (data.Time != null)
                 selectedEvent.Time = DateTime.Parse(data.Time);
 
-            if (data.ClientIds.Length > 0)
+            if (data.ClientIds != null && data.ClientIds.Length > 0)
             {
                 selectedEvent.Clients.Clear();
                 var clients = db.Users.Where(user => data.ClientIds.Contains(user.Id)).ToArray();

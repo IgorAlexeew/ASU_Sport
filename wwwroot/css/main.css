@@ -10,6 +10,7 @@ body {
     font-family: Roboto, sans-serif;
     display: flex;
     flex-direction: row;
+    background: #f0f3f5;
 }
 
 input::-webkit-input-placeholder       {opacity: 1; transition: opacity 0.3s ease;}
@@ -75,9 +76,9 @@ a:hover {
 /*    margin-left: 20px;*/
 /*}*/
 
-.nav {
+/* .nav {
 
-}
+} */
 
 .nav ul {
     display: grid;
@@ -497,12 +498,11 @@ a.more-objects svg {
 
 /* EVENTS FOR THE DAY */
 .day-events-container {
-    width: 94%;
+    width: 100%;
     display: flex;
     justify-content: space-evenly;
-    margin-top: 2%;
-    margin-left: 3%;
-    margin-right: 3%;
+    margin-top: 30px;
+    margin-bottom: 150px;
 }
 
 .events {
@@ -520,8 +520,44 @@ a.more-objects svg {
     height: 130px;
     display: flex;
     align-items: center;
-    margin-bottom: 20px;
     box-shadow: 0px 2px 25px -20px black;
+}
+
+.event-wrapper {
+    margin-top: 20px;
+}
+
+.event-wrapper .description {
+    height: 0px;
+    opacity: 0;
+    font-weight: 600;
+    overflow: hidden;
+    transition: height .3s ease-out, opacity .3s ease-out;
+    color: #32363c;
+}
+
+.event-wrapper .description.show {
+    height: 120px;
+    opacity: 1;
+}
+
+.description-wrapper {
+    margin: 10px;
+}
+
+.description-wrapper .field {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 4px 0;
+}
+
+.description-wrapper .field .name {
+    font-weight: 600;
+}
+
+.description-wrapper .field .value {
+    font-weight: 500;
 }
 
 .capacity-line {
@@ -547,10 +583,17 @@ a.more-objects svg {
     font-size: 20px;
 }
 
+.event .time {
+    padding-top: 5px;
+    font-size: 18px;
+    font-weight: 600;
+    color: #32484c;
+}
+
 .graph-info {
     display: flex;
     margin-top: 5px;
-    color: #B9C5C6;
+    color: #3e626a;
     font-weight: 500;
 }
 
@@ -581,32 +624,38 @@ a.more-objects svg {
     font-size: 12px;
 }
 
-.sign-up-for-an-event {
+.button {
     user-select: none;
     -ms-user-select: none;
     -moz-user-select: none;
     -khtml-user-select: none;
     -webkit-user-select: none;
     margin-left: auto;
-    margin-right: 10px;
     text-decoration: none;
-    color: #fff;
     font-weight: 600;
-    background: #45ea5c;
-    height: 80px;
+    height: auto;
     width: 170px;
     display: flex;
     justify-content: center;
     align-items: center;
-    border-radius: 20px;
-    font-size: 20px;
+    border-radius: 12px;
+    padding: 10px;
+    font-size: 16px;
     transition: background .3s ease-out;
     cursor: pointer;
 }
 
-.sign-up-for-an-event:hover {
-    background: #62f576;
+.button:not(:first-child) {
+}
+
+.sign-up-for-an-event {
     color: #fff;
+    background: #26c93d;
+}
+
+.sign-up-for-an-event:hover {
+    color: #fff;
+    background: #15A82A;
 }
 
 .sign-up-for-an-event.signed {
@@ -616,6 +665,7 @@ a.more-objects svg {
 
 .sign-up-for-an-event.signed:hover {
     background: #d16969;
+    color: #ffffff;
 }
 
 .sign-up-for-an-event.disabled {
@@ -629,9 +679,41 @@ a.more-objects svg {
     background: #c5ccce;
 }
 
+
+.buttons {
+    margin-left: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.info-button {
+    color: #3e626a;
+    background: #dbe7eb;
+}
+
+.info-button:hover {
+    background: #CCDEE4;
+}
+
+.graph-info .price {
+    background: #dbe7eb;
+    color: #3e626a;
+    border-radius: 10px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 10px;
+    margin-left: 10px;
+}
+
+
 .sport-object-name {
     font-size: 50px;
     font-weight: 700;
+    padding: 0 0 0 20px;
 }
 
 .current-date {
@@ -671,6 +753,7 @@ a.more-objects svg {
 .date-picker-block {
     display: flex;
     align-items: center;
+    padding: 0 0 20px 20px;
 }
 
 .datepicker-toggle {
@@ -794,6 +877,7 @@ a.more-objects svg {
 
     .day-events-container {
         margin-top: 0;
+        margin-bottom: 20px;
         flex-direction: column;
         align-items: center;
     }
@@ -801,6 +885,7 @@ a.more-objects svg {
     .events {
         margin-top: 20px;
         margin-left: 0;
+        padding: 0 20px;
         width: 100%;
     }
 
@@ -811,6 +896,7 @@ a.more-objects svg {
     .date-block .wrapper {
         background: rgba(255, 255, 255, 0.66);
         backdrop-filter: blur(10px);
+        left: 0vw;
     }
 
     .contacts-container {

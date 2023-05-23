@@ -18,13 +18,13 @@ const app = Vue.createApp({
         let date = new Date() // дата по умолчанию
         this.date_string = this.search_params.get("date") ??
             date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate()
-            axios
-                .get("/api/user/get-user-info")
-                .then(response => {
-                    if (response.data.type !== "not_authorized") {
-                        this.user_role = response.data.role
-                    }
-                })
+        axios
+            .get("/api/user/get-user-info")
+            .then(response => {
+                if (response.data.type !== "not_authorized") {
+                    this.user_role = response.data.role
+                }
+            })
     },
     computed: {
         objectId() {
@@ -131,6 +131,11 @@ app.component('page-info', {
 /* Компонент Элемент списка занятий */
 app.component('event-block', {
     props: ['event', 'capacity'],
+    data() {
+        return {
+            showData: false
+        }
+    },
     computed: {
         value_height() {
             return Math.max((1 - this.event.freeSpaces/this.capacity)*100, 15)+'%'; // высота полосы загруженности события
@@ -187,37 +192,83 @@ app.component('event-block', {
             let time_parts = time?.split(" - ")[0]?.split(":")
             let event_time = new Date(this.$root.date.getFullYear(), this.$root.date.getMonth(), this.$root.date.getDate(), time_parts[0], time_parts[1], 0, 0)
             return event_time > new Date()
+        },
+        showDescription() {
+            console.log("SHOW:", this.showData)
+            this.showData = !this.showData
         }
     },
     template: `
-      <div class="event">
-      <div class="capacity-line">
+<div class="event-wrapper">
+    <div class="event">
+        <div class="capacity-line">
         <div class="value" :style="{ height: value_height, background: value_background}"></div>
-      </div>
-      <div class="info">
-        <p class="name">{{ event.sectionName }}</p>
-        <p class="time">{{ event.time }}</p>
-        <div class="graph-info">
-          <div class="duration">
-            <img src="/img/clock.svg" alt="">
-            <p class="text">{{ event.duration }}м</p>
-          </div>
-          <div class="capacity-block">
-            <div class="diagram">
-              <div class="value"></div>
-            </div>
-            <p class="count">{{ event.freeSpaces }}</p>
-            <p class="text">{{ this.$root.get_right_form(this.event.freeSpaces, ["мест", "место", "места"]) }}<br/>свободно
-            </p>
-          </div>
         </div>
-      </div>
-      <a v-if="!compare_time(event.time) || event.freeSpaces <= 0" class="sign-up-for-an-event disabled">Запись окончена</a>
-      <a v-else-if="!this.signed" class="sign-up-for-an-event" @click="this.sign_up_for_the_event(event.id)">Записаться</a>
-      <a v-else class="sign-up-for-an-event signed" @click="this.unsubscribe_for_the_event(event.id)">Отписаться</a>
-      </div>
-    `
+        <div class="info">
+            <p class="name">{{ event.sectionName }}</p>
+            <p class="time">{{ event.time }}</p>
+            <div class="graph-info">
+                <div class="duration">
+                    <img src="/img/clock.svg" alt="">
+                    <p class="text">{{ event.duration }}м</p>
+                </div>
+                <div class="capacity-block">
+                    <div class="diagram">
+                        <div class="value"></div>
+                    </div>
+                    <p class="count">{{ event.freeSpaces }}</p>
+                    <p class="text">{{ this.$root.get_right_form(this.event.freeSpaces, ["мест", "место", "места"]) }}<br/>свободно</p>
+                </div>
+                <div class="price">
+                    от {{ event.price }}₽
+                </div>
+            </div>
+        </div>
+        <div class="buttons">
+            <a v-if="!compare_time(event.time) || event.freeSpaces <= 0" class="button sign-up-for-an-event disabled">Запись окончена</a>
+            <a v-else-if="!this.signed" class=" button sign-up-for-an-event" @click="this.sign_up_for_the_event(event.id)">Записаться</a>
+            <a v-else class=" button sign-up-for-an-event signed" @click="this.unsubscribe_for_the_event(event.id)">Отписаться</a>
+            <div class="button  info-button" @click.stop="showDescription">Подробно</div>
+        </div>
+    </div>
+    <div :class="{ show: showData, description: true }">
+        <div class="description-wrapper">
+            <p class="field"><span class="name">Занятие:</span> <span class="value">{{ event.sectionName }}</span></p>
+            <p class="field"><span class="name">Тренер:</span> <span class="value">{{ event.trainerName }}</span></p>
+            <p class="field"><span class="name">Продолжительность:</span> <span class="value">{{ event.duration }}</span></p>
+            <p class="field"><span class="name">Минимальная стоимость:</span> <span class="value">{{ event.price }}₽</span></p>
+        </div>
+    </div>
+</div>
+`
 });
+
+/*
+<div class="modal" style="
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 20;
+"><div class="overlay" style="
+    position: relative;
+    background: #00000094;
+    z-index: 205;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(10px);
+    ">
+    <div class="modal-content" style="min-width: 320px;min-height: 320px;background: #fff;border-radius: 20px;">
+
+    </div>
+</div></div>
+ */
 
 /* Список занятий */
 app.component('events-block', {

@@ -4,7 +4,7 @@ export const header_component = {
     data() {
         return {
             nav_links: {
-                objects: { name: "Объекты", url: "/", is_selected: false},
+                objects: { name: "Главная", url: "/", is_selected: false},
                 news: { name: "Новости", url: "/news", is_selected: false},
                 contacts: { name: "Контакты", url: "/contacts", is_selected: false}
             },

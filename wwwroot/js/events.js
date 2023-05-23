@@ -2,7 +2,7 @@
 import { loader, header_component, modal } from "./shared-components.js"
 
 const eventForm = {
-    props: ['event', 'trainer-edit'],
+    props: ['event', 'trainer-edit', 'max-clients'],
     components: {
         multiselect: window['vue-multiselect'].default,
         loader: loader,
@@ -10,6 +10,7 @@ const eventForm = {
     data() {
         console.log('trainerEdit', this.trainerEdit);
         console.log('event.duration', this.event.duration);
+        console.log('max-clients', this.maxClients);
         return {
             sectionId: 0,
             trainerId: 0,
@@ -143,6 +144,7 @@ const eventForm = {
                     select-label="Выбрать"
                     selected-label="Выбрано"
                     deselect-label="Убрать"
+                    :max="maxClients"
                 />
             </div>
         </template>
@@ -377,6 +379,7 @@ app.component('event-block', {
             v-if="showModal"
             :event="event"
             :trainer-edit="this.$root.user_role === 'trainer' && event.trainer?.id === this.$root?.user_id"
+            :max-clients="this.$root.capacity"
         />
     </modal>
     <div class="event">

@@ -1,118 +1,3 @@
-/*let password_field = $('input[name="password"]'),
-    confirm_password_field = $('input[name="confirm_password"]'),
-    login_field = $('input[name="login"]');
-
-/!* Авторизация *!/
-$('.login-btn').on("click", function (event) {
-    event.preventDefault();
-
-    login_field.removeClass('error');
-    password_field.removeClass('error');
-
-    let login = login_field.val();
-    let password = password_field.val();
-
-    $.ajax({
-        url: '/api/auth/signin',
-        type: 'POST',
-        contentType: "application/json; charset=utf-8",
-        data: JSON.stringify({
-            login: login,
-            password: password
-        }),
-        /!*headers: {
-            RequestVerificationToken:
-                $('input:hidden[name="__RequestVerificationToken"]').val()
-        },*!/
-        success (data) {
-            console.log(data);
-            if (data.status)
-            {
-                login_field.removeClass('error').addClass('passed');
-                password_field.removeClass('error').addClass('passed');
-                document.location.href = '/admin';
-            }
-            else
-            {
-                if (data.type === "wrong_password")
-                {
-                    password_field.addClass('error').removeClass('passed');
-                }
-                if (data.type === "no_user")
-                {
-                    login_field.addClass('error').removeClass('passed');
-                    password_field.addClass('error').removeClass('passed');
-                }
-            }
-        }
-    })
-});
-
-
-$('.confirm-btn').on("click", function (event) {
-    event.preventDefault();
-
-    let has_error = false;
-
-    login_field.removeClass('error');
-    password_field.removeClass('error');
-    confirm_password_field.removeClass('error');
-    // access_code_field.removeClass('error');
-
-    if (login_field.val() === '')
-    {
-        login_field.addClass('error');
-        has_error = true;
-    }
-    /!*if (access_code_field.val() === '')
-    {
-        access_code_field.addClass('error');
-        has_error = true;
-    }*!/
-    if (password_field.val() === '')
-    {
-        password_field.addClass('error');
-        has_error = true;
-    }
-    if (confirm_password_field.val() === '')
-    {
-        confirm_password_field.addClass('error');
-        has_error = true;
-    }
-
-    if (!has_error)
-    {
-        $.ajax({
-            url: '/api/auth/sign-up',
-            type: 'POST',
-            contentType: "application/json; charset=utf-8",
-            data: JSON.stringify({
-                login: login_field.val(),
-                password: password_field.val()
-            }),
-            success (data) {
-                console.log(data);
-                if (data.status)
-                {
-                    console.log("We did it!");
-                    login_field.removeClass('error').addClass('passed').text();
-                    $('p#login_match').addClass('hidden');
-                    document.location.href = '/user';
-                }
-                else
-                {
-                    if (data.type === "username_is_already_taken")
-                    {
-                        login_field.addClass('error').removeClass('passed');
-                        $('p#login_match').addClass('error').removeClass('hidden').text(data.message);
-                    }
-                }
-            }
-        })
-    }
-
-});*/
-
 import {loader} from "./shared-components.js";
 
 const app = Vue.createApp({})
@@ -205,6 +90,12 @@ app.component("sign-up-form", {
             this.middle_name_classes = []
             this.date_of_birth_classes = []
             this.phone_number_classes = []
+
+            const phoneRegExp = /^\+?[1-9][0-9]{7,14}$/;
+
+            if (!phoneRegExp.test(this.form.phoneNumber)) {
+                this.phone_number_classes = ['error']
+            }
         },
         submit() {
             let error = false
@@ -223,6 +114,10 @@ app.component("sign-up-form", {
             }
             if (this.form.firstName === '') {
                 this.first_name_classes = ['error']
+                error = true
+            }
+            if (!phoneRegExp.test(this.form.phoneNumber)) {
+                this.phone_number_classes = ['error']
                 error = true
             }
 /*            if (this.form.middleName === '') {
@@ -259,7 +154,14 @@ app.component("sign-up-form", {
                         this.isLoading = false
                     })
             }
-        }
+        },
+    },
+    directives: {
+        mask: {
+            mounted(el, binding) {
+                $(el).mask(binding.value);
+            },
+        },
     },
     template: `
     <form>
@@ -288,7 +190,16 @@ app.component("sign-up-form", {
         <input :class="this.date_of_birth_classes" type="date" name="date_of_birth" id="date_of_birth" v-model="this.form.dateOfBirth" readonly onfocus="this.removeAttribute('readonly')">
 
         <label for="login">Номер телефона:</label>
-        <input :class="this.phone_number_classes" type="tel" pattern="[+]{1}[0-9]{11,14}" name="phone_number" id="phone_number" v-model="this.form.phoneNumber" readonly onfocus="this.removeAttribute('readonly')" placeholder="+7 (999) 999-99-99">
+        <input
+            :class="this.phone_number_classes"
+            type="tel" pattern="[+]{1}[0-9]{11,14}"
+            name="phone_number"
+            id="phone_number"
+            v-model="this.form.phoneNumber"
+            readonly
+            onfocus="this.removeAttribute('readonly')"
+            placeholder="89999999999"
+        >
 
 
         <button class="confirm-btn" @click.prevent="submit">Подтвердить</button>
@@ -320,4 +231,3 @@ app.component("registration-page", {
 })
 
 app.mount("#app")
-

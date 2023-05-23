@@ -21,7 +21,6 @@ app.component("contacts-block", {
             <p>Астраханский государственный университет, 2021</p>
             <p>Адрес: ул. Татищева, 20а, Телефон: (8512) 24-66-89.</p>
             <p>Пн – Пт: 09:00 – 17:30</p>
-            <a href="https://www.instagram.com/school_sport_30/" target="_blank">Instagram school_sport_30</a>
         </div>
     `
 })

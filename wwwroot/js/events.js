@@ -188,7 +188,7 @@ const app = Vue.createApp({
             return this.search_params.get("id"); // ID спортивного объекта
         },
         events() {
-            return this.view_data?.events ?? []; // массив занятий
+            return this.view_data?.events.sort((cur, next) => new Date(cur.date) -  new Date(next.date)) ?? []; // массив занятий
         },
         objectName() {
             return this.view_data?.objectName ?? "Загрузка..."; // название объекта

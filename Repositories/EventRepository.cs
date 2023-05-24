@@ -475,7 +475,9 @@ namespace ASUSport.Repositories
                     {
                         FirstName = user.FirstName,
                         LastName = user.LastName,
-                        MiddleName = user.MiddleName
+                        MiddleName = user.MiddleName,
+                        PhoneNumber = user.PhoneNumber,
+                        DateOfBirth = user.DateOfBirth.ToShortDateString()
                     };
 
                     clientsAndTimestamps.Clients.Add(userInfo);

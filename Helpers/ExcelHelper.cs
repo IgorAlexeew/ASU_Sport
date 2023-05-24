@@ -46,7 +46,7 @@ namespace ASUSport.Helpers
                 workSheet.Cell(currentRow, "A").Style.Font.Bold = true;
                 if (item.Trainer != null)
                 {
-                    string trainer = item.Trainer.FirstName + " " + item.Trainer.MiddleName + " " + item.Trainer.LastName;
+                    string trainer = item.Trainer.LastName + " " + item.Trainer.FirstName + " " + item.Trainer.MiddleName;
                     workSheet.Cell(currentRow, "B").Value = trainer;
                 }
                 currentRow++;
@@ -57,8 +57,20 @@ namespace ASUSport.Helpers
                 foreach (var client in item.Clients)
                 {
                     currentRow++;
-                    string name = client.FirstName + " " + client.MiddleName + " " + client.LastName;
+                    string name = client.LastName + " " + client.FirstName + " " + client.MiddleName;
                     workSheet.Cell(currentRow, "B").Value = name;
+                    workSheet.Cell(currentRow, "B").Style.Font.Italic = true;
+                    if (client.DateOfBirth != null)
+                    {
+                        System.Console.WriteLine(client.DateOfBirth);
+                        currentRow++;
+                        workSheet.Cell(currentRow, "B").Value = client.DateOfBirth;
+                    }
+                    if (client.PhoneNumber != null)
+                    {
+                        currentRow++;
+                        workSheet.Cell(currentRow, "B").Value = client.PhoneNumber;
+                    }
                 }
             }
 

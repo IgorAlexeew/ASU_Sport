@@ -98,6 +98,7 @@ app.component("sign-up-form", {
             }
         },
         submit() {
+            const phoneRegExp = /^\+?[1-9][0-9]{7,14}$/
             let error = false
 
             if (this.form.login === '') {

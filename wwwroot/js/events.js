@@ -96,13 +96,13 @@ const eventForm = {
             <span>Дата и время: </span>
             <input class="custom-input" :class="{error:errors.date}" type="datetime-local" v-model="datetime"/>
         </div>
-        <div class="field">
+        <!-- <div class="field">
             <span>Продолжительность: </span>
             <div class="input-measurement">
                 <input class="custom-input" :class="{error:errors.duration}" type="number" min="0" v-model="duration"/>
                 <span>мин.</span>
             </div>
-        </div>
+        </div> -->
         <div class="field">
             <span>Секция: </span>
             <multiselect
@@ -427,7 +427,7 @@ app.component('event-block', {
         <div class="description-wrapper">
             <p class="field"><span class="name">Занятие:</span> <span class="value">{{ event.sectionName }}</span></p>
             <p class="field" v-if="event.trainerName"><span class="name">Тренер:</span> <span class="value">{{ event.trainerName }}</span></p>
-            <p class="field"><span class="name">Продолжительность:</span> <span class="value">{{ event.duration }}</span></p>
+            <p class="field"><span class="name">Продолжительность:</span> <span class="value">{{ event.duration }} мин</span></p>
             <p class="field"><span class="name">Минимальная стоимость:</span> <span class="value">{{ event.price }}₽</span></p>
         </div>
     </div>

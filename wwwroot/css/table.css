@@ -82,13 +82,13 @@ body {
 }
 
 .table-controls .status.editing p, .table-controls .status.editing svg {
-    color: #b6c1c4;
-    fill: #b6c1c4;
+    color: #6C868D;
+    fill: #6C868D;
 }
 
 .table-controls .status.success p, .table-controls .status.success svg {
-    color: #6ec789;
-    fill: #6ec789;
+    color: #36AE5A;
+    fill: #36AE5A;
 }
 
 .table-controls .status.failed p, .table-controls .status.failed svg {

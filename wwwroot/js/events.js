@@ -11,13 +11,14 @@ const eventForm = {
         console.log('trainerEdit', this.trainerEdit);
         console.log('event.duration', this.event.duration);
         console.log('max-clients', this.maxClients);
+        console.log('trainer', this.event.trainer);
         return {
             sectionId: 0,
             trainerId: 0,
             datetime: this.event.date,
             duration: this.event.duration,
             selectedClients: [...this.event.clients],
-            selectedTrainer: this.event.tariner ?? null,
+            selectedTrainer: this.event.trainer ?? null,
             selectedSection: this.event.section ?? null,
             clients: [],
             trainers: [],
@@ -62,7 +63,7 @@ const eventForm = {
                     .put("/api/event/update-event", event)
                     .then(response => {
                         this.isLoading = false
-                        window.location.reload()
+                        // window.location.reload()
                     })
                     .catch(error => {
                         console.log(error)

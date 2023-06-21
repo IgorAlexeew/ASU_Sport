@@ -409,7 +409,7 @@ app.component('event-block', {
         </div>
         <div class="buttons">
             <template v-if="this.$root.user_role === 'client'">
-                <a v-if="(!compare_time(event.time) || event.freeSpaces <= 0) && !this.signed" class="sign-up-for-an-event disabled">Запись окончена</a>
+                <a v-if="(!compare_time(event.time) || event.freeSpaces <= 0) && !this.signed" class="sign-up-for-an-event button disabled">Запись окончена</a>
                 <a v-else-if="!this.signed" class=" button sign-up-for-an-event" @click="this.sign_up_for_the_event(event.id)">Записаться</a>
                 <a v-else class=" button sign-up-for-an-event signed" @click="this.unsubscribe_for_the_event(event.id)">Отписаться</a>
             </template>

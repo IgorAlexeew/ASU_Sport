@@ -21,7 +21,7 @@ const app = Vue.createApp({
         axios
             .get("/api/sport-object/get-objects-with-ids")
             .then(resp => {
-                this.values = resp.data
+                this.values = resp.data.sort((first, second) => first.id - second.id)
             })
             .catch(error => console.log(error))
 

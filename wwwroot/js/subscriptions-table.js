@@ -144,7 +144,7 @@ const app = Vue.createApp({
         axios
             .get("/api/subscription/get-subscriptions")
             .then(resp => {
-                this.values = resp.data
+                this.values = resp.data.sort((first, second) => first.id - second.id)
             })
             .catch(error => console.log(error))
         axios

@@ -31,7 +31,7 @@ const app = Vue.createApp({
         axios
             .get("/api/user/get-users?role=client")
             .then(resp => {
-                this.values = resp.data
+                this.values = resp.data.sort((first, second) => first.id - second.id)
             })
             .catch(error => console.log(error))
 

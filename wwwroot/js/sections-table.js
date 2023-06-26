@@ -138,7 +138,7 @@ const app = Vue.createApp({
         axios
             .get("/api/section/get-sections")
             .then(resp => {
-                this.values = resp.data
+                this.values = resp.data.sort((first, second) => first.id - second.id)
             })
             .catch(error => console.log(error))
         axios

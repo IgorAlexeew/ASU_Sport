@@ -38,10 +38,12 @@ const app = Vue.createApp({
             .get("/api/event/get-table-data")
             .then(resp => {
                 this.events = resp.data
-                this.events.forEach(el => {
-                    el.time = el.time.replace(" ", "T")
-                    console.log(el.time)
-                })
+                    .map(el => {
+                        el.time = el.time.replace(" ", "T")
+                        console.log(el.time)
+                        return el
+                    }).sort((first, second) => new Date(first.time) - new Date(second.time))
+
                 console.log(this.events)
             })
             .catch(error => console.log(error))
